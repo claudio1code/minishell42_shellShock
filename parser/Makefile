@@ -1,4 +1,4 @@
-NAME= P_P
+NAME= P_P.out
 
 cc= cc -g3
 
