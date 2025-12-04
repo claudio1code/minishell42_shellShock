@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:41:07 by clados-s          #+#    #+#             */
-/*   Updated: 2025/10/07 13:49:26 by clados-s         ###   ########.fr       */
+/*   Updated: 2025/12/04 15:35:17 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,5 @@ static char	*ft_strjoin_and_free_rest(char *rest, char *buffer)
 	j = -1;
 	while (buffer[++j])
 		new_str[j + i] = buffer[j];
-	free(rest);
 	return (new_str);
 }

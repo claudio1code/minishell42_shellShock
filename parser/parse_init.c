@@ -6,54 +6,48 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:06 by cacesar-          #+#    #+#             */
-/*   Updated: 2025/12/03 18:09:05 by cacesar-         ###   ########.fr       */
+/*   Updated: 2025/12/04 17:47:41 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
 
-int	param_counter(char*l, int c1)
+char	*qtio(char*l, unsigned int *c1, char type, unsigned int *b)
 {
-	int		n;
-	char	type;
-	int		flag;
-
-	n = 0;
-	flag = 0;
-	while (l[c1])
-	{
-		while (l[c1] == ' ')
-			c1++;
-		while (l[c1])
-		{
-			if (l[c1] == '\'' || l[c1] == '\"')
-			{
-				type = l[c1];
-				flag = 1;
-			}
-			else if (l[c1] == ' ')
-			{
-				n++;
-				break ;
-			}
-			c1++;
-		}
-	}
 }
 
-char	**s_split(char*l, int c1)
+int	ft_isedcase(char l)
 {
-	char	*beg;
-	char	*end;
+	return (l == '|' || l == '<' || l == '>' || l == '\n');
+}
 
-	add_history(l);
-	while (l[c1] == ' ')
-		c1++;
-	while (l[c1])
+t_list	*s_split(char*l, unsigned int c, unsigned int b, t_list *p)
+{
+	while (l[c] == ' ')
+		c++;
+	b = c;
+	if (!l[c])
+		return (p);
+	p = malloc(sizeof(t_list));
+	p->content = 0;
+	while (l[c] && l[c] != ' ' && !ft_isedcase(l[c]))
 	{
+		if (l[c] == '\"' || l[c] == '\'' || l[c] == '$')
+		{
+			p->content = ft_substr(l, b, c);
+			p->content = ft_strjoin((char *)p->content, qtio(l, &c, l[c], &b));
+		}
+		c++;
 	}
-	free(l);
+	if (ft_isedcase(l[c]))
+		c--;
+	if (!(char *)p->content)
+		p->content = ft_substr(l, b, c);
+	else if (!ft_isedcase(l[c]))
+		p->content = ft_strjoin((char *)p->content, qtio(l, &c, l[c], &b));
+	p->next = s_split(l, c, 0, 0);
+	return (p);
 }
 
 t_logic	*binary_tree(char**prm)
@@ -64,14 +58,13 @@ int	main(int argc, char**argv, char**envp)
 {
 	char	*line;
 
-	argc = 0;
-	envp = 0;
-	argv = 0;
-	while (1)
+	while (argc && argv && envp)
 	{
 		line = readline("Shellshock: ");
-		param_counter(line, 0);
-		binary_tree(s_split(line, 0));
+		if (!line)
+			continue ;
+		add_history(line);
+		binary_tree(s_split(line, 0, 0, 0));
 	}
 	return (0);
 }
