@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2025/12/03 15:53:49 by cacesar-         ###   ########.fr       */
+/*   Updated: 2025/12/05 10:54:59 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ typedef struct s_logic
 typedef struct s_token
 {
 	char	*cmd;
-	char	*opt;
+	char	**opt;
+	char	**param;
 }	t_token;
 
 
