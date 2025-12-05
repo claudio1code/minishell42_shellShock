@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:49:12 by clados-s          #+#    #+#             */
-/*   Updated: 2025/12/05 11:17:12 by cacesar-         ###   ########.fr       */
+/*   Updated: 2025/12/05 13:39:53 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		i;
 	int		j;
 
-	if (!s1 || !s2)
-		return (NULL);
 	len_s = ft_strlen(s1) + ft_strlen(s2);
 	new_str = malloc(len_s + 1);
 	if (!new_str)
