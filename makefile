@@ -1,6 +1,6 @@
 GREEN = \033[0;92m
 YELLOW = \033[0;93m
-CYAN = \033[0;96m
+BLUE = \033[0;96m
 DEF_COLOR = \033[0;39m
 
 NAME = minishell
@@ -20,13 +20,32 @@ OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LIST:.c=.o))
 all: $(NAME)
 
 $(NAME):$(OBJS)
+	@echo -n $(YELLOW)"A Linkar $(NAME)... $(DEF_COLOR)"
+	@sh -c '(while kill -0 $$PPID 2>/dev/null/; do \
+		echo -n "\b|"; sleep 0.05; \
+		echo -n "\b/"; sleep 0.05; \
+		echo -n "\b-"; sleep 0.05; \
+		echo -n "\b\"; sleep 0.05; \
+	done) & trap "kill $$!" EXIT; \
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)'
+	@echo "\b$(GREEN)OK!$(DEF_COLOR)"
 
 $(OBJS_DIR)%.o:$(SRCS_DIR)%.c
+	@echo -n $(BLUE)"A Compilar $<... $(DEF_COLOR)"
+	@sh -c '(while kill -0 $$PPID 2>/dev/null/; do \
+		echo -n "\b|"; sleep 0.05; \
+		echo -n "\b/"; sleep 0.05; \
+		echo -n "\b-"; sleep 0.05; \
+		echo -n "\b\\"; sleep 0.05 \
+	done) & trap "kill $$!" EXIT; \
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@'
+	@echo "\b$(GREEN)OK!$(DEF_COLOR)"
 
-clean:
+clean: 
+	rm -rf $(OBJS_DIR)
 
-fclean:
-
+fclean: clean
+	rm -rf $(NAME)
 re: fclean all
 
 .PHONY: all fclean clean re
