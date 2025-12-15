@@ -1,38 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_del_del.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 13:49:12 by clados-s          #+#    #+#             */
-/*   Updated: 2025/12/15 06:58:03 by cacesar-         ###   ########.fr       */
+/*   Created: 2025/10/06 09:42:21 by cacesar-          #+#    #+#             */
+/*   Updated: 2025/12/15 07:05:21 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char *s1, char *s2)
+void	ft_del_del(void**tofree)
 {
-	char	*new_str;
-	int		len_s;
-	int		i;
-	int		j;
+	int	count;
 
-	len_s = ft_strlen(s1) + ft_strlen(s2);
-	new_str = malloc(len_s + 1);
-	if (!new_str)
-		return (NULL);
-	i = -1;
-	j = -1;
-	while (s1[++i])
-		new_str[i] = s1[i];
-	while (s2[++j])
-		new_str[i + j] = s2[j];
-	new_str[i + j] = '\0';
-	if (s1)
-		free (s1);
-	if (s2)
-		free (s2);
-	return (new_str);
+	count = 0;
+	while (tofree[count])
+		ft_del(tofree[count++]);
+	ft_del(tofree);
 }

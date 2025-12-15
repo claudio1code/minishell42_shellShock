@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2025/12/05 14:41:10 by cacesar-         ###   ########.fr       */
+/*   Updated: 2025/12/15 08:46:42 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ typedef struct s_logic	t_logic;
 typedef struct s_info
 {
 	char			**env;
-	unsigned int	i;
+	char			*l;
+	int				flag;
+	t_list			*list;
 
-	t_logic			*tree;
+	t_logic			**tree;
 }	t_info;
 
 typedef struct s_logic

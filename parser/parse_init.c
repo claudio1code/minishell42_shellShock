@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:06 by cacesar-          #+#    #+#             */
-/*   Updated: 2025/12/05 15:03:46 by cacesar-         ###   ########.fr       */
+/*   Updated: 2025/12/15 08:23:03 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ft_isedcase(char l, int flag, t_logic*p)
 {
 	if (flag == 1 && p)
 		return (l == '|' || l == '\n');
-	else
+	else if (flag == 2 && p)
 	{
 
 
@@ -74,36 +74,36 @@ int	ft_isedcase(char l, int flag, t_logic*p)
 
 
 
-
 	}
+	return (0);
 }
 
-t_list	*s_split(char*l, unsigned int c, unsigned int b, t_list *p)
+t_list	*s_split(t_info*i, unsigned int c, unsigned int b, t_list *p)
 {
-	while (l[c] == ' ')
+	while (i->l[c] == ' ')
 		c++;
 	b = c;
-	if (!l[c])
+	if (!i->l[c])
 		return (p);
 	p = malloc(sizeof(t_list));
 	p->content = 0;
-	while (l[c] && l[c] != ' ' && !ft_isedcase(l[c], 1, p))
-		if (l[c] == '\"' || l[c] == '\'' || l[c++] == '$')
-			if (!quotation(l, &c, p, &b))
+	while (i->l[c] && i->l[c] != ' ' && !ft_isedcase(i->l[c], 1, p))
+		if (i->l[c] == '\"' || i->l[c] == '\'' || i->l[c++] == '$')
+			if (!quotes(i->l, &c, p, &b))
 				return (error);
-	if (ft_isedcase(l[c], 1, p) && p->content)
+	if (ft_isedcase(i->l[c], 1, p) && p->content)
 	{
-		p->content = ft_strjoin((char *)p->content, ft_substr(l, b, c - 1));
-		p->next = ft_isedcase(l[c], 2, p);
+		p->content = ft_strjoin((char *)p->content, ft_substr(i->l, b, c - 1));
+		p->next = ft_isedcase(i->l[c], 2, p);
 		return (p);
 	}
-	else if (ft_isedcase(l[c], 1, p))
-		p->content = ft_isedcase(l[c], 2, p);
-	if (!p->content && !ft_isedcase(l[c], 1, p))
-		p->content = ft_substr(l, b, c);
-	else if (!ft_isedcase(l[c], 1, p))
-		p->content = ft_strjoin((char *)p->content, ft_substr(l, b, c));
-	p->next = s_split(l + c, 0, 0, 0);
+	else if (ft_isedcase(i->l[c], 1, p))
+		p->content = ft_isedcase(i->l[c], 2, p);
+	if (!p->content && !ft_isedcase(i->l[c], 1, p))
+		p->content = ft_substr(i->l, b, c);
+	else if (!ft_isedcase(i->l[c], 1, p))
+		p->content = ft_strjoin((char *)p->content, ft_substr(i->l, b, c));
+	p->next = s_split(i->l + c, 0, 0, 0);
 	return (p);
 }
 
@@ -115,26 +115,35 @@ void	env_maker(t_info*i, int c1, int c2, char**envp)
 {
 	while (envp[++c1])
 		;
-	i->env = calloc(c1, 1);
+	i->env = ft_calloc(c1, 8);
 	c1 = -1;
 	while (envp[++c1])
 		i->env[c1] = ft_strdup(envp[c1]);
+	i->env[c1] = 0;
 }
 
 int	main(int argc, char**argv, char**envp)
 {
-	char	*line;
-	t_info	*i;
+	t_info	i;
+	int		c;
 
-	i = malloc(sizeof(t_info));
-	env_maker(i, -1, -1, envp);
-	while (argc && argv && envp)
+	env_maker(&i, -1, -1, envp);
+	i.flag = 1;
+	while (argv && envp)
 	{
-		line = readline("Shellshock: ");
-		if (!line)
+		argc = -1;
+		i.l = readline("Shellshock: ");
+		if (!i.l)
 			continue ;
-		add_history(line);
-		binary_tree(s_split(line + argc, 0, 0, 0));
+		while (i.l[++argc])
+			if (i.l[argc] == '\n')
+				c = ++i.flag;
+		i.tree = ft_calloc(i.flag + 1, 8);
+		while (i.flag)
+		{
+			i.list = s_split(&i, 0, 0, 0);
+			i.flag--;
+		}
 	}
 	return (0);
 }

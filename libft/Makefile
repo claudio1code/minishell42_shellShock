@@ -31,6 +31,8 @@ LISTS_FILES = 	ft_lstadd_back_bonus.c \
 
 MEMORY_FILES = 	ft_bzero.c \
 				ft_calloc.c \
+				ft_del.c\
+				ft_del_del.c\
 				ft_memchr.c \
 				ft_memcmp.c \
 				ft_memcpy.c \

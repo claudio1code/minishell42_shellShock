@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:55:18 by clados-s          #+#    #+#             */
-/*   Updated: 2025/07/29 13:41:44 by clados-s         ###   ########.fr       */
+/*   Updated: 2025/12/15 07:07:51 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_itoa(int n)
 	{
 		str[0] = '-';
 		nbr = -nbr;
-	}	
+	}
 	recursive_putdigit(nbr, str, len - 1);
 	return (str);
 }
