@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 13:12:53 by clados-s          #+#    #+#             */
-/*   Updated: 2025/12/15 15:42:59 by clados-s         ###   ########.fr       */
+/*   Updated: 2025/12/18 15:01:57 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,20 @@ typedef enum e_type
 }	t_type;
 
 //Sugestão para a estrutura dos tokens e redirects
-
-typedef struct s_token
-{
-	char	*value; // (ex:   "ls"      "<"      "oi"      >")
-	t_type	type; // (ex:   "t_args" "t_redin" "t_args" "t_redout")
-}	t_token;
-
 typedef struct s_redir
 {
 	t_type			type;
 	char			*file;
 	struct s_redir	*next;
 }	t_redir;
+
+typedef struct s_token
+{
+	t_type			type; // (ex:   "t_args" "t_redin" "t_args" "t_redout")
+	char			**par; // (ex:   "ls"      "<"      "oi"      >")
+	struct s_redir	*redir;
+}	t_token;
+
 
 typedef struct s_ast //abstract struct tree
 {
@@ -68,3 +69,5 @@ typedef struct s_minishell
 char	*get_cmd_path(char *cmd, char **envp);
 
 #endif
+
+ 
