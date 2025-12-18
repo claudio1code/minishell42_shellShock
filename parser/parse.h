@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2025/12/15 08:46:42 by cacesar-         ###   ########.fr       */
+/*   Updated: 2025/12/18 12:04:37 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ typedef struct s_info
 {
 	char			**env;
 	char			*l;
-	int				flag;
+	char			*str;
+	int				c2;
+	int				rst;
 	t_list			*list;
 
 	t_logic			**tree;
@@ -41,7 +43,7 @@ typedef struct s_logic
 typedef struct s_token
 {
 	char	*cmd;
-	char	**opt;
+	char	**rdc;
 	char	**param;
 }	t_token;
 
