@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 10:30:02 by clados-s          #+#    #+#             */
-/*   Updated: 2025/07/29 09:52:20 by clados-s         ###   ########.fr       */
+/*   Updated: 2025/12/15 07:07:23 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	**fill_array(char const *s, char c, char **new_str)
 	while (*s)
 	{
 		while (*s && *s == c)
-		s++;
+			s++;
 		if (*s != c && *s)
 		{
 			i = 0;
