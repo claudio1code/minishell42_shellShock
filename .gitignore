@@ -1,6 +1,6 @@
 # Prerequisites
 *.d
-
+TEMP
 # Object files
 *.o
 *.ko

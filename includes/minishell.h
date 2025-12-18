@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 13:12:53 by clados-s          #+#    #+#             */
-/*   Updated: 2025/12/15 14:20:34 by clados-s         ###   ########.fr       */
+/*   Updated: 2025/12/15 15:42:59 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 typedef enum e_type
 {
-	T_ARGS, //CCOMANDOS E ARGUMENTOS
+	T_ARGS_CMD, //CCOMANDOS E ARGUMENTOS
 	T_PIPE,
 	T_REDIR_IN,
 	T_REDIR_OUT,
@@ -54,5 +54,17 @@ typedef struct s_ast //abstract struct tree
 	int				fd_in;
 	int				fd_out;
 }	t_ast;
+
+typedef struct s_minishell
+{
+	char	**envp; // copia das variaveis de ambiente
+	int		exit_code; // vai guardar a o valor do ultimo comando $?
+}	t_minishell;
+
+/*----------------------------------------------*/
+/*------------ E X E C U T I O N ---------------*/
+/*----------------------------------------------*/
+
+char	*get_cmd_path(char *cmd, char **envp);
 
 #endif
