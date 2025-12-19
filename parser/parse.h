@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2025/12/18 12:04:37 by cacesar-         ###   ########.fr       */
+/*   Updated: 2025/12/18 15:35:48 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@
 
 typedef struct s_token	t_token;
 typedef struct s_logic	t_logic;
+typedef struct s_rdc	t_rdc;
+
+typedef struct s_rdc
+{
+	char	*rdc;
+	t_rdc	*next;
+}	t_rdc;
 
 typedef struct s_info
 {
@@ -36,15 +43,15 @@ typedef struct s_logic
 {
 	char	*operator;
 
-	t_token	*left;
+	t_token	*cmd;
 	t_logic	*right;
+	t_logic	*left;
 }	t_logic;
 
 typedef struct s_token
 {
-	char	*cmd;
-	char	**rdc;
 	char	**param;
+	t_rdc	*rdc;
 }	t_token;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:06 by cacesar-          #+#    #+#             */
-/*   Updated: 2025/12/18 12:48:01 by cacesar-         ###   ########.fr       */
+/*   Updated: 2025/12/18 19:21:06 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	error(void)
 
 void	expansion(t_info*i, unsigned int *c, t_list*p, unsigned int *b)
 {
+	
 }
 
 void	quotes(t_info*i, unsigned int *c, t_list*p, unsigned int *b)
@@ -26,37 +27,34 @@ void	quotes(t_info*i, unsigned int *c, t_list*p, unsigned int *b)
 
 	i->str = (char *)p->content;
 	if (i->str && i->str[*c - 2] != '\'' && i->str[*c - 2] != '\"')
-		i->str = ft_strjoin(i->str, ft_substr(i->l, *b, *c - 2));
+		i->str = ft_strjoin(i->str, ft_substr(i->l, *b, *c - *b - 2), 1, 1);
 	else if (*c - *b >= 2)
-		i->str = ft_substr(i->l, *b, *c - 1);
+		i->str = ft_substr(i->l, *b, *c - *b - 1);
 	type = i->l[*c - 1];
 	*b = *c;
 	if (type == '\'')
 	{
 		while (i->l[*c] != type && i->l[*c])
 			*c++;
-		i->str = ft_strjoin(i->str, ft_substr(i->l, *b, *c));
+		i->str = ft_strjoin(i->str, ft_substr(i->l, *b, *c - *b), 1, 1);
 	}
 	else if (type == '\"')
 	{
 		while (i->l[*c] != type && i->l[*c] && type == '\"')
 			if (i->l[*c++] == '$')
 				expansion(i, c, p, b);
-		i->str = ft_strjoin(i->str, ft_substr(i->l, *b, *c));
+		i->str = ft_strjoin(i->str, ft_substr(i->l, *b, *c), 1, 1);
 	}
 	else
 		expansion(i, c, p, b);
 	*b = *c;
 }
 
-int	ft_isedcase(t_info*i, unsigned int *c, int flag, t_logic*p)
+void	edcase(t_info*i, unsigned int *c, t_list*p, unsigned int *b)
 {
-	if (flag == 1 && p)
-		return (ft_strchr("&|<>\n", i->l[*c]));
-	else if (flag == 2 && p && i->l[*c] != '\n')
-	{
-	}
-	return (0);
+	i->c2 = i->l[*c];
+	if (p->content && *c - *b >= 1)
+		p->content = ft_strjoin(i->str, ft_substr(i->l, *b, *c - *b - 1), 1, 1);
 }
 
 t_list	*s_split(t_info*i, unsigned int *c, unsigned int b, t_list *p)
@@ -68,22 +66,17 @@ t_list	*s_split(t_info*i, unsigned int *c, unsigned int b, t_list *p)
 		return (p);
 	p = malloc(sizeof(t_list));
 	p->content = 0;
-	while (i->l[*c] && i->l[*c] != ' ' && !ft_isedcase(i, c, 1, p))
+	while (i->l[*c] && i->l[*c] != ' ' && !ft_strchr("&|<>\n", i->l[*c]))
 		if (ft_strchr("\'\"$", i->l[*c++]))
 			quotes(i->l, c, p, &b);
-	if (ft_isedcase(i, c, 1, p))
-	{
-		if (p->content)
-			p->content = ft_strjoin(p->content, ft_substr(i->l, b, *c - 1));
-		else if (*c > b)
-			p->content = ft_substr(i->l, b, *c - 1);
-		p->next = ft_isedcase(i, c, 2, p);
+	if (ft_strchr("&|<>\n", i->l[*c]))
+		edcase(i, c, p, &b);
+	if (ft_strchr("&|<>\n", i->l[*c]))
 		return (p);
-	}
-	if (!p->content && !ft_isedcase(i, c, 1, p))
-		p->content = ft_substr(i->l, b, *c);
-	else if (!ft_isedcase(i, c, 1, p))
-		p->content = ft_strjoin(p->content, ft_substr(i->l, b, *c));
+	if (!p->content && !ft_strchr("&|<>\n", i->l[*c]))
+		p->content = ft_substr(i->l, b, *c - b);
+	else if (!ft_strchr("&|<>\n", i->l[*c]))
+		p->content = ft_strjoin(p->content, ft_substr(i->l, b, *c - b), 1, 1);
 	p->next = s_split(i, c, 0, 0);
 	return (p);
 }
