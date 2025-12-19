@@ -94,7 +94,7 @@ DEF_COLOR = \033[0;39m
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@echo -n "$(YELLOW)A linkar $(NAME)... $(DEF_COLOR)"
+	@echo -n "$(YELLOW)Liking $(NAME)... $(DEF_COLOR)"
 	@sh -c '(while kill -0 $$PPID 2>/dev/null; do \
 		echo -n "\b|"; sleep 0.05; \
 		echo -n "\b/"; sleep 0.05; \
