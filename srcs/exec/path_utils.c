@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 14:40:42 by clados-s          #+#    #+#             */
-/*   Updated: 2025/12/15 15:04:08 by clados-s         ###   ########.fr       */
+/*   Updated: 2025/12/18 14:49:03 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,8 @@ char	*get_cmd_path(char *cmd, char **envp)
 	i = 0;
 	while (paths[i])
 	{
-		path_part = ft_strjoin(paths[i], "/"); // a join que vc mudou vai tentar dar free na "\"
-		full_path = ft_strjoin(path_part, cmd);
-		// free (path_part); daria double free com esse join
+		path_part = ft_strjoin(paths[i], "/", 1, 0);
+		full_path = ft_strjoin(path_part, cmd, 1, 0);
 		if (!access(full_path, X_OK))
 		{
 			free_split(paths);
@@ -40,3 +39,4 @@ char	*get_cmd_path(char *cmd, char **envp)
 	}
 	return (free_split_null(paths));
 }
+

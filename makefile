@@ -20,7 +20,7 @@ OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LIST:.c=.o))
 all: $(NAME)
 
 $(NAME):$(OBJS)
-	@echo -n $(YELLOW)"A Linkar $(NAME)... $(DEF_COLOR)"
+	@echo -n $(YELLOW)"Linking $(NAME)... $(DEF_COLOR)"
 	@sh -c '(while kill -0 $$PPID 2>/dev/null/; do \
 		echo -n "\b|"; sleep 0.05; \
 		echo -n "\b/"; sleep 0.05; \
@@ -31,7 +31,7 @@ $(NAME):$(OBJS)
 	@echo "\b$(GREEN)OK!$(DEF_COLOR)"
 
 $(OBJS_DIR)%.o:$(SRCS_DIR)%.c
-	@echo -n $(BLUE)"A Compilar $<... $(DEF_COLOR)"
+	@echo -n $(BLUE)"Compiling $<... $(DEF_COLOR)"
 	@sh -c '(while kill -0 $$PPID 2>/dev/null/; do \
 		echo -n "\b|"; sleep 0.05; \
 		echo -n "\b/"; sleep 0.05; \

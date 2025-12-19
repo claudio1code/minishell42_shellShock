@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 13:12:53 by clados-s          #+#    #+#             */
-/*   Updated: 2025/12/18 15:01:57 by clados-s         ###   ########.fr       */
+/*   Updated: 2025/12/19 14:39:17 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ typedef struct s_redir
 
 typedef struct s_token
 {
-	t_type			type; // (ex:   "t_args" "t_redin" "t_args" "t_redout")
-	char			**par; // (ex:   "ls"      "<"      "oi"      >")
+	t_type			type; // (ex:   "t_args" "t_redir" "t_args" "t_redout")
+	char			**par; // (ex:   "ls"      "<"      "oi"      >" )
 	struct s_redir	*redir;
 }	t_token;
 
