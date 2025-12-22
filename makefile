@@ -14,7 +14,8 @@ LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)/libft.a
 
 
-SRCS_LIST = path_utils.c
+SRCS_LIST = path_utils.c \
+			redirect.c
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LIST:.c=.o))
