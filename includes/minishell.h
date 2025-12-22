@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Updated: 2025/12/19 17:38:07 by clados-s         ###   ########.fr       */
+/*   Created: 2025/12/19 17:38:07 by clados-s          #+#    #+#             */
+/*   Updated: 2025/12/22 11:27:13 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-
 # define MINISHELL_H
 
 # include "../libft/includes/libft.h"
@@ -67,5 +67,6 @@ typedef struct s_token
 /*----------------------------------------------*/
 
 char	*get_cmd_path(char *cmd, char **envp);
+int		handle_redirections(char **redir);
 
 #endif
