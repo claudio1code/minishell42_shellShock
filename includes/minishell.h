@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:38:07 by clados-s          #+#    #+#             */
-/*   Updated: 2025/12/22 11:27:13 by clados-s         ###   ########.fr       */
+/*   Updated: 2025/12/23 10:47:12 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_info
 	char			*l;
 	char			*str;
 	int				c2;
-	int				rst;
+	int				exit_code;
 	t_list			*list;
 
 	t_logic			**tree;
@@ -44,7 +44,7 @@ typedef struct s_logic
 {
 	char	*operator;
 
-	t_token	*left;
+	t_logic	*left;
 	t_logic	*right;
 }	t_logic;
 
@@ -56,11 +56,7 @@ typedef struct s_token
 	char	**param;
 }	t_token;
 
-// typedef struct s_minishell
-// {
-// 	char	**envp; // copia das variaveis de ambiente
-// 	int		exit_code; // guardar a o valor do ultimo comando $?
-// }	t_minishell;
+
 
 /*----------------------------------------------*/
 /*------------ E X E C U T I O N ---------------*/
@@ -68,5 +64,7 @@ typedef struct s_token
 
 char	*get_cmd_path(char *cmd, char **envp);
 int		handle_redirections(char **redir);
+void	child_cleanup(char *path);
+void	exec_cmd(t_token *token, t_info *info);
 
 #endif
