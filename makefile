@@ -14,13 +14,15 @@ LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)/libft.a
 
 
-SRCS_LIST = path_utils.c \
-			redirect.c
+SRCS_LIST = exec/path_utils.c \
+			exec/redirect.c \
+			exec/exec.c \
+
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LIST:.c=.o))
 
-INCLUDES = includes/ -I $(LIBFT_DIR)/includes -I
+INCLUDES = -I includes -I $(LIBFT_DIR)/includes
 LDFLAGS = -L$(LIBFT_DIR) -lft -lreadline
 
 all: $(NAME)
