@@ -17,6 +17,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 SRCS_LIST = exec/path_utils.c \
 			exec/redirect.c \
 			exec/exec.c \
+			exec/tester.c
 
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
@@ -27,27 +28,31 @@ LDFLAGS = -L$(LIBFT_DIR) -lft -lreadline
 
 all: $(NAME)
 
-$(NAME):$(OBJS)
-	@echo -n $(YELLOW)"Linking $(NAME)... $(DEF_COLOR)"
-	@sh -c '(while kill -0 $$PPID 2>/dev/null/; do \
+$(NAME):$(OBJS) $(LIBFT)
+	@printf "$(YELLOW)Linking $(NAME)... $(DEF_COLOR)"
+	@sh -c '(while kill -0 $$PPID 2>/dev/null; do \
 		echo -n "\b|"; sleep 0.05; \
 		echo -n "\b/"; sleep 0.05; \
 		echo -n "\b-"; sleep 0.05; \
-		echo -n "\b\"; sleep 0.05; \
+		echo -n "\b\\"; sleep 0.05; \
 	done) & trap "kill $$!" EXIT; \
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME) '
-	@echo "\b$(GREEN)OK!$(DEF_COLOR)"
+	@printf "\b$(GREEN)OK!$(DEF_COLOR)\n"
 
 $(OBJS_DIR)%.o:$(SRCS_DIR)%.c
-	@echo -n $(BLUE)"Compiling $<... $(DEF_COLOR)"
-	@sh -c '(while kill -0 $$PPID 2>/dev/null/; do \
+	@mkdir -p $(dir $@)
+	@printf "$(BLUE)Compiling $<... $(DEF_COLOR)"
+	@sh -c '(while kill -0 $$PPID 2>/dev/null; do \
 		echo -n "\b|"; sleep 0.05; \
 		echo -n "\b/"; sleep 0.05; \
 		echo -n "\b-"; sleep 0.05; \
-		echo -n "\b\\"; sleep 0.05 \
+		echo -n "\b\\"; sleep 0.05; \
 	done) & trap "kill $$!" EXIT; \
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@'
-	@echo "\b$(GREEN)OK!$(DEF_COLOR)"
+	@printf "\b$(GREEN)OK!$(DEF_COLOR)\n"
+
+$(LIBFT):
+	@make -sC $(LIBFT_DIR)
 
 clean: 
 	@rm -rf $(OBJS_DIR)

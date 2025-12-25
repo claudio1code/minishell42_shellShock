@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: claudio <claudio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:38:07 by clados-s          #+#    #+#             */
-/*   Updated: 2025/12/23 10:47:12 by clados-s         ###   ########.fr       */
+/*   Updated: 2025/12/25 14:56:51 by claudio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,15 @@
 // 	T_HEREDOC
 // }	t_type;
 
+
+typedef struct s_logic
+{
+	char			*operator;
+
+	struct t_logic	*left;
+	struct t_logic	*right;
+}	t_logic;
+
 typedef struct s_info
 {
 	char			**env;
@@ -39,15 +48,6 @@ typedef struct s_info
 
 	t_logic			**tree;
 }	t_info;
-
-typedef struct s_logic
-{
-	char	*operator;
-
-	t_logic	*left;
-	t_logic	*right;
-}	t_logic;
-
 
 typedef struct s_token
 {
