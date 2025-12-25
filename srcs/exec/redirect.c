@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: claudio <claudio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 16:40:45 by clados-s          #+#    #+#             */
-/*   Updated: 2025/12/22 13:26:31 by clados-s         ###   ########.fr       */
+/*   Updated: 2025/12/25 15:38:36 by claudio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static int	open_file(char *file, char *mode)
 	if (!ft_strncmp(mode, "<", 2))
 		fd = open(file, O_RDONLY);
 	else if (!ft_strncmp(mode, ">", 2))
-		fd = open(file, (O_WRONLY | O_CREAT | O_TRUNC | 0644));
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (!ft_strncmp(mode, ">>", 3))
-		fd = open(file, (O_WRONLY | O_CREAT | O_APPEND | 0644));
+		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		perror(file);
 	return (fd);
