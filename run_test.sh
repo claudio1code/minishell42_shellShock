@@ -2,7 +2,7 @@
 
 # Compila o tester com os ficheiros do executor e a libft
 cc -g3 \
-    srcs/tester.c \
+    srcs/exec/tester.c \
     srcs/exec/exec.c \
     srcs/exec/redirect.c \
     srcs/exec/path_utils.c \
