@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2025/12/19 14:39:40 by cacesar-         ###   ########.fr       */
+/*   Updated: 2025/12/19 16:53:10 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ typedef struct s_info
 	char			**env;
 	char			*l;
 	char			*str;
+	int				error;
 	int				c2;
-	int				rst;
+	int				exit;
 	t_list			*list;
 
 	t_logic			**tree;

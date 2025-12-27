@@ -6,15 +6,11 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:06 by cacesar-          #+#    #+#             */
-/*   Updated: 2025/12/19 16:34:35 by cacesar-         ###   ########.fr       */
+/*   Updated: 2025/12/19 16:59:18 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
-
-int	error(void)
-{
-}
 
 void	expansion(t_info*i, unsigned int *c, t_list*p, unsigned int *b)
 {
@@ -23,31 +19,31 @@ void	expansion(t_info*i, unsigned int *c, t_list*p, unsigned int *b)
 
 void	quotes(t_info*i, unsigned int *c, t_list*p, unsigned int *b)
 {
-	char	type;
-
 	i->str = (char *)p->content;
 	if (i->str && i->str[*c - 2] != '\'' && i->str[*c - 2] != '\"')
 		i->str = ft_strjoin(i->str, ft_substr(i->l, *b, *c - *b - 2), 1, 1);
 	else if (*c - *b >= 2)
 		i->str = ft_substr(i->l, *b, *c - *b - 1);
-	type = i->l[*c - 1];
+	i->c2 = i->l[*c - 1];
 	*b = *c;
-	if (type == '\'')
+	if (i->c2 == '\'')
 	{
-		while (i->l[*c] != type && i->l[*c])
+		while (i->l[*c] != i->c2 && i->l[*c])
 			*c++;
 		i->str = ft_strjoin(i->str, ft_substr(i->l, *b, *c - *b), 1, 1);
 	}
-	else if (type == '\"')
+	else if (i->c2 == '\"')
 	{
-		while (i->l[*c] != type && i->l[*c] && type == '\"')
+		while (i->l[*c] != i->c2 && i->l[*c] && i->c2 == '\"')
 			if (i->l[*c++] == '$')
 				expansion(i, c, p, b);
 		i->str = ft_strjoin(i->str, ft_substr(i->l, *b, *c), 1, 1);
 	}
 	else
 		expansion(i, c, p, b);
-	*b = *c;
+	if (i->str[*c])
+		i->error = 1;
+	*b = *c++;
 }
 
 int	edcase(t_info*i, unsigned int *c, t_list*p, unsigned int *b)
@@ -104,7 +100,8 @@ void	env_maker(t_info*i, int c1, int c2, char**envp)
 	while (envp[++c1])
 		i->env[c1] = ft_strdup(envp[c1]);
 	i->env[c1] = 0;
-	i->rst = 0;
+	i->exit = 0;
+	i->error = 0;
 }
 
 int ft_chr_num(char*str, int c , int result, t_info*i)

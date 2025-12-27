@@ -17,7 +17,7 @@ c_files= parse_init.c
 o_files= $(c_files:.c=.o)
 
 
-all: $(NAME) $(NAME2)
+all: $(NAME)
 
 $(NAME):$(o_files) $(header) $(lib)
 	$(cc) $(o_files) $(flags) -L$(lib_path) -lft -o $@ -lreadline
