@@ -14,17 +14,78 @@ void	init_info(t_info *info, char **envp)
 
 t_token	*creat_mock_token(char **args, char **redir)
 {
-	static t_token	token;
+	t_token	*t = malloc(sizeof(t_token));
+	t->cmd = NULL;
+	t->param = args;
+	t->rdc = redir;
+	return (t);
+}
 
-	token.cmd = NULL;
-	token.param = args;
-	token.rdc = redir;
-	return (&token);
+t_logic	*new_node(char *operator, t_logic *left, t_logic *right, t_token *cmd)
+{
+	t_logic	*node = malloc(sizeof(t_logic));
+	node->operator = operator;
+	node->left = left;
+	node->right = right;
+	node->cmd = cmd;
+	return (node);
 }
 
 void	print_banner(char *title)
 {
 	printf("\n\033[1;33m=== TESTE: %s ===\033[0m\n", title);
+}
+
+void	test_pipeline_ls_grep(t_info *info)
+{
+	print_banner("ls - la | grep make (Pipeline Simples)");
+
+	// 1. Token Esquerdo: ls -la
+	char	*args_ls[] = {"ls", "-la", NULL};
+	char	*args_grep[] = {"grep", "make", NULL};
+
+	t_token	*tok_ls = creat_mock_token(args_ls, NULL);
+	t_logic	*node_ls = new_node(NULL, NULL, NULL, tok_ls);
+
+	//2. Token Direito: grep make
+	t_token *tok_grep = creat_mock_token(args_grep, NULL);
+	t_logic	*node_grep = new_node(NULL, NULL, NULL, tok_grep);
+
+	//3. Nó Raiz (PIPE)
+	t_logic	*root = new_node("|", node_ls, node_grep, NULL);
+	exec_tree(root, info);
+
+	free(tok_ls); free(node_ls);
+	free(tok_grep); free(node_grep);
+	free(root);
+}
+
+void	test_pipeline_complex(t_info *info)
+{
+	print_banner("ls | grep c | wc -l (Pipeline Duplo)");
+	// Este teste simula: (ls | grep c) | wc -l
+	
+	// Comando 1: ls
+	char *a1[] = {"ls", NULL};
+	t_logic *n1 = new_node(NULL, NULL, NULL, creat_mock_token(a1, NULL));
+
+	// Comando 2: grep c
+	char *a2[] = {"grep", "c", NULL};
+	t_logic *n2 = new_node(NULL, NULL, NULL, creat_mock_token(a2, NULL));
+
+	// Pipe 1 (Esquerda): ls | grep c
+	t_logic *pipe1 = new_node("|", n1, n2, NULL);
+
+	// Comando 3: wc -l
+	char *a3[] = {"wc", "-l", NULL};
+	t_logic *n3 = new_node(NULL, NULL, NULL, creat_mock_token(a3, NULL));
+
+	// Pipe Raiz: (Pipe1) | wc -l
+	t_logic *root = new_node("|", pipe1, n3, NULL);
+
+	exec_tree(root, info);
+	
+	// Nota: Leaks de memória aqui são esperados pois não estou dando free em tudo
 }
 
 void	test_redirect_append(t_info *info)
@@ -137,7 +198,8 @@ int	main(int argc, char **argv, char **envp)
 	printf("\033[1;36mIniciando Bateria de Testes do Executor...\033[0m\n");
 
 	// Comente/Descomente para rodar testes específicos
-	// test_ls(&info);
+	test_pipeline_ls_grep(&info);
+	test_pipeline_complex(&info);
 	// test_redirect_out(&info);
 	test_redirect_append(&info);
 	test_redirect_in(&info);

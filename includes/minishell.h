@@ -6,7 +6,7 @@
 /*   By: claudio <claudio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:38:07 by clados-s          #+#    #+#             */
-/*   Updated: 2025/12/25 18:56:19 by claudio          ###   ########.fr       */
+/*   Updated: 2025/12/29 19:40:43 by claudio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ typedef struct s_token
 typedef struct s_logic
 {
 	char			*operator;
-	struct t_logic	*left;
-	struct t_logic	*right;
-	struct t_token	*cmd;
+	t_logic	*left;
+	t_logic	*right;
+	t_token	*cmd;
 }	t_logic;
 
 typedef struct s_info

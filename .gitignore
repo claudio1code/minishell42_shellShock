@@ -54,4 +54,8 @@ dkms.conf
 # debug information files
 *.dwo
 executor_tester
+minishelltemp
+temp
+
 minishell
+
