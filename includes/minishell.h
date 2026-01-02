@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: claudio <claudio@student.42.fr>            +#+  +:+       +#+        */
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:38:07 by clados-s          #+#    #+#             */
-/*   Updated: 2025/12/29 19:40:43 by claudio          ###   ########.fr       */
+/*   Updated: 2026/01/02 10:10:06 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ typedef struct s_token
 typedef struct s_logic
 {
 	char			*operator;
-	t_logic	*left;
-	t_logic	*right;
-	t_token	*cmd;
+	struct s_logic	*left;
+	struct s_logic	*right;
+	t_token			*cmd;
 }	t_logic;
 
 typedef struct s_info

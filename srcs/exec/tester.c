@@ -1,6 +1,4 @@
 #include "../../includes/minishell.h"
-#include <fcntl.h>
-#include <unistd.h>
 
 void	init_info(t_info *info, char **envp)
 {
@@ -16,6 +14,7 @@ t_token	*creat_mock_token(char **args, char **redir)
 {
 	t_token	*t = malloc(sizeof(t_token));
 	t->cmd = NULL;
+
 	t->param = args;
 	t->rdc = redir;
 	return (t);
@@ -38,7 +37,21 @@ void	print_banner(char *title)
 
 void	test_pipeline_ls_grep(t_info *info)
 {
-	print_banner("ls - la | grep make (Pipeline Simples)");
+	int	saved_stdout = dup(STDOUT_FILENO);
+	int	success = 0;
+	int	fd = open("grep_test_result.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	int	bytes_read;
+	char	buffer[5000];
+
+	print_banner("ls - la | grep makefile (Pipeline Simples)");
+
+	if (fd == -1)
+	{
+		perror("open temp file");
+		return ;
+	}
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
 
 	// 1. Token Esquerdo: ls -la
 	char	*args_ls[] = {"ls", "-la", NULL};
@@ -54,7 +67,23 @@ void	test_pipeline_ls_grep(t_info *info)
 	//3. Nó Raiz (PIPE)
 	t_logic	*root = new_node("|", node_ls, node_grep, NULL);
 	exec_tree(root, info);
+	dup2(saved_stdout, STDOUT_FILENO);
+	close(saved_stdout);
+	fd = open("grep_test_result.txt", O_RDONLY);
+	ft_bzero(buffer, 100);
+	bytes_read = read(fd, buffer, 99);
+	close(fd);
 
+	if (bytes_read > 0)
+	{
+		if (ft_strnstr(buffer, "makefile", 4096))
+			success = 1;
+	}
+	if (success)
+		printf("\033[0;32m[SUCCESS]\033[0m: Encontrou 'makefile' no output.\n");
+	else
+		printf("\033[0;31m[FAIL]\033[0m: Output incorreto. Recebido: \n%s\n", buffer);
+	system("rm -f grep_test_result.txt");
 	free(tok_ls); free(node_ls);
 	free(tok_grep); free(node_grep);
 	free(root);
@@ -62,9 +91,24 @@ void	test_pipeline_ls_grep(t_info *info)
 
 void	test_pipeline_complex(t_info *info)
 {
+	int	saved_stdout = dup(STDOUT_FILENO);
+	int	success = 0;
+	int fd;
+	char	buffer[100];
+	int	bytes_read;
+
+
 	print_banner("ls | grep c | wc -l (Pipeline Duplo)");
 	// Este teste simula: (ls | grep c) | wc -l
-	
+	fd = open("pipeline_result.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+	{
+		perror("open temp file");
+		return ;
+	}
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+
 	// Comando 1: ls
 	char *a1[] = {"ls", NULL};
 	t_logic *n1 = new_node(NULL, NULL, NULL, creat_mock_token(a1, NULL));
@@ -84,8 +128,35 @@ void	test_pipeline_complex(t_info *info)
 	t_logic *root = new_node("|", pipe1, n3, NULL);
 
 	exec_tree(root, info);
-	
-	// Nota: Leaks de memória aqui são esperados pois não estou dando free em tudo
+	dup2(saved_stdout, STDOUT_FILENO);
+	close(saved_stdout);
+
+	// 5. Verificar o conteúdo do arquivo
+	fd = open("pipeline_result.txt", O_RDONLY);
+	ft_bzero(buffer, 100);
+	bytes_read = read(fd, buffer, 99);
+	close(fd);
+
+	if (bytes_read > 0)
+	{
+		// O wc -l retorna um número. Vamos ver se tem digitos.
+		// Exemplo de output: "      2\n" ou "2\n"
+		int i = 0;
+		while (buffer[i] == ' ' || buffer[i] == '\t') // Pular espaços
+			i++;
+		if (ft_isdigit(buffer[i]))
+		{
+			success = 1;
+			printf("\033[0;32m[PASS]\033[0m: Output capturado corretamente: %s\n", buffer);
+		}
+		else
+			printf("\033[0;31m[FAIL]\033[0m: Esperava um número, recebeu: %s\n", buffer);
+	}
+	else
+		printf("\033[0;31m[FAIL]\033[0m: Output vazio ou erro na leitura.\n");
+	// Limpeza
+	system("rm -f pipeline_result.txt");
+	// free_tree(root); // Se já tiveres o free_tree implementado
 }
 
 void	test_redirect_append(t_info *info)

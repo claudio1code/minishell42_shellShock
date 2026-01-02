@@ -17,7 +17,8 @@ LIBFT = $(LIBFT_DIR)/libft.a
 SRCS_LIST = exec/path_utils.c \
 			exec/redirect.c \
 			exec/exec.c \
-			exec/tester.c
+			exec/tester.c \
+			exec/exec_pipeline.c
 
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
