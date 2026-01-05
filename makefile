@@ -18,7 +18,9 @@ SRCS_LIST = exec/path_utils.c \
 			exec/redirect.c \
 			exec/exec.c \
 			exec/tester.c \
-			exec/exec_pipeline.c
+			exec/exec_pipeline.c \
+			builtins/builtins.c \
+			builtins/echo.c
 
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
