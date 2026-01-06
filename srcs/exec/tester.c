@@ -184,10 +184,14 @@ void	test_redirect_out(t_info *info)
 	if (bytes_read > 0)
 	{
 		if (!strcmp(buffer, expected))
-			success = 0
+			success = 0;
 	}
 	if (success)
+		printf("\033[0;32m[PASS]\033[0m: Conteúdo verificado com sucesso: '%s'.\n", buffer);
+	else
+		printf("\033[0;31m[FAIL]\033[0m: Conteúdo incorreto.\nEsperado: '%s'\nRecebido: '%s'\n", expected, buffer);
 
+	system("rm -f out_test.txt");
 	
 }
 
@@ -300,10 +304,9 @@ int	main(int argc, char **argv, char **envp)
 
 	printf("\033[1;36mIniciando Bateria de Testes do Executor...\033[0m\n");
 
-	// Comente/Descomente para rodar testes específicos
 	test_pipeline_ls_grep(&info);
 	test_pipeline_complex(&info);
-	// test_redirect_out(&info);
+	test_redirect_out(&info);
 	test_redirect_append(&info);
 	test_redirect_in(&info);
 	test_cmd_not_found(&info);
