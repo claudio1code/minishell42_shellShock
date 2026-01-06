@@ -7,6 +7,8 @@ cc -g3 \
     srcs/exec/redirect.c \
     srcs/exec/path_utils.c \
     srcs/exec/exec_pipeline.c \
+    srcs/builtins/builtins.c \
+    srcs/builtins/echo.c \
     -I includes \
     -I libft/includes \
     -Llibft -lft \

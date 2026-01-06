@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: claudio <claudio@student.42.fr>            +#+  +:+       +#+        */
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 16:40:45 by clados-s          #+#    #+#             */
-/*   Updated: 2025/12/25 15:38:36 by claudio          ###   ########.fr       */
+/*   Updated: 2026/01/06 12:39:29 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/*Aqui eu cuido da abertura dos fd dos redirects e 
+as permissões que cada um precisa*/
 static int	open_file(char *file, char *mode)
 {
 	int	fd;
@@ -28,22 +30,23 @@ static int	open_file(char *file, char *mode)
 	return (fd);
 }
 
-int	handle_redirections(char **redir)
+/*aqui eu pego os redi*/
+int	handle_redirections(t_token *token)
 {
 	int	i;
 	int	fd;
 
-	if (!redir)
+	if (!token->rdc)
 		return (0);
 	i = 0;
-	while (redir[i])
+	while (token->rdc[i])
 	{
-		if (!redir[i + 1])
+		if (!token->rdc[i + 1])
 			break ;
-		fd = open_file(redir[i + 1], redir[i]);
+		fd = open_file(token->rdc[i + 1], token->rdc[i]);
 		if (fd == -1)
 			return (-1);
-		if (!ft_strncmp(redir[i], "<", 1))
+		if (!ft_strncmp(token->rdc[i], "<", 1))
 			dup2(fd, STDIN_FILENO);
 		else
 			dup2(fd, STDOUT_FILENO);

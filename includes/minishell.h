@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:38:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/05 14:41:43 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/06 12:40:43 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_info
 /*----------------------------------------------*/
 
 char	*get_cmd_path(char *cmd, char **envp);
-int		handle_redirections(char **redir);
+int		handle_redirections(t_token *token);
 void	child_cleanup(char *path);
 void	exec_cmd(t_token *token, t_info *info);
 void	exec_tree(t_logic *node, t_info *info);

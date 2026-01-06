@@ -5,7 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Updated: 2025/12/19 16:44:05 by clados-s         ###   ########.fr       */
+/*   Created: 2025/12/19 16:44:05 by clados-s          #+#    #+#             */
+/*   Updated: 2026/01/06 12:49:06 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +20,8 @@ static char	*check_absolut_path(char *cmd)
 	return (NULL);
 }
 
+/*Essa função, checa primeiro se é o caminho absoluto,
+se não for, ele busca os paths dos binários dos comandos */
 char	*get_cmd_path(char *cmd, char **envp)
 {
 	char	**paths;

@@ -159,6 +159,38 @@ void	test_pipeline_complex(t_info *info)
 	// free_tree(root); // Se já tiveres o free_tree implementado
 }
 
+void	test_redirect_out(t_info *info)
+{
+	char	*args[] = {"cat", NULL};
+	char	*redir[] = {">", "out_test.txt", NULL};
+	char	*expected = "Test de Saída\n";
+	int		fd;
+	char	buffer[256];
+	ssize_t	bytes_read;
+	int		success = 0;
+
+
+	print_banner("echo 'Teste de Saída' > out_test.txt (Redirect >)	");
+	exec_cmd(creat_mock_token(args, redir), info);
+	fd = open("out_test.txt", O_RDONLY);
+	if (fd == -1)
+	{
+		printf("\033[0;31m[FAIL]\033[0m;O arquivo 'output.txt' não foi criado.\n");
+		return ;
+	}
+	ft_bzero(buffer, 100);
+	bytes_read = read(fd, buffer, 99);
+	close(fd);
+	if (bytes_read > 0)
+	{
+		if (!strcmp(buffer, expected))
+			success = 0
+	}
+	if (success)
+
+	
+}
+
 void	test_redirect_append(t_info *info)
 {
 	char	*args1[] = {"echo", "Linha 1", NULL};
