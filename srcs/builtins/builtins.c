@@ -30,3 +30,5 @@ int	exec_bultin(t_token *token)
 		return (mini_echo(token));
 	return (0);
 }
+
+
