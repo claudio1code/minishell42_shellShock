@@ -161,9 +161,9 @@ void	test_pipeline_complex(t_info *info)
 
 void	test_redirect_out(t_info *info)
 {
-	char	*args[] = {"cat", NULL};
+	char	*args[] = {"echo", "Teste de Saída", NULL};
 	char	*redir[] = {">", "out_test.txt", NULL};
-	char	*expected = "Test de Saída\n";
+	char	*expected = "Teste de Saída\n";
 	int		fd;
 	char	buffer[256];
 	ssize_t	bytes_read;
@@ -184,12 +184,12 @@ void	test_redirect_out(t_info *info)
 	if (bytes_read > 0)
 	{
 		if (!strcmp(buffer, expected))
-			success = 0;
+			success = 1;
 	}
 	if (success)
-		printf("\033[0;32m[PASS]\033[0m: Conteúdo verificado com sucesso: '%s'.\n", buffer);
+		printf("\033[0;32m[PASS]\033[0m: Conteúdo verificado com sucesso.\n\nEsperado: %s\nRecebido: %s", expected, buffer);
 	else
-		printf("\033[0;31m[FAIL]\033[0m: Conteúdo incorreto.\nEsperado: '%s'\nRecebido: '%s'\n", expected, buffer);
+		printf("\033[0;31m[FAIL]\033[0m: Conteúdo incorreto.\nEsperado: %s\nRecebido: %s\n", expected, buffer);
 
 	system("rm -f out_test.txt");
 	
@@ -289,9 +289,9 @@ void	test_cmd_not_found(t_info *info)
 	t_token *token= creat_mock_token(args, NULL);
 	exec_cmd(token, info);
 	if (info->exit_code == expected_exit_code)
-		printf("\033[0;32m[PASS]\033[0m: Código de saída é %d como esperado.\n", expected_exit_code);
+		printf("\033[0;32m\n[PASS]\033[0m: Código de saída é %d como esperado.\n\n", expected_exit_code);
 	else
-		printf("\033[0;31m[FAIL]\033[0m: Esperado %d, mas foi %d.\n", expected_exit_code, info->exit_code);
+		printf("\033[0;31m[FAIL]\033[0m: Esperado %d, mas foi %d.\n\n", expected_exit_code, info->exit_code);
 }
 
 int	main(int argc, char **argv, char **envp)
