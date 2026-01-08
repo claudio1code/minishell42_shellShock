@@ -6,12 +6,13 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 11:34:26 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/05 14:04:42 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/08 11:19:04 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/*aux que verifica se o echo tem alguma flag -n*/
 static int	is_n_flag(char *arg)
 {
 	int	i;
@@ -28,6 +29,8 @@ static int	is_n_flag(char *arg)
 	return (1);
 }
 
+/*recebo o token do comando echo e verific 
+passo todas as flags -n e seto para zero */
 int	mini_echo(t_token *token)
 {
 	int	i;
