@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:38:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/06 12:40:43 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/09 17:53:40 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,6 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 
-// typedef enum e_type
-// {
-// 	T_ARGS_CMD, //CCOMANDOS E ARGUMENTOS
-// 	T_PIPE,
-// 	T_REDIR_IN,
-// 	T_REDIR_OUT,
-// 	T_APPEND,
-// 	T_HEREDOC
-// }	t_type;
 
 typedef struct s_token
 {
@@ -69,6 +60,6 @@ void	exec_tree(t_logic *node, t_info *info);
 int		is_builtins(char *cmd);
 int		exec_bultin(t_token *token);
 int		mini_echo(t_token *token);
-
+int		mini_cd(t_info *info, t_token *token);
 
 #endif
