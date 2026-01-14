@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 13:23:31 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/09 17:33:23 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/14 10:43:24 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*get_env_value(char **env, char *key)
 	len = ft_strlen(key);
 	while (env[i])
 	{
-		if (!ft_strncmp(env[i], key, len) && env[i][len] == "=")
+		if (!ft_strncmp(env[i], key, len) && env[i][len] == '=')
 			return (env[i] + len + 1);
 		i++;
 	}
@@ -84,7 +84,7 @@ static void	update_env(t_info *info, char *key, char *value, int flag)
 		i++;
 	}
 	add_to_env(info, new_entry);
-	if (!flag)
+	if (flag)
 		free(value);
 }
 
@@ -127,7 +127,7 @@ int	mini_cd(t_info *info, t_token *token)
 	
 	if (!token->param[1])
 	{
-		path = get_env_val(info->env, "HOME");
+		path = get_env_value(info->env, "HOME");
 		if (!path)
 		{
 			ft_putendl_fd("minishell: cd : HOME not set", 2);
@@ -135,9 +135,9 @@ int	mini_cd(t_info *info, t_token *token)
 		}
 		return (change_dir(info, path, 0));
 	}
-	if (!ft_strncmp(token->param[1], '-', 2))
+	if (!ft_strncmp(token->param[1], "", 2))
 	{
-		path = get_env_val(info->env, "OLDPWD");
+		path = get_env_value(info->env, "OLDPWD");
 		if (!path)
 		{
 			ft_putendl_fd("minishell: cd: OLDPWD not set", 2);

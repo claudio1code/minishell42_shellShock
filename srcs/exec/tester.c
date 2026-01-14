@@ -1,8 +1,57 @@
 #include "../../includes/minishell.h"
 
+void	free_info_env(t_info *info)
+{
+	int	i;
+
+	if (!info || !info->env)
+		return ;
+	i = 0;
+	while (info->env[i])
+	{
+		free(info->env[i]);
+		info->env[i] = NULL; // Defensive programming
+		i++;
+	}
+	free(info->env);
+	info->env = NULL; // Defensive programming
+}
+
 void	init_info(t_info *info, char **envp)
 {
-	info->env = envp;
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (envp[count])
+		count++;
+	info->env = ft_calloc(sizeof(char *), count + 1);
+	if (!info->env)
+	{
+		// Handle allocation error
+		perror("ft_calloc failed for info->env");
+		exit(EXIT_FAILURE);
+	}
+	while (i < count)
+	{
+		info->env[i] = ft_strdup(envp[i]);
+		if (!info->env[i])
+		{
+			// Handle allocation error, free previously allocated strings
+			while (i > 0)
+			{
+				i--;
+				free(info->env[i]);
+			}
+			free(info->env);
+			perror("ft_strdup failed for envp element");
+			exit(EXIT_FAILURE);
+		}
+		i++;
+	}
+	info->env[i] = NULL; // Null-terminate the array
+
 	info->exit_code = 0;
 	info->l = NULL;
 	info->str = NULL;
@@ -99,7 +148,6 @@ void	test_pipeline_complex(t_info *info)
 
 
 	print_banner("ls | grep c | wc -l (Pipeline Duplo)");
-	// Este teste simula: (ls | grep c) | wc -l
 	fd = open("pipeline_result.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
@@ -139,8 +187,6 @@ void	test_pipeline_complex(t_info *info)
 
 	if (bytes_read > 0)
 	{
-		// O wc -l retorna um número. Vamos ver se tem digitos.
-		// Exemplo de output: "      2\n" ou "2\n"
 		int i = 0;
 		while (buffer[i] == ' ' || buffer[i] == '\t') // Pular espaços
 			i++;
@@ -154,9 +200,7 @@ void	test_pipeline_complex(t_info *info)
 	}
 	else
 		printf("\033[0;31m[FAIL]\033[0m: Output vazio ou erro na leitura.\n");
-	// Limpeza
 	system("rm -f pipeline_result.txt");
-	// free_tree(root); // Se já tiveres o free_tree implementado
 }
 
 void	test_redirect_out(t_info *info)
@@ -294,9 +338,85 @@ void	test_cmd_not_found(t_info *info)
 		printf("\033[0;31m[FAIL]\033[0m: Esperado %d, mas foi %d.\n\n", expected_exit_code, info->exit_code);
 }
 
+void test_echo(t_info *info)
+{
+	char	*args[] = {"echo", "-n", "Eae", "Felas", NULL};
+	t_token	*token = creat_mock_token(args, NULL);
+	int		saved_stdout = dup(STDOUT_FILENO);
+	int		fd;
+	char	buffer[256];
+	ssize_t	bytes_read;
+
+	print_banner("echo -n 'Eae Felas' (Echo sem nova linha)");
+
+	fd = open("echo_test_result.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+	{
+		perror("open temp file");
+		return ;
+	}
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+
+	exec_bultin(token, info);
+
+	dup2(saved_stdout, STDOUT_FILENO);
+	close(saved_stdout);
+
+	fd = open("echo_test_result.txt", O_RDONLY);
+	ft_bzero(buffer, 256);
+	bytes_read = read(fd, buffer, 255);
+	close(fd);
+
+	if (bytes_read > 0 && !strcmp(buffer, "Eae Felas"))
+		printf("\033[0;32m[PASS]\033[0m:'echo' output correto sem nova linha.\n");
+	else
+		printf("\033[0;31m[FAIL]\033[0m: 'echo' output incorreto. Recebido: '%s'\n", buffer);
+
+	system("rm -f echo_test_result.txt");
+}
+
+void	test_cd(t_info *info)
+{
+	char	*args[] = {"cd", "~", NULL};
+	int		success = 0;
+	char	*cwd;
+	t_token	*token = creat_mock_token(args, NULL);
+
+	print_banner("cd ~ (Change Directory)");
+
+	exec_bultin(token, info);
+	cwd = getcwd(NULL, 0);
+	if (cwd && !strcmp(cwd, "~"))
+		success = 1;
+
+	if (success)
+		printf("\033[0;32m[PASS]\033[0m: Diretório alterado para '~'.\n");
+	else
+		printf("\033[0;31m[FAIL]\033[0m: Falha ao alterar diretório. Diretório atual: '%s'\n", cwd ? cwd : "NULL");
+
+	free(cwd);
+}
+
+void	test_pwd(t_info *info)
+{
+	char	*args[] = {"pwd", NULL};
+	t_token	*token = creat_mock_token(args, NULL);
+	char	expected[1024];
+	int		len;
+
+	print_banner("pwd (Print Working Directory)");
+	getcwd(expected, sizeof(expected));
+	exec_bultin(token, info);
+	len = ft_strlen(expected);
+	printf("\n\033[0;32m[PASS]\033[0m: pwd executado. Verifique se o diretório atual é: %s\n", expected);
+}
+
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_info	info;
+	// t_token	token;
 	(void)argc;
 	(void)argv;
 
@@ -310,6 +430,11 @@ int	main(int argc, char **argv, char **envp)
 	test_redirect_append(&info);
 	test_redirect_in(&info);
 	test_cmd_not_found(&info);
+	test_echo(&info);
+	test_cd(&info);
+	test_pwd(&info);
+
+	free_info_env(&info);
 
 	return (0);
 }

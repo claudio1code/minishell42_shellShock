@@ -9,6 +9,8 @@ cc -g3 \
     srcs/exec/exec_pipeline.c \
     srcs/builtins/builtins.c \
     srcs/builtins/echo.c \
+	srcs/builtins/cd.c \
+	srcs/builtins/pwd.c \
     -I includes \
     -I libft/includes \
     -Llibft -lft \

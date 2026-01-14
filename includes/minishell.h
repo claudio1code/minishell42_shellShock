@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:38:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/09 17:53:40 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/14 10:22:26 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ void	child_cleanup(char *path);
 void	exec_cmd(t_token *token, t_info *info);
 void	exec_tree(t_logic *node, t_info *info);
 int		is_builtins(char *cmd);
-int		exec_bultin(t_token *token);
+int		exec_bultin(t_token *token, t_info *info);
 int		mini_echo(t_token *token);
 int		mini_cd(t_info *info, t_token *token);
+int		pwd(t_token *token);
 
 #endif

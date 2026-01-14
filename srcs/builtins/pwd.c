@@ -1,37 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   pwd..c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/02 15:08:37 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/14 10:21:15 by clados-s         ###   ########.fr       */
+/*   Created: 2026/01/13 12:45:12 by clados-s          #+#    #+#             */
+/*   Updated: 2026/01/13 13:08:17 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	is_builtins(char *cmd)
+/*percorro o arrays de parâmetros, caso tenha mais
+de 1 parâmetro, imprimo mensagem de erro, dps guardo 
+o diretório atual com o getcwd() e printo*/
+int	pwd(t_token *token)
 {
-	if (!cmd)
-		return (0);
-	if (!ft_strncmp(cmd, "echo", 5))
+	int		i;
+	char	*cwd;
+
+	i = 0;
+
+	while (token->param[i])
+		i++;
+	if (i > 1)
+	{
+		ft_putstr_fd("pwd: too many arguments", 1);
 		return (1);
+	}
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+	{
+		perror("pwd");
+		return (1);
+	}
+	ft_putstr_fd(cwd, 1);
+	ft_putstr_fd("\n", 1);
+	free(cwd);
 	return (0);
 }
-
-int	exec_bultin(t_token *token, t_info *info)
-{
-	char	*cmd;
-
-	cmd = token->param[0];
-	if (!ft_strncmp(cmd, "echo", 5))
-		return (mini_echo(token));
-	if (!ft_strncmp(cmd, "cd", 3))
-		return (mini_cd(info, token));
-	if (!ft_strncmp(cmd, "pwd", 4))
-		return (pwd(token));
-	return (0);
-}
-

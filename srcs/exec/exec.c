@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:36:47 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/06 12:50:16 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/14 10:22:55 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	child_process(t_token *token, t_info *info)
 		exit(0);
 	if (is_builtins(token->param[0]))
 	{
-		info->exit_code = exec_bultin(token);
+		info->exit_code = exec_bultin(token, info);
 		exit(info->exit_code);
 	}
 	path = get_cmd_path(token->param[0], info->env);
