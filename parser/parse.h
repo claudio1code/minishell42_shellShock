@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftlurker <ftlurker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2025/12/19 16:53:10 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/01/17 08:13:36 by ftlurker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSE_H
 
+# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/includes/libft.h"
@@ -33,7 +34,9 @@ typedef struct s_info
 	char			*l;
 	char			*str;
 	int				error;
+	unsigned int	count;
 	int				c2;
+	int				c3;
 	int				exit;
 	t_list			*list;
 
