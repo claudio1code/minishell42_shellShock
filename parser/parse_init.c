@@ -6,25 +6,35 @@
 /*   By: ftlurker <ftlurker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:06 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/17 11:09:07 by ftlurker         ###   ########.fr       */
+/*   Updated: 2026/01/19 02:38:41 by ftlurker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
+//A função var_maker cria uma string com a variavel passada para expansão
+//para facilitar a procura na matrix env;
+//*i = struct data;
+//*c = countador usado para percorrer o retorno da readline;
+//*b = countador usada para marcar o começo do parametro achado no retorno da readline, utilizado na ft_substr;
 char	*var_maker(t_info*i, unsigned int *c, unsigned int *b)
 {
 	char	*var;
 
 	*b = *c;
-	while (!ft_strchr("&|<>\n ", i->l[*c]))
+	while (!ft_strchr("&|<>\n\'\" ", i->l[*c]))
 		(*c)++;
 	var = ft_substr(i->l, *b, *c - *b);
 	if (*var)
 		*b = --(*c);
 	return (var);
 }
-
+//A função expansion expandi variaveis passadas e contatena elas ao
+//restante do parametro se existir;
+//*i = struct data;
+//*p = lista linkada onde o retorno da readline sera quebrado em parametros para a execução;
+//*c = countador usado para percorrer o retorno da readline;
+//*b = countador usada para marcar o começo do parametro achado no retorno da readline, utilizado na ft_substr;
 void	expansion(t_info*i, unsigned int *c, unsigned int *b, t_list*p)
 {
 	char	*var;
@@ -44,15 +54,21 @@ void	expansion(t_info*i, unsigned int *c, unsigned int *b, t_list*p)
 			if (i->env[c1][c2] != var[c2])
 				break ;
 		}
-		if (i->env[c1][c2++] != '=')
+		if (i->env[c1][c2] != '=' || var[c2++])
 			continue ;
 		p->content = ft_strjoin(p->content, ft_substr(i->env[c1], c2,
 			ft_strlen(i->env[c1] + c2)), 1, 1);
 		free (var);
 		break ;
 	}
+	*b = ++(*c);
 }
-
+//A função quotes cuida qualquer caractere q mude a leitura dos parametros,
+//como '',  "" e $;
+//*i = struct data;
+//*p = lista linkada onde o retorno da readline sera quebrado em parametros para a execução;
+//*c = countador usado para percorrer o retorno da readline;
+//*b = countador usada para marcar o começo do parametro achado no retorno da readline, utilizado na ft_substr;
 void	quotes(t_info*i, unsigned int *c, t_list*p, unsigned int *b)
 {
 	p->content = ft_strjoin(p->content,
@@ -73,12 +89,17 @@ void	quotes(t_info*i, unsigned int *c, t_list*p, unsigned int *b)
 		expansion(i, c, b, p);
 	if (!((char *)p->content)[*c] && (i->c2 == '\"' || i->c2 == '\''))
 		i->error = 1;
-	if(((char *)p->content)[*c])
+	if (i->l[*c] && (i->c2 == '\"' || i->c2 == '\''))
 		(*c)++;
 	*b = *c;
 	p->content = p->content;
 }
-
+//A função edcase cuida de caracteres q ignoram proximidade de outros
+//como &, |, <, > e \n;
+//*i = struct data;
+//*p = lista linkada onde o retorno da readline sera quebrado em parametros para a execução;
+//*c = countador usado para percorrer o retorno da readline;
+//*b = countador usada para marcar o começo do parametro achado no retorno da readline, utilizado na ft_substr;
 int	edcase(t_info*i, unsigned int *c, t_list*p, unsigned int *b)
 {
 	i->c2 = i->l[*c];
@@ -95,7 +116,12 @@ int	edcase(t_info*i, unsigned int *c, t_list*p, unsigned int *b)
 	*b = *c;
 	return (1);
 }
-
+//A função s_split divide a string do retorno da readline em parametros
+//q serão utilizados na execução;
+//*i = struct data;
+//*p = lista linkada onde o retorno da readline sera quebrado em parametros para a execução;
+//*c = countador usado para percorrer o retorno da readline;
+// b = countador usada para marcar o começo do parametro achado no retorno da readline, utilizado na ft_substr;
 t_list	*s_split(t_info*i, unsigned int *c, unsigned int b, t_list *p)
 {
 	int	end;
@@ -126,8 +152,15 @@ t_list	*s_split(t_info*i, unsigned int *c, unsigned int b, t_list *p)
 // {
 // }
 
-void	env_maker(t_info*i, int c1, char**envp)
+//A função env_maker cria um cópia do environment do shell
+//para utilização do minishell
+//*i = struct data;
+//**envp = parametro envp recebido da main;
+void	env_maker(t_info*i, char**envp)
 {
+	int	c1;
+
+	c1 = -1;
 	i->count = 0;
 	while (envp[++c1])
 		;
@@ -140,17 +173,31 @@ void	env_maker(t_info*i, int c1, char**envp)
 	i->error = 0;
 }
 
-int ft_chr_num(char*str, int c , int result, t_info*i)
+//A função ft_chr_num checa quantos lista linkadas para execução serão necessarias
+//*str = retorno da readline
+//*i = struct data;
+int ft_chr_num(char*str, t_info*i)
 {
+	int	c;
+	int	result;
+
+	c = -1;
+	result = 1;
 	while (str[++c])
 		if (str[c] == '\n')
 			result++;
 	i->c3 = result;
 	return (result);
 }
-
-void historic(char	*l, int c1, int b)
+//A funcção historic adiciona as saidas do readline ao historico
+//*l = retorno da readline;
+void historic(char	*l)
 {
+	int	c1;
+	int	b;
+
+	c1 = 0;
+	b = 0;
 	while (l[c1])
 	{
 		if (l[c1] == '\n')
@@ -170,14 +217,14 @@ int	main(int argc, char**argv, char**envp)
 	int		c1;
 	t_info	data;
 
-	env_maker(&data, -1, envp);
+	env_maker(&data, envp);
 	while (argv && envp && argc)
 	{
 		data.l = readline("Shellshock: ");
 		if (!data.l)
 			continue ;
-		c1 = ft_chr_num(data.l, -1, 1, &data);
-		historic(data.l, 0, 0);
+		c1 = ft_chr_num(data.l, &data);
+		historic(data.l);
 		data.tree = ft_calloc(data.c3 + 1, 8);
 		while (c1)
 		{
