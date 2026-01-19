@@ -1,0 +1,3 @@
+<< oi asd'dsa' "$SHELL '$SHELL' $SHELL" | cat -e
+teste2 teste3 >> teste42 | ls esculacho
+<< oi asd'dsa' "$SHELL '$SHELL' $SHELL" | cat -e
