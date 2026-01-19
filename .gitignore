@@ -1,6 +1,9 @@
 # Prerequisites
 *.d
 TEMP
+*.json
+*.log
+*.tmp
 # Object files
 *.o
 *.ko

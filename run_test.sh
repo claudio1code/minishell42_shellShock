@@ -8,6 +8,7 @@ cc -g3 \
     srcs/exec/path_utils.c \
     srcs/exec/exec_pipeline.c \
     srcs/builtins/builtins.c \
+	srcs/builtins/env_utils.c \
     srcs/builtins/echo.c \
 	srcs/builtins/cd.c \
 	srcs/builtins/pwd.c \

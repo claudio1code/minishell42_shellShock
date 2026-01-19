@@ -387,7 +387,8 @@ void	test_cd(t_info *info)
 
 	exec_bultin(token, info);
 	cwd = getcwd(NULL, 0);
-	if (cwd && !strcmp(cwd, "~"))
+	char *home_dir = getenv("HOME");
+	if (cwd && home_dir && strcmp(cwd, home_dir) == 0)
 		success = 1;
 
 	if (success)
@@ -400,16 +401,47 @@ void	test_cd(t_info *info)
 
 void	test_pwd(t_info *info)
 {
+	int	saved_stdout;
+	int	fd;
+	char	buffer[1024];
+	char	*cwd;
 	char	*args[] = {"pwd", NULL};
 	t_token	*token = creat_mock_token(args, NULL);
-	char	expected[1024];
-	int		len;
+	int	bytes_read;
 
 	print_banner("pwd (Print Working Directory)");
-	getcwd(expected, sizeof(expected));
+	
+	cwd = getcwd(NULL, 0);
+	saved_stdout = dup(STDOUT_FILENO);
+	fd = open("pwd_test.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+	
 	exec_bultin(token, info);
-	len = ft_strlen(expected);
-	printf("\n\033[0;32m[PASS]\033[0m: pwd executado. Verifique se o diretório atual é: %s\n", expected);
+	
+	dup2(saved_stdout, STDOUT_FILENO);
+	close(saved_stdout);
+	
+	fd = open("pwd_test.txt", O_RDONLY);
+	bytes_read = read(fd, buffer, sizeof(buffer) - 1);
+	close(fd);
+	
+	if (bytes_read > 0)
+	{
+		buffer[bytes_read] = '\0';
+		if (buffer[bytes_read - 1] == '\n')
+			buffer[bytes_read - 1] = '\0';
+		
+		if (!strcmp(buffer, cwd))
+			printf("\033[0;32m[PASS]\033[0m: pwd retornou: %s\n", buffer);
+		else
+			printf("\033[0;31m[FAIL]\033[0m: pwd retornou '%s', esperado '%s'\n", buffer, cwd);
+	}
+	else
+		printf("\033[0;31m[FAIL]\033[0m: pwd não imprimiu nada\n");
+	
+	unlink("pwd_test.txt");
+	free(cwd);
 }
 
 

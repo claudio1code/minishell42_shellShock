@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:38:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/14 10:22:26 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/15 13:17:57 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,9 @@ int		exec_bultin(t_token *token, t_info *info);
 int		mini_echo(t_token *token);
 int		mini_cd(t_info *info, t_token *token);
 int		pwd(t_token *token);
+char	*get_env_value(char **env, char *key);
+void	add_to_env(t_info *info, char *new_entry);
+void	update_env(t_info *info, char *key, char *value, int flag);
+int		mini_export(t_token *token, t_info *info);
 
 #endif

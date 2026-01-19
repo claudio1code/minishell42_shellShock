@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 14:24:09 by clados-s          #+#    #+#             */
-/*   Updated: 2025/12/18 12:50:11 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/01/15 10:52:05 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int			ft_isspace(int c);
 int			ft_isint(char *nptr);
 long		ft_almost_atol(char *nptr);
 int			ft_overflow_int(char *nbr);
+int			ft_strcmp(char *s1, char *s2);
 
 typedef struct s_list
 {
