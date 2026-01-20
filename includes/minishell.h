@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:38:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/15 13:17:57 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:00:41 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,14 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 
-
 typedef struct s_token
 {
 	char	*cmd;
 	char	**rdc;
 	char	**param;
+	struct s_token	*next;
 }	t_token;
 
-typedef struct s_logic
-{
-	char			*operator;
-	struct s_logic	*left;
-	struct s_logic	*right;
-	t_token			*cmd;
-}	t_logic;
 
 typedef struct s_info
 {
@@ -43,7 +36,6 @@ typedef struct s_info
 	int				exit_code;
 	t_list			*list;
 
-	t_logic			**tree;
 }	t_info;
 
 
@@ -56,7 +48,7 @@ char	*get_cmd_path(char *cmd, char **envp);
 int		handle_redirections(t_token *token);
 void	child_cleanup(char *path);
 void	exec_cmd(t_token *token, t_info *info);
-void	exec_tree(t_logic *node, t_info *info);
+void	exec_pipeline(t_token *token, t_info *info);
 int		is_builtins(char *cmd);
 int		exec_bultin(t_token *token, t_info *info);
 int		mini_echo(t_token *token);

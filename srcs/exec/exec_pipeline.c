@@ -6,96 +6,79 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 19:04:49 by claudio           #+#    #+#             */
-/*   Updated: 2026/01/05 15:49:35 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:06:28 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/* aqui o processo filho dos nós q vao ser do lado esquerdo da árvore,
-fecho o fd de leitura, pq nao vou precisar dele agr
-redireciono STDOUT para o pipe de escrita
-e logo após fecho o original de escrita tbm, 
-chamo o exec_tree que vai
-verificar se é um pipe ou um cmd*/
-static void	child_one(t_logic *node, t_info *info, int fd[2])
-{
-	close(fd[0]);
-	dup2(fd[1], STDOUT_FILENO);
-	close(fd[1]);
-	exec_tree(node->left, info);
-	exit(EXIT_FAILURE);
-}
-
-/*faço a mesma coisa só que para o lado diretiro da árvore, mas 
-dessa vez fechando o fd de escrita, ja que ele não vai ser usado*/
-static void	child_two(t_logic *node, t_info *info, int fd[2])
+/* Processo pai do pipeline, fecho o fd de escrita e vejo 
+se o tem um pipe anterior caso exista, fecho o fd anterior
+e atualizo o prev_fd */
+static void	parent_process(int fd[2], int *prev_fd)
 {
 	close(fd[1]);
-	dup2(fd[0], STDIN_FILENO);
-	close(fd[0]);
-	exec_tree(node->right, info);
-	exit(EXIT_FAILURE);
+	if (*prev_fd != -1)
+		close(*prev_fd);
+	prev_fd = &fd[0];
 }
 
-/*função auxiliar para fechar os fd, só pq estava dando 26 linhas*/
-static void	close_fd(int fd[2])
+/*função auxiliar e espera todos os filhos*/
+static void	wait_children(t_info *info)
 {
-	close(fd[0]);
-	close(fd[1]);
+	while (waitpid(-1, &info->exit_code, 0) > 0)
+		continue;
+	if (WIFEXITED(info->exit_code))
+		info->exit_code = WEXITSTATUS(info->exit_code);
 }
 
-/*O processo pai cria os processos filhos, os dois correm paralelamente
-o pai fecha os fds, porque se por exemplo o fd[1] de escrita não fechasse
-o two process ficaria esperando para sempre
-e no final guardo o código de saída*/
-static void	parent_process(t_logic *node, t_info *info, int fd[2])
+/* mudança na lógica para lista linkada
+verifico se exite um pipe anterior, se sim, ele redireciona
+para o stdin e fecha o prev, se houver um próximo, ele fecha
+pra leitura e redireciona o fd de escrito para o stdout, chama
+o exec_cmd que vai tratar os redirects e executar o comando, tbm
+guarda o status de saída na variavel exit_code 
+*/
+static void	child_process(t_token *token, t_info *info, int fd[2], int prev_fd)
 {
-	pid_t	pid1;
-	pid_t	pid2;
-	int		status;
-
-	pid1 = fork();
-	if (pid1 == -1)
+	if (prev_fd != -1)
 	{
-		perror("fork");
-		exit(EXIT_FAILURE);
+		dup2(prev_fd, STDIN_FILENO);
+		close(prev_fd);
 	}
-	if (pid1 == 0)
-		child_one(node, info, fd);
-	pid2 = fork();
-	if (pid2 == -1)
+	if (token->next)
 	{
-		perror("fork");
-		exit(EXIT_FAILURE);
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
 	}
-	if (pid2 == 0)
-		child_two(node, info, fd);
-	close_fd(fd);
-	waitpid(pid1, &status, 0);
-	waitpid(pid2, &status, 0);
-	if (WIFEXITED(status))
-		info->exit_code = WEXITSTATUS(status);
+	exec_cmd(token, info);
+	exit(info->exit_code);
 }
 
-/*Arvore é executada, então se for um pipe eu chamo a função do
-processo pai, que vai cuidar da cominicação dos fd, mas caso seja 
-um comando chama a função exec cmd*/
-void	exec_tree(t_logic *node, t_info *info)
+/*Função principal que executa o pipeline de comandos,
+verifica se há um próximo token e cria um pipe se necessário*/
+void	exec_pipeline(t_token *token, t_info *info)
 {
 	int		fd[2];
+	int		prev_fd;
+	pid_t	pid;
 
-	if (!node)
-		return ;
-	if (node->operator && !ft_strncmp(node->operator, "|", 2))
+	prev_fd = -1;
+	while (token)
 	{
-		if (pipe(fd) == -1)
-		{
-			perror("pipe");
-			exit(EXIT_FAILURE);
-		}
-		parent_process(node, info, fd);
+		if (token->next && pipe(fd) == -1)
+			return (perror("pipe"));
+		pid = fork();
+		if (pid == -1)
+			return (perror ("fork"));
+		if (pid == 0)
+			child_process(token, info, fd, prev_fd);
+		if (token->next)
+			parent_process(fd, &prev_fd);
+		else if (prev_fd != -1)
+			close(prev_fd);
+		token = token->next;
 	}
-	else
-		exec_cmd(node->cmd, info);
+	wait_children(info);
 }

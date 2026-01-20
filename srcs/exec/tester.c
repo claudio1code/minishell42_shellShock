@@ -55,7 +55,6 @@ void	init_info(t_info *info, char **envp)
 	info->exit_code = 0;
 	info->l = NULL;
 	info->str = NULL;
-	info->tree = NULL;
 	info->list = NULL;
 }
 
@@ -69,138 +68,11 @@ t_token	*creat_mock_token(char **args, char **redir)
 	return (t);
 }
 
-t_logic	*new_node(char *operator, t_logic *left, t_logic *right, t_token *cmd)
-{
-	t_logic	*node = malloc(sizeof(t_logic));
-	node->operator = operator;
-	node->left = left;
-	node->right = right;
-	node->cmd = cmd;
-	return (node);
-}
+
 
 void	print_banner(char *title)
 {
 	printf("\n\033[1;33m=== TESTE: %s ===\033[0m\n", title);
-}
-
-void	test_pipeline_ls_grep(t_info *info)
-{
-	int	saved_stdout = dup(STDOUT_FILENO);
-	int	success = 0;
-	int	fd = open("grep_test_result.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	int	bytes_read;
-	char	buffer[5000];
-
-	print_banner("ls - la | grep makefile (Pipeline Simples)");
-
-	if (fd == -1)
-	{
-		perror("open temp file");
-		return ;
-	}
-	dup2(fd, STDOUT_FILENO);
-	close(fd);
-
-	// 1. Token Esquerdo: ls -la
-	char	*args_ls[] = {"ls", "-la", NULL};
-	char	*args_grep[] = {"grep", "make", NULL};
-
-	t_token	*tok_ls = creat_mock_token(args_ls, NULL);
-	t_logic	*node_ls = new_node(NULL, NULL, NULL, tok_ls);
-
-	//2. Token Direito: grep make
-	t_token *tok_grep = creat_mock_token(args_grep, NULL);
-	t_logic	*node_grep = new_node(NULL, NULL, NULL, tok_grep);
-
-	//3. Nó Raiz (PIPE)
-	t_logic	*root = new_node("|", node_ls, node_grep, NULL);
-	exec_tree(root, info);
-	dup2(saved_stdout, STDOUT_FILENO);
-	close(saved_stdout);
-	fd = open("grep_test_result.txt", O_RDONLY);
-	ft_bzero(buffer, 100);
-	bytes_read = read(fd, buffer, 99);
-	close(fd);
-
-	if (bytes_read > 0)
-	{
-		if (ft_strnstr(buffer, "makefile", 4096))
-			success = 1;
-	}
-	if (success)
-		printf("\033[0;32m[SUCCESS]\033[0m: Encontrou 'makefile' no output.\n");
-	else
-		printf("\033[0;31m[FAIL]\033[0m: Output incorreto. Recebido: \n%s\n", buffer);
-	system("rm -f grep_test_result.txt");
-	free(tok_ls); free(node_ls);
-	free(tok_grep); free(node_grep);
-	free(root);
-}
-
-void	test_pipeline_complex(t_info *info)
-{
-	int	saved_stdout = dup(STDOUT_FILENO);
-	int	success = 0;
-	int fd;
-	char	buffer[100];
-	int	bytes_read;
-
-
-	print_banner("ls | grep c | wc -l (Pipeline Duplo)");
-	fd = open("pipeline_result.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-	{
-		perror("open temp file");
-		return ;
-	}
-	dup2(fd, STDOUT_FILENO);
-	close(fd);
-
-	// Comando 1: ls
-	char *a1[] = {"ls", NULL};
-	t_logic *n1 = new_node(NULL, NULL, NULL, creat_mock_token(a1, NULL));
-
-	// Comando 2: grep c
-	char *a2[] = {"grep", "c", NULL};
-	t_logic *n2 = new_node(NULL, NULL, NULL, creat_mock_token(a2, NULL));
-
-	// Pipe 1 (Esquerda): ls | grep c
-	t_logic *pipe1 = new_node("|", n1, n2, NULL);
-
-	// Comando 3: wc -l
-	char *a3[] = {"wc", "-l", NULL};
-	t_logic *n3 = new_node(NULL, NULL, NULL, creat_mock_token(a3, NULL));
-
-	// Pipe Raiz: (Pipe1) | wc -l
-	t_logic *root = new_node("|", pipe1, n3, NULL);
-
-	exec_tree(root, info);
-	dup2(saved_stdout, STDOUT_FILENO);
-	close(saved_stdout);
-
-	// 5. Verificar o conteúdo do arquivo
-	fd = open("pipeline_result.txt", O_RDONLY);
-	ft_bzero(buffer, 100);
-	bytes_read = read(fd, buffer, 99);
-	close(fd);
-
-	if (bytes_read > 0)
-	{
-		int i = 0;
-		while (buffer[i] == ' ' || buffer[i] == '\t') // Pular espaços
-			i++;
-		if (ft_isdigit(buffer[i]))
-		{
-			success = 1;
-			printf("\033[0;32m[PASS]\033[0m: Output capturado corretamente: %s\n", buffer);
-		}
-		else
-			printf("\033[0;31m[FAIL]\033[0m: Esperava um número, recebeu: %s\n", buffer);
-	}
-	else
-		printf("\033[0;31m[FAIL]\033[0m: Output vazio ou erro na leitura.\n");
-	system("rm -f pipeline_result.txt");
 }
 
 void	test_redirect_out(t_info *info)
@@ -456,8 +328,8 @@ int	main(int argc, char **argv, char **envp)
 
 	printf("\033[1;36mIniciando Bateria de Testes do Executor...\033[0m\n");
 
-	test_pipeline_ls_grep(&info);
-	test_pipeline_complex(&info);
+	// test_pipeline_ls_grep(&info);
+	// test_pipeline_complex(&info);
 	test_redirect_out(&info);
 	test_redirect_append(&info);
 	test_redirect_in(&info);
