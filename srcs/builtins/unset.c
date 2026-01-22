@@ -6,48 +6,53 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 10:04:58 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/20 14:18:43 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/22 12:14:20 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	remove_env_var(t_info *info, int index)
+/*essa função remove um nó da tabela hash, ela vai percorrer
+a linka de list olhando se a key é igual a key passada, se for
+atualiza a tabela, da free do nó removido e do valor associado,
+decrementa o contador de elementos da tabela*/
+static void	del_node(t_hashtable *table, char *key)
 {
-	int	i;
+	unsigned long	idx;
+	t_env_node		*current;
+	t_env_node		*prev;
 
-	free (info->env[index]);
-	i = index;
-	while (info->env[i])
+	idx = ft_hashtable(key);
+	current = table->buckets[idx];
+	prev = NULL;
+	while (current)
 	{
-		info->env[i] = info->env[i + 1];
-		i++;
+		if (!ft_strcmp(current->key, key))
+		{
+			if (prev)
+				prev->next = current->next;
+			else
+				table->buckets[idx] = current->next;
+			free(current->key);
+			if (current->value)
+				free(current->value);
+			free(current);
+			table->count--;
+			return;
+		}
+		prev = current;
+		current = current->next;
 	}
 }
 
 int	mini_unset(t_token *token, t_info *info)
 {
-	int		i;
-	int		j;
-	int		len;
-	char	*key;
+	int	i;
 
 	i = 1;
 	while (token->param[i])
 	{
-		key = token->param[i];
-		len = ft_strlen(key);
-		j = 0;
-		while (info->env)
-		{
-			if ((ft_strncmp(info->env[j], key, len))
-				&& (info->env[j][len] == '=' || !info->env[j][len]))
-			{
-				remove_env_var(info, j);
-				break;
-			}
-			j++;
-		}
+		del_node(info->env, token->param[i]);
 		i++;
 	}
 	return (0);
