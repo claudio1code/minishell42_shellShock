@@ -24,8 +24,10 @@ SRCS_LIST = exec/path_utils.c \
 			builtins/echo.c \
 			builtins/cd.c \
 			builtins/pwd.c \
-			builtins/export.c
-
+			builtins/export.c \
+			builtins/unset.c \
+			builtins/exit.c \
+			builtinsexit_utils.c \
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LIST:.c=.o))

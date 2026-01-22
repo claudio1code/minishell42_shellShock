@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 14:24:09 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/15 10:52:05 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/22 14:04:41 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include <fcntl.h>
-
-# define INT_MAX 2147483647
-# define INT_MIN -2147483648
-# define LONG_MAX 9223372036854775807LL
+# include <limits.h>
 
 int			ft_isalpha(int c);
 int			ft_isdigit(int c);
@@ -68,7 +65,7 @@ int			ft_signal(char *nptr);
 int			ft_is_double(char *nptr);
 int			ft_isspace(int c);
 int			ft_isint(char *nptr);
-long		ft_almost_atol(char *nptr);
+long		ft_atol(char *nptr);
 int			ft_overflow_int(char *nbr);
 int			ft_strcmp(char *s1, char *s2);
 

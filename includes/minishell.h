@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:38:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/22 12:15:36 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/22 14:36:46 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ int				mini_unset(t_token *token, t_info *info);void;
 t_env_node		*new_env_node(char *key, char *value);
 unsigned long	ft_hashtable(char *key);
 t_env_node		*new_env_node(char *key, char *value);
-
+void			free_hashtable(t_hashtable *table);
+int				is_numeric_str(char *str);
+void			clean_shell(t_info *info);
+void			err_numeric(char *arg);
 
 #endif
