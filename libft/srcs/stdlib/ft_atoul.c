@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   ft_atou.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/22 14:41:33 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/23 16:35:24 by clados-s         ###   ########.fr       */
+/*   Created: 2026/01/22 15:52:29 by clados-s          #+#    #+#             */
+/*   Updated: 2026/01/22 16:05:34 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-static int	get_exit_code(char *arg, int *force_exit)
+unsigned long	ft_atoul(char *nptr)
 {
-	long	res;
+	unsigned long	result;
+	int				i;
 
-	if(!is_numeric_str(arg))
+	result = 0;
+	i = 0;
+	while (ft_isspace(nptr[i]))
+		i++;
+	if (nptr[i] == '+')
+		i++;
+	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
-		err_numeric(arg);
-		*force_exit = 1;
-		return (2);
+		if (result > ULONG_MAX / 10 || (result == ULONG_MAX / 10
+				&& (nptr[i] - '0') > ULONG_MAX % 10))
+			return (ULONG_MAX);
+		result = (result * 10) + (nptr[i++] - '0');
 	}
-	res = ft_atol(arg);
-	*force_exit = 1;
-	return ((int)(res % 256));
-}
-
-void	mini_exit(t_token *token, t_info *info)
-{
-	int	
+	return (result);
 }

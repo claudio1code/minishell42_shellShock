@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   ft_is_long.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/22 14:41:33 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/23 16:35:24 by clados-s         ###   ########.fr       */
+/*   Created: 2026/01/22 15:50:16 by clados-s          #+#    #+#             */
+/*   Updated: 2026/01/22 16:11:06 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-static int	get_exit_code(char *arg, int *force_exit)
+int	ft_is_long(char *nptr)
 {
-	long	res;
+	unsigned long	nbr;
 
-	if(!is_numeric_str(arg))
-	{
-		err_numeric(arg);
-		*force_exit = 1;
-		return (2);
-	}
-	res = ft_atol(arg);
-	*force_exit = 1;
-	return ((int)(res % 256));
-}
-
-void	mini_exit(t_token *token, t_info *info)
-{
-	int	
+	nbr = ft_atoul(nptr);
+	if (nbr <= LONG_MAX)
+		return (1);
+	return (0);
 }
