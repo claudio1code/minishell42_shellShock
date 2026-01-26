@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:38:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/26 08:55:52 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/26 11:19:48 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,14 @@ typedef struct s_env_node
 	char				*key;
 	char				*value;
 	struct s_env_node	*next;
+	struct s_env_node	*next_global;
 }	t_env_node;
 
 typedef struct s_hashtable
 {
 	t_env_node	*buckets[TABLE_SIZE];
+	t_env_node	*head_ordered;
+	t_env_node	*tail_ordered;
 	int			count;
 }	t_hashtable;
 
@@ -81,5 +84,6 @@ void			free_hashtable(t_hashtable *table);
 int				is_numeric_str(char *str);
 void			clean_shell(t_info *info);
 void			err_numeric(char *arg);
+void			mini_exit(t_token *token, t_info *info);
 
 #endif
