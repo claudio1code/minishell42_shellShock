@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftlurker <ftlurker@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:06 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/19 11:33:58 by ftlurker         ###   ########.fr       */
+/*   Updated: 2026/01/26 08:33:40 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 //para facilitar a procura na matrix env;
 //*i = struct data;
 //*c = countador usado para percorrer o retorno da readline;
-//*b = countador usada para marcar o começo do parametro achado no retorno da readline, utilizado na ft_substr;
+//*b = countador usada para marcar o começo do parametro achado no retorno da
+//readline, utilizado na ft_substr;
 char	*var_maker(t_info*i, unsigned int *c, unsigned int *b)
 {
 	char	*var;
@@ -32,9 +33,12 @@ char	*var_maker(t_info*i, unsigned int *c, unsigned int *b)
 //A função expansion expandi variaveis passadas e contatena elas ao
 //restante do parametro se existir;
 //*i = struct data;
-//*p = lista linkada onde o retorno da readline sera quebrado em parametros para a execução;
+//*p = lista linkada onde o retorno da readline sera quebrado
+//em parametros para a execução;
 //*c = countador usado para percorrer o retorno da readline;
-//*b = countador usada para marcar o começo do parametro achado no retorno da readline, utilizado na ft_substr;
+//*b = countador usada para marcar o começo do parametro achado no
+//retorno da readline, utilizado na ft_substr;
+
 void	expansion(t_info*i, unsigned int *c, unsigned int *b, t_list*p)
 {
 	char	*var;
@@ -43,7 +47,7 @@ void	expansion(t_info*i, unsigned int *c, unsigned int *b, t_list*p)
 
 	if (*c - *b >= 1)
 		p->content = ft_strjoin(p->content,
-			ft_substr(i->l, *b, *c - *b - 1), 1, 1);
+				ft_substr(i->l, *b, *c - *b - 1), 1, 1);
 	var = var_maker(i, c, b);
 	c1 = -1;
 	while (i->env[++c1])
@@ -57,7 +61,7 @@ void	expansion(t_info*i, unsigned int *c, unsigned int *b, t_list*p)
 		if (i->env[c1][c2] != '=' || var[c2++])
 			continue ;
 		p->content = ft_strjoin(p->content, ft_substr(i->env[c1], c2,
-			ft_strlen(i->env[c1] + c2)), 1, 1);
+					ft_strlen(i->env[c1] + c2)), 1, 1);
 		free (var);
 		break ;
 	}
@@ -66,13 +70,16 @@ void	expansion(t_info*i, unsigned int *c, unsigned int *b, t_list*p)
 //A função quotes cuida qualquer caractere q mude a leitura dos parametros,
 //como '',  "" e $;
 //*i = struct data;
-//*p = lista linkada onde o retorno da readline sera quebrado em parametros para a execução;
+//*p = lista linkada onde o retorno da readline sera quebrado em
+//parametros para a execução;
 //*c = countador usado para percorrer o retorno da readline;
-//*b = countador usada para marcar o começo do parametro achado no retorno da readline, utilizado na ft_substr;
+//*b = countador usada para marcar o começo do parametro achado
+//no retorno da readline, utilizado na ft_substr;
+
 void	quotes(t_info*i, unsigned int *c, t_list*p, unsigned int *b)
 {
 	p->content = ft_strjoin(p->content,
-		ft_substr(i->l, *b, *c - *b - 1), 1, 1);
+			ft_substr(i->l, *b, *c - *b - 1), 1, 1);
 	i->c2 = i->l[*c - 1];
 	*b = *c;
 	if (i->c2 == '\'')
@@ -84,7 +91,7 @@ void	quotes(t_info*i, unsigned int *c, t_list*p, unsigned int *b)
 				expansion(i, c, b, p);
 	if (i->c2 != '$')
 		p->content = ft_strjoin(p->content,
-			ft_substr(i->l, *b, *c - *b), 1, 1);
+				ft_substr(i->l, *b, *c - *b), 1, 1);
 	else
 		expansion(i, c, b, p);
 	if (!i->l[*c] && (i->c2 == '\"' || i->c2 == '\''))
@@ -97,15 +104,18 @@ void	quotes(t_info*i, unsigned int *c, t_list*p, unsigned int *b)
 //A função edcase cuida de caracteres q ignoram proximidade de outros
 //como &, |, <, > e \n;
 //*i = struct data;
-//*p = lista linkada onde o retorno da readline sera quebrado em parametros para a execução;
+//*p = lista linkada onde o retorno da readline sera quebrado
+//em parametros para a execução;
 //*c = countador usado para percorrer o retorno da readline;
-//*b = countador usada para marcar o começo do parametro achado no retorno da readline, utilizado na ft_substr;
+//*b = countador usada para marcar o começo do parametro achado
+//no retorno da readline, utilizado na ft_substr;
+
 int	edcase(t_info*i, unsigned int *c, t_list*p, unsigned int *b)
 {
 	i->c2 = i->l[*c];
 	if (p->content && *c - *b >= 1)
 		p->content = ft_strjoin(p->content,
-			ft_substr(i->l, *b, *c - *b - 1), 1, 1);
+				ft_substr(i->l, *b, *c - *b - 1), 1, 1);
 	else if (*c - *b >= 1)
 		p->content = ft_substr(i->l, *b, *c - *b);
 	if (p->content)
@@ -119,9 +129,12 @@ int	edcase(t_info*i, unsigned int *c, t_list*p, unsigned int *b)
 //A função s_split divide a string do retorno da readline em parametros
 //q serão utilizados na execução;
 //*i = struct data;
-//*p = lista linkada onde o retorno da readline sera quebrado em parametros para a execução;
+//*p = lista linkada onde o retorno da readline sera quebrado em
+//parametros para a execução;
 //*c = countador usado para percorrer o retorno da readline;
-// b = countador usada para marcar o começo do parametro achado no retorno da readline, utilizado na ft_substr;
+// b = countador usada para marcar o começo do parametro achado
+//no retorno da readline, utilizado na ft_substr;
+
 t_list	*s_split(t_info*i, unsigned int *c, unsigned int *b, t_list *p)
 {
 	int	end;
@@ -143,7 +156,7 @@ t_list	*s_split(t_info*i, unsigned int *c, unsigned int *b, t_list *p)
 		p->content = ft_substr(i->l, *b, *c - *b);
 	else if (!end)
 		p->content = ft_strjoin(p->content,
-			ft_substr(i->l, *b, *c - *b), 1, 1 );
+				ft_substr(i->l, *b, *c - *b), 1, 1);
 	p->next = s_split(i, c, b, 0);
 	return (p);
 }
@@ -151,6 +164,7 @@ t_list	*s_split(t_info*i, unsigned int *c, unsigned int *b, t_list *p)
 //para utilização do minishell
 //*i = struct data;
 //**envp = parametro envp recebido da main;
+
 void	env_maker(t_info*i, char**envp)
 {
 	int	c1;
@@ -168,10 +182,12 @@ void	env_maker(t_info*i, char**envp)
 	i->error = 0;
 }
 
-//A função ft_chr_num checa quantos lista linkadas para execução serão necessarias
+//A função ft_chr_num checa quantos lista linkadas
+//para execução serão necessarias;
 //*str = retorno da readline
 //*i = struct data;
-int ft_chr_num(char*str, t_info*i)
+
+int	ft_chr_num(char*str, t_info*i)
 {
 	int	c;
 	int	result;
@@ -186,7 +202,8 @@ int ft_chr_num(char*str, t_info*i)
 }
 //A funcção historic adiciona as saidas do readline ao historico
 //*l = retorno da readline;
-void historic(char	*l)
+
+void	historic(char	*l)
 {
 	int	c1;
 	int	b;
@@ -208,10 +225,13 @@ void historic(char	*l)
 	}
 	add_history(ft_substr(l, b, c1 - b));
 }
-//A função cmd_fill passa o conteudo da lista linkada criada pelo lexer para a lista da execução;
-//*t = ponteiro separado paro o retorno do lexer, para poder percorrer sem perder o inicio;
+//A função cmd_fill passa o conteudo da lista linkada
+//criada pelo lexer para a lista da execução;
+//*t = ponteiro separado paro o retorno do lexer,
+//para poder percorrer sem perder o inicio;
 //*r = lista linkada q sera passa para execução;
-void cmd_fill(t_list*t, t_token*r)
+
+void	cmd_fill(t_list*t, t_token*r)
 {
 	int	c1;
 	int	c2;
@@ -238,12 +258,15 @@ void cmd_fill(t_list*t, t_token*r)
 			t = t->next;
 	}
 }	
-//A função cmd_prep me usada para pegar informações necessarias para a callocação
-//das variaveis da lista linkada q sera utilizada na execução, alem servir como checagem de syntaxe;
-//*t = ponteiro separado paro o retorno do lexer, para poder percorrer sem perder o inicio;
+//A função cmd_prep me usada para pegar informações necessarias para a
+//callocação das variaveis da lista linkada q sera utilizada na execução,
+//alem servir como checagem de syntaxe;
+//*t = ponteiro separado paro o retorno do lexer,
+//para poder percorrer sem perder o inicio;
 //*param = numero de parametros para execução;
 //*rdc = numero de redirects;
 //*i = struct data;
+
 int	cmd_prep(t_list *t, int *param, int *rdc, t_info*i)
 {
 	int		len;
@@ -256,10 +279,10 @@ int	cmd_prep(t_list *t, int *param, int *rdc, t_info*i)
 		str = t->content;
 		if (str[0] == '<' || str[0] == '>')
 			(*rdc)++;
-		if ((str[0] == '<' && len > 3) || (str[0] == '>' && len > 2) ||
-			(str[0] == '&' && len != 2) || (str[0] == '|' && len > 2) ||
-				((str[0] == '<' || str[0] == '>') &&
-					(!t->next || ((char *)t->next->content)[0] == '|')))
+		if ((str[0] == '<' && len > 3) || (str[0] == '>' && len > 2)
+			|| (str[0] == '&' && len != 2) || (str[0] == '|' && len > 2)
+			|| ((str[0] == '<' || str[0] == '>')
+				&& (!t->next || ((char *)t->next->content)[0] == '|')))
 			i->error = 1;
 		if (str[0] == '&' || (str[0] == '|' && len == 2))
 			i->bonus = 1;
@@ -272,8 +295,10 @@ int	cmd_prep(t_list *t, int *param, int *rdc, t_info*i)
 	return (i->error || i->bonus);
 }
 //A função cmd cria o array de listas linkadas t_token para a execução;
-//*t = ponteiro separado paro o retorno do lexer, para poder percorrer sem perder o inicio;
+//*t = ponteiro separado paro o retorno do lexer, para poder percorrer
+//sem perder o inicio;
 //*i = struct data;
+
 t_token	*cmd(t_list	*t, t_info*i)
 {
 	t_token	*r;
@@ -295,8 +320,8 @@ t_token	*cmd(t_list	*t, t_info*i)
 	while (t && ((char *)t->content)[0] != '|' &&
 		((char *)t->content)[0] != '&')
 		t = t->next;
-	if (t && (((char *)t->content)[0] == '|' ||
-		((char *)t->content)[0] == '&'))
+	if (t && (((char *)t->content)[0] == '|'
+		|| ((char *)t->content)[0] == '&'))
 		t = t->next;
 	r->next = cmd(t, i);
 	return (r);
@@ -304,7 +329,9 @@ t_token	*cmd(t_list	*t, t_info*i)
 //A função lexer prepara o retorno da readline para a execução;
 //*i = struct data;
 //*c = countador usado para percorrer o retorno da readline;
-//*b = countador usada para marcar o começo do parametro achado no retorno da readline, utilizado na ft_substr;
+//*b = countador usada para marcar o começo do parametro achado
+//no retorno da readline, utilizado na ft_substr;
+
 void	lexer(t_info*i, unsigned int *c, unsigned int *b)
 {
 	int		c1;
@@ -332,12 +359,18 @@ void	lexer(t_info*i, unsigned int *c, unsigned int *b)
 	}
 }
 
+int	error(t_info*i)
+{
+	if (i->error)
+		ft_putendl_fd("Syntax Error", 1);
+	if (i->bonus)
+		ft_putendl_fd("I'm sorry but we are suffering from xXxSHELLSHOCKxXx",
+			1);
+}
+
 int	main(int argc, char**argv, char**envp)
 {
 	t_info				*data;
-	t_token				**teste;
-	int					c1;
-	int					c2;
 
 	data = malloc(sizeof(t_info));
 	env_maker(data, envp);
@@ -347,73 +380,8 @@ int	main(int argc, char**argv, char**envp)
 		if (!data->l)
 			continue ;
 		lexer(data, &data->count, &data->begin);
-		if (data->error)
-			ft_putendl_fd("Syntax Error", 1);
-		if (data->bonus)
-			ft_putendl_fd("I'm sorry but we are suffering from xXxSHELLSHOCKxXx", 1);
-		if (data->error || data->bonus)
+		if (error(data))
 			continue ;
-		//teste
-		//VVVVV
-		c1 = 0;
-		teste = data->exec;
-		ft_putendl_fd("", 1);
-		ft_putendl_fd("LISTA LINKADA PARA EXECUTAR", 1);
-		ft_putendl_fd("|||||||||||||||||||||||||||||", 1);
-		ft_putendl_fd("VVVVVVVVVVVVVVVVVVVVVVVVVVVVV", 1);
-		ft_putendl_fd("", 1);
-		while (teste[c1])
-		{
-			c2 = 0;
-			if (teste[c1]->rdc[0])
-			{	
-				ft_putendl_fd("---rdc---", 1);
-				while(teste[c1]->rdc[c2])
-				{
-					ft_putstr_fd("    ", 1);
-					ft_putendl_fd(teste[c1]->rdc[c2++], 1);
-				}
-				ft_putendl_fd("---rdc---", 1);
-			}
-			c2 = 0;
-			ft_putendl_fd("", 1);
-			ft_putendl_fd("", 1);
-			if (teste[c1]->cmd[0])
-			{
-				ft_putendl_fd("----cmd----", 1);
-				ft_putstr_fd("    ", 1);
-				ft_putendl_fd(teste[c1]->cmd, 1);
-				ft_putendl_fd("----cmd----", 1);
-			}
-			ft_putendl_fd("", 1);
-			ft_putendl_fd("", 1);
-			if (teste[c1]->param[0])
-			{
-				ft_putendl_fd("----param----", 1);
-				while (teste[c1]->param[c2])
-				{
-					ft_putstr_fd("    ", 1);
-					ft_putendl_fd(teste[c1]->param[c2++], 1);
-				}
-				ft_putendl_fd("----param----", 1);
-			}
-			ft_putendl_fd("", 1);
-			ft_putendl_fd("", 1);
-			if (teste[c1]->next)
-			{
-				ft_putendl_fd("        ||    ||", 1);
-				ft_putendl_fd("        ||PIPE||", 1);
-				ft_putendl_fd("        ||    ||", 1);
-				teste[c1] = teste[c1]->next;
-				continue;
-			}
-			c1++;
-			ft_putendl_fd("", 1);
-			ft_putendl_fd("=================", 1);
-			ft_putendl_fd("", 1);
-		}
-		//^^^^^^^
-		//teste
 	}
 	return (0);
 }
