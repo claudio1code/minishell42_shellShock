@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:38:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/22 14:36:46 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/26 08:55:52 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_info
 	int			c2;
 	int			exit_code;
 	t_list		*list;
+	t_token		**exec;
 
 }	t_info;
 
