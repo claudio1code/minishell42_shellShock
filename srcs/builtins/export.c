@@ -6,16 +6,11 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 10:26:36 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/27 15:19:42 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/27 18:20:30 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static int	count_vars(t_hashtable *env)
-{
-	return (env->count);
-}
 
 static char	*format_var(char *key, char *value)
 {
@@ -78,6 +73,28 @@ static void	bublle_sort_array(char **array)
 			j++;
 		}
 		i++;
+	}
+}
+
+static void	export_var(char *arg, t_hashtable *env)
+{
+	char	*equal_sign;
+	char	*key;
+	char	*value;
+
+	equal_sign = ft_strchr(arg, '=');
+	if (equal_sign)
+	{
+		key = ft_substr(arg, 0, equal_sign - arg);
+		value = ft_strdup(equal_sign + 1);
+		update_hash(env, key, value);
+		free(key);
+		free(value);
+	}
+	else
+	{
+		if (!get_env_val(env, arg))
+			update_hash(env, arg, NULL);
 	}
 }
 

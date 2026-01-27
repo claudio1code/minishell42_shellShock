@@ -69,7 +69,8 @@ STRING_FILES = 	ft_split.c \
 				ft_strrchr.c \
 				ft_strtrim.c \
 				ft_substr.c \
-				ft_strcmp.c
+				ft_strcmp.c \
+				ft_triple_strjoin.c
 
 MATH_FILES = 	ft_signal.c \
 				ft_is_double.c \

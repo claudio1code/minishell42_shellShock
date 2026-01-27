@@ -12,6 +12,13 @@ cc -g3 \
     srcs/builtins/echo.c \
 	srcs/builtins/cd.c \
 	srcs/builtins/pwd.c \
+	srcs/builtins/export.c \
+	srcs/builtins/unset.c \
+	srcs/builtins/exit.c \
+	srcs/builtins/exit_utils.c \
+	srcs/builtins/env.c \
+	srcs/builtins/hashtable.c \
+	
     -I includes \
     -I libft/includes \
     -Llibft -lft \

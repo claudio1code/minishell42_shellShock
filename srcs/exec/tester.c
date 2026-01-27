@@ -32,21 +32,18 @@ void	free_info_env(t_info *info)
 
 void	init_info(t_info *info, char **envp)
 {
-	// Usa a tua função nova para criar a Hash Table
 	init_env_table(info, envp);
 	
 	info->exit_code = 0;
 	info->l = NULL;
 	info->str = NULL;
-	// info->list = NULL; (Se usares listas noutro sitio)
 }
 
-/* Cria um token limpo e seguro */
 t_token	*creat_mock_token(char **args, char **redir)
 {
 	t_token	*t;
 
-	t = ft_calloc(1, sizeof(t_token)); // Calloc zera next, prev, infile, etc.
+	t = ft_calloc(1, sizeof(t_token));
 	if (!t)
 		return (NULL);
 	t->param = args;
@@ -63,7 +60,7 @@ void	print_banner(char *title)
 	printf("\n\033[1;33m=== TESTE: %s ===\033[0m\n", title);
 }
 
-/* --- TESTES DE REDIRECTION --- */
+/* --- TESTES DE REDIRECT --- */
 
 void	test_redirect_out(t_info *info)
 {
