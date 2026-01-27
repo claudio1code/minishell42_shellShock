@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:16:06 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/26 13:58:05 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/27 15:19:54 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	clean_shell(t_info *info)
 		free_hashtable(info->env);
 	// if (info->l);
 	// 	free(info->l);
-	if (info->str);
+	if (info->str)
 		free(info->str);
 	rl_clear_history();
 }

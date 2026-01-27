@@ -6,68 +6,75 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 13:23:31 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/15 08:40:26 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/27 15:19:15 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/*essa função vai faz a execução do cd, primeiro guarda o oldpwd
-em uma variavel, e faz uma syscall e verifica se ocorreu tudo bem, 
-caso não tenha, imprime msg de erro e libera a memória do oldpwd,
-caso passe, chama a função que atualiza a variavel de ambiente e 
-atualiza o newpwd tbm	
-*/
-static int	change_dir(t_info *info, char *path, int print_path)
+/**/
+static void	update_pwd(t_info *info)
 {
 	char	*old_pwd;
 	char	*new_pwd;
 
-	old_pwd = getcwd(NULL, 0);
-	if (chdir(path))
-	{
-		ft_putstr_fd("minishell: cd:", 2);
-		ft_putstr_fd(path, 2);
-		perror(" ");
-		free(old_pwd);
-		return (1);
-	}
-	if (old_pwd)
-		update_env(info, "OLDPWD", old_pwd, 1);
+	old_pwd = get_env_val(info->env, "pwd");
 	new_pwd = getcwd(NULL, 0);
+	if (old_pwd)
+		update_hash(info->env, "OLDPWD", old_pwd);
 	if (new_pwd)
 	{
-		update_env(info, "PWD", new_pwd, 0);
-		if (print_path)
-			printf("%s\n", new_pwd);
-		// free(new_pwd);
+		update_hash(info->env, "PWD", new_pwd);
+		free(new_pwd);
 	}
-	return (0);
 }
 
-int	mini_cd(t_info *info, t_token *token)
+
+static void	print_error_cd(char *arg, char *msg)
 {
-	char	*path;
-	
-	if (!token->param[1] || !ft_strncmp(token->param[1], "~", 2))
+	ft_putstr_fd("minishell: cd: ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putendl_fd(msg, 2);
+}
+static int	aux_cd(t_info *info, t_token *token, char *path)
+{
+	if (!token->param[1])
 	{
-		path = get_env_value(info->env, "HOME");
+		path = get_env_val(info->env, "HOME");
 		if (!path)
 		{
 			ft_putendl_fd("minishell: cd : HOME not set", 2);
 			return (1);
 		}
-		return (change_dir(info, path, 0));
 	}
-	if (!ft_strncmp(token->param[1], "-", 2))
+	else if (!ft_strncmp(token->param[1], "-", 2))
 	{
-		path = get_env_value(info->env, "OLDPWD");
+		path = get_env_val(info->env, "OLDPWD");
 		if (!path)
 		{
 			ft_putendl_fd("minishell: cd: OLDPWD not set", 2);
 			return (1);
 		}
-		return (change_dir(info, path, 1));
+		printf("%s\n", path);
 	}
-	return (change_dir(info, token->param[1], 0));
+	else
+		path = token->param[1];
+	return (0);
+}
+int	mini_cd(t_info *info, t_token *token)
+{
+	char	*path;
+	int		ret;
+
+	path = NULL;
+	aux_cd(info, token, path);
+	ret = chdir(path);
+	if (ret)
+	{
+		print_error_cd(token->param[1], "No such file or directory");
+		return (1);
+	}
+	update_pwd(info);
+	return (0);
 }

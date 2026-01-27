@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 10:26:36 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/26 15:02:48 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/27 15:19:42 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,11 @@ int	mini_export(t_token *token, t_info *info)
 	char	**sorted_env;
 	int		i;
 
+	i = 0;
 	if (!token->param[i])
 	{
 		sorted_env = hash_to_array(info->env);
 		bublle_sort_array(sorted_env);
-		i = 0;
 		while (sorted_env[i])
 		{
 			printf("declare -x %s\n", sorted_env[i]);
