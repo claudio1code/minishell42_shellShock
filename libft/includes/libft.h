@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 14:24:09 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/22 16:07:55 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/26 15:45:37 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ long			ft_atol(char *nptr);
 int				ft_overflow_int(char *nbr);
 int				ft_strcmp(char *s1, char *s2);
 unsigned long	ft_atoul(char *nptr);
+char			*ft_triple_strjoin(char *s1, char *s2, char *s3);
 
 typedef struct s_list
 {

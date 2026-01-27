@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:38:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/26 11:19:48 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/27 10:46:14 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,31 @@
 
 # define TABLE_SIZE 100
 
+typedef struct s_token		t_token;
+typedef struct s_env_node	t_env_node;
+typedef struct s_hashtable	t_hashtable;
+typedef struct s_info		t_info;
+
 typedef struct s_token
 {
+	int		error;
+	int		bonus;
+	int		in;
+	int		out;
 	char	*cmd;
 	char	**rdc;
 	char	**param;
-	struct s_token	*next;
+	t_token	*next;
+	t_token	*prev;
+
 }	t_token;
 
 typedef struct s_env_node
 {
-	char				*key;
-	char				*value;
-	struct s_env_node	*next;
-	struct s_env_node	*next_global;
+	char		*key;
+	char		*value;
+	t_env_node	*next;
+	t_env_node	*next_global;
 }	t_env_node;
 
 typedef struct s_hashtable
@@ -74,9 +85,9 @@ int				mini_echo(t_token *token);
 int				mini_cd(t_info *info, t_token *token);
 int				pwd(t_token *token);
 int				mini_env(t_info *info);
-// int			mini_export(t_token *token, t_info *info);
+int				mini_export(t_token *token, t_info *info);
 void			update_hash(t_hashtable *table, char *key, char *value);
-int				mini_unset(t_token *token, t_info *info);void;
+int				mini_unset(t_token *token, t_info *info);
 t_env_node		*new_env_node(char *key, char *value);
 unsigned long	ft_hashtable(char *key);
 t_env_node		*new_env_node(char *key, char *value);
@@ -85,5 +96,6 @@ int				is_numeric_str(char *str);
 void			clean_shell(t_info *info);
 void			err_numeric(char *arg);
 void			mini_exit(t_token *token, t_info *info);
+char			**ht_to_matrix(t_hashtable *env);
 
 #endif
