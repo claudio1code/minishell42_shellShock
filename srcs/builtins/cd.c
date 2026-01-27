@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 13:23:31 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/27 15:19:15 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:25:50 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,40 +37,36 @@ static void	print_error_cd(char *arg, char *msg)
 	ft_putstr_fd(": ", 2);
 	ft_putendl_fd(msg, 2);
 }
-static int	aux_cd(t_info *info, t_token *token, char *path)
+static char	*aux_cd(t_info *info, t_token *token)
 {
+	char	*path;
+
 	if (!token->param[1])
 	{
 		path = get_env_val(info->env, "HOME");
 		if (!path)
-		{
 			ft_putendl_fd("minishell: cd : HOME not set", 2);
-			return (1);
-		}
+		return (path);
 	}
-	else if (!ft_strncmp(token->param[1], "-", 2))
+	if (!ft_strncmp(token->param[1], "-", 2))
 	{
 		path = get_env_val(info->env, "OLDPWD");
 		if (!path)
-		{
 			ft_putendl_fd("minishell: cd: OLDPWD not set", 2);
-			return (1);
-		}
-		printf("%s\n", path);
+		else
+			printf("%s\n", path);
+		return (path);
 	}
-	else
-		path = token->param[1];
-	return (0);
+		return (token->param[1]);
 }
 int	mini_cd(t_info *info, t_token *token)
 {
 	char	*path;
-	int		ret;
 
-	path = NULL;
-	aux_cd(info, token, path);
-	ret = chdir(path);
-	if (ret)
+	path = aux_cd(info, token);
+	if (!path)
+		return (1);
+	if (chdir(path))
 	{
 		print_error_cd(token->param[1], "No such file or directory");
 		return (1);

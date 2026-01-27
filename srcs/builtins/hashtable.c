@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 10:09:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/22 11:08:16 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:39:53 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,30 @@ void	update_hash(t_hashtable *table, char *key, char *value)
 	else
 		table->buckets[idx] = new_env_node(key, value);
 	table->count++;
+}
+
+void	init_env_table(t_info *info, char **envp)
+{
+	int		i;
+	char	*key;
+	char	*val;
+	char	*eq;
+
+	info->env = ft_calloc(1, sizeof(t_hashtable));
+	if (!info->env)
+		return ;
+	i = 0;
+	while (envp[i])
+	{
+		eq = ft_strchr(envp[i], '=');
+		if (eq)
+		{
+			key = ft_substr(envp[i], 0, eq - envp[i]);
+			val = ft_strdup(eq + 1);
+			update_hash(info->env, key, val);
+			free(key);
+			free(val);
+		}
+		i++;
+	}
 }
