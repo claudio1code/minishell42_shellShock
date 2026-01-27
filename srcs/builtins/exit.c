@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:41:33 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/27 10:47:05 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/27 11:44:14 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,8 @@ static int	get_exit_code(char *arg)
 
 void	mini_exit(t_token *token, t_info *info)
 {
-	int	force_exit;
 	int	status;
 
-	force_exit = 1;
 	status = info->exit_code;
 	printf("exit\n");
 	if (token->param[1])

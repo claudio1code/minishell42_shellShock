@@ -17,7 +17,6 @@ LIBFT = $(LIBFT_DIR)/libft.a
 SRCS_LIST = exec/path_utils.c \
 			exec/redirect.c \
 			exec/exec.c \
-			exec/tester.c \
 			exec/exec_pipeline.c \
 			builtins/builtins.c \
 			builtins/env_utils.c \
@@ -27,7 +26,9 @@ SRCS_LIST = exec/path_utils.c \
 			builtins/export.c \
 			builtins/unset.c \
 			builtins/exit.c \
-			builtinsexit_utils.c \
+			builtins/exit_utils.c \
+			builtins/env.c \
+			builtins/hashtable.c
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LIST:.c=.o))

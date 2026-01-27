@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:38:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/27 10:46:14 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/27 11:57:23 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_info
 /*------------ E X E C U T I O N ---------------*/
 /*----------------------------------------------*/
 
-char			*get_cmd_path(char *cmd, char **envp);
+char			*get_cmd_path(char *cmd, t_hashtable *env);
 int				handle_redirections(t_token *token);
 void			child_cleanup(char *path);
 void			exec_cmd(t_token *token, t_info *info);
@@ -96,6 +96,8 @@ int				is_numeric_str(char *str);
 void			clean_shell(t_info *info);
 void			err_numeric(char *arg);
 void			mini_exit(t_token *token, t_info *info);
+char			**ht_to_matrix(t_hashtable *env);
+char			*get_env_val(t_hashtable *env, char *key);
 char			**ht_to_matrix(t_hashtable *env);
 
 #endif
