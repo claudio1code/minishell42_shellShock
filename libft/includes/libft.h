@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 14:24:09 by clados-s          #+#    #+#             */
-/*   Updated: 2025/12/18 12:50:11 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/01/26 10:55:28 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int			ft_overflow_int(char *nbr);
 
 typedef struct s_list
 {
+	int				type;
 	void			*content;
 	struct s_list	*next;
 }	t_list;
