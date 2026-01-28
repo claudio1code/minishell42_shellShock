@@ -6,25 +6,25 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:41:33 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/28 15:50:39 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/28 18:24:43 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/* Retorna o código de saída depois de verificar se o argumento é numérico */
-static int	get_exit_code(char *arg)
-{
-	unsigned long	res;
+// /* Retorna o código de saída depois de verificar se o argumento é numérico */
+// static int	get_exit_code(char *arg)
+// {
+// 	unsigned long	res;
 
-	if(!is_numeric_str(arg))
-	{
-		err_numeric(arg);
-		return (-1);
-	}
-	res = ft_atol(arg);
-	return (res % 256);
-}
+// 	if(!is_numeric_str(arg))
+// 	{
+// 		err_numeric(arg);
+// 		return (-1);
+// 	}
+// 	res = ft_atol(arg);
+// 	return (res % 256);
+// }
 
 /* Aqui só verifico se há argumento, se tiver vejo se é numérico
  se for eu retorno o número modulo de 256 ou na saída 2 caso não seja numérico,
@@ -37,7 +37,6 @@ int	mini_exit(t_token *token, t_info *info)
 	printf("exit\n");
 	if (token->param[1])
 	{
-		get_exit_code(token->param[1]);
 		if (!is_numeric_str(token->param[1]))
 		{
 			status = 2;
