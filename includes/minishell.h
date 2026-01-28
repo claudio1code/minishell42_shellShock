@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:38:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/28 11:38:56 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/28 18:07:37 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,8 @@ char			*get_env_val(t_hashtable *env, char *key);
 char			**ht_to_matrix(t_hashtable *env);
 void			init_env_table(t_info *info, char **envp);
 int				count_vars(t_hashtable *env);
+void			print_error_cd(char *arg, char *msg);
+void			err_numeric(char *arg);
+void			err_invalid_export(char *arg, char *key, char *value);
 
 #endif

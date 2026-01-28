@@ -29,7 +29,8 @@ SRCS_LIST = exec/path_utils.c \
 			builtins/exit.c \
 			builtins/exit_utils.c \
 			builtins/env.c \
-			builtins/hashtable.c
+			builtins/hashtable.c \
+			builtins/error_print.c
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LIST:.c=.o))

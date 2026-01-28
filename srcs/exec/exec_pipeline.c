@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 19:04:49 by claudio           #+#    #+#             */
-/*   Updated: 2026/01/26 08:42:26 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/28 17:17:43 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ static void	child_process(t_token *token, t_info *info, int fd[2], int prev_fd)
 	exit(info->exit_code);
 }
 
-/*Função principal que executa o pipeline de comandos,
-verifica se há um próximo token e cria um pipe se necessário*/
+/*executa o pipeline de comandos, verifica se há um próximo
+token e cria um pipe se necessário*/
 void	exec_pipeline(t_token *token, t_info *info)
 {
 	int		fd[2];

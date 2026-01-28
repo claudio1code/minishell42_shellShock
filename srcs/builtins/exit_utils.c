@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:16:06 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/28 15:47:35 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/28 18:02:05 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,4 @@ void	clean_shell(t_info *info)
 	if (info->str)
 		free(info->str);
 	rl_clear_history();
-}
-
-/* Printa erro de argumento não numérico */
-void	err_numeric(char *arg)
-{
-	ft_putstr_fd("minishell: exit: ", 2);
-	ft_putstr_fd(arg, 2);
-	ft_putendl_fd(": numeric argument required", 2);
 }

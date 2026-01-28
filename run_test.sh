@@ -18,6 +18,7 @@ cc -g3 \
 	srcs/builtins/exit_utils.c \
 	srcs/builtins/env.c \
 	srcs/builtins/hashtable.c \
+	srcs/builtins/error_print.c \
     -I includes \
     -I libft/includes \
     -Llibft -lft \

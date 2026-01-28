@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 13:05:29 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/28 15:45:55 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/28 17:12:00 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ char	*get_env_val(t_hashtable *env, char *key)
 	return (NULL);
 }
 
-/* Converte a hashtable para char ** (formato KEY=VALUE) para o execve */
+/* Converte a hashtable para char ** (formato KEY=VALUE) para o execve 
+que só aceita um (const char *arg[])*/
 char	**ht_to_matrix(t_hashtable *env)
 {
 	char		**matrix;

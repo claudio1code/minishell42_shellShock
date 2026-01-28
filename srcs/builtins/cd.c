@@ -6,13 +6,13 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 13:23:31 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/27 16:25:50 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/28 18:01:48 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/**/
+/*atualizo o pwd e o old no env*/
 static void	update_pwd(t_info *info)
 {
 	char	*old_pwd;
@@ -30,18 +30,14 @@ static void	update_pwd(t_info *info)
 }
 
 
-static void	print_error_cd(char *arg, char *msg)
-{
-	ft_putstr_fd("minishell: cd: ", 2);
-	ft_putstr_fd(arg, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putendl_fd(msg, 2);
-}
+/*função auxiliar do cd que retorna o path da home ou do oldpwd,
+tbm já cuido caso o path n exita, por exemplo no caso de usarem 
+o unset no $HOME ou $OLDPWD ou se */
 static char	*aux_cd(t_info *info, t_token *token)
 {
 	char	*path;
 
-	if (!token->param[1])
+	if (!token->param[1] || !ft_strncmp(token->param[1], "~", 2))
 	{
 		path = get_env_val(info->env, "HOME");
 		if (!path)
@@ -57,8 +53,10 @@ static char	*aux_cd(t_info *info, t_token *token)
 			printf("%s\n", path);
 		return (path);
 	}
-		return (token->param[1]);
+	return (token->param[1]);
 }
+
+
 int	mini_cd(t_info *info, t_token *token)
 {
 	char	*path;

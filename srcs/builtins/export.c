@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 10:26:36 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/28 15:51:23 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/28 18:08:09 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,11 @@ static void	export_var(char *arg, t_hashtable *env)
 	{
 		key = ft_substr(arg, 0, equal_sign - arg);
 		value = ft_strdup(equal_sign + 1);
+		if (!ft_isalpha(key[0]) && key[0] != '_')
+		{
+			err_invalid_export(arg, key, value);
+			return ;
+		}
 		update_hash(env, key, value);
 		free(key);
 		free(value);
@@ -121,12 +126,9 @@ int	mini_export(t_token *token, t_info *info)
 	}
 	else
 	{
-		i = 1;
-		while (token->param[i])
-		{
+		i = 0;
+		while (token->param[++i])
 			export_var(token->param[i], info->env);
-			i++;
-		}
 	}
 	return (0);
 }
