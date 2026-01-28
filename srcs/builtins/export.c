@@ -6,13 +6,13 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 10:26:36 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/28 13:16:55 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/28 15:51:23 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/* essa função formata a variável de ambiente no formato KEY="VALUE" */
+/* aqui a função formata a variável de ambiente no formato KEY="VALUE" */
 static char	*format_var(char *key, char *value)
 {
 	char	*tmp;
@@ -105,21 +105,23 @@ int	mini_export(t_token *token, t_info *info)
 	char	**sorted_env;
 	int		i;
 
-	i = 0;
-	if (!token->param[i++])
+	if (!token->param[1])
 	{
 		sorted_env = hash_to_array(info->env);
 		bublle_sort_array(sorted_env);
+		i = 0;
 		while (sorted_env[i])
 		{
 			printf("declare -x %s\n", sorted_env[i]);
 			free(sorted_env[i]);
+			i++;
 		}
-		free_split(sorted_env);
+		free(sorted_env);
 		return (0);
 	}
 	else
 	{
+		i = 1;
 		while (token->param[i])
 		{
 			export_var(token->param[i], info->env);

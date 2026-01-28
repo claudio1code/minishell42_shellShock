@@ -95,7 +95,7 @@ void			free_hashtable(t_hashtable *table);
 int				is_numeric_str(char *str);
 void			clean_shell(t_info *info);
 void			err_numeric(char *arg);
-void			mini_exit(t_token *token, t_info *info);
+int			mini_exit(t_token *token, t_info *info);
 char			**ht_to_matrix(t_hashtable *env);
 char			*get_env_val(t_hashtable *env, char *key);
 char			**ht_to_matrix(t_hashtable *env);

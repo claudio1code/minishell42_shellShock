@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 16:40:45 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/20 10:02:09 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/28 15:42:38 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ static int	open_file(char *file, char *mode)
 	return (fd);
 }
 
-/*aqui eu pego os redi*/
+/*aqui eu trato os redirects, percorro a matriz de redirecionamentos
+e trato cada um, os de input eu faço um dup pra stdin e os de output
+eu faço um dup pra stdout e vou incrementando de 2 em 2 pra ir pegando
+só os redirects*/
 int	handle_redirections(t_token *token)
 {
 	int	i;
@@ -46,7 +49,7 @@ int	handle_redirections(t_token *token)
 		fd = open_file(token->rdc[i + 1], token->rdc[i]);
 		if (fd == -1)
 			return (-1);
-		if (!ft_strncmp(token->rdc[i], "<", 1))
+		if (!ft_strncmp(token->rdc[i], "<", 2))
 			dup2(fd, STDIN_FILENO);
 		else
 			dup2(fd, STDOUT_FILENO);

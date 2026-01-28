@@ -1,6 +1,7 @@
 #include "../../includes/minishell.h"
 #include <fcntl.h>
 #include <sys/wait.h>
+#include <dirent.h>
 
 /* --- Helpers de Limpeza --- */
 
@@ -213,46 +214,80 @@ void	test_cd_pwd(t_info *info)
 void	test_cmd_not_found(t_info *info)
 {
 	char	*args[] = {"comando_inexistente_xyz", NULL};
-	int		pid;
-	int		status;
 
 	print_banner("Command Not Found (127)");
 	
-	// Fazemos fork manual aqui pois o exec_cmd pode fazer exit(127) direto
-	// e matar o tester se nao for num filho.
-	pid = fork();
-	if (pid == 0)
-	{
-		exec_cmd(creat_mock_token(args, NULL), info);
-		exit(0); // Backup exit
-	}
-	waitpid(pid, &status, 0);
+	exec_cmd(creat_mock_token(args, NULL), info);
 	
-	if (WIFEXITED(status) && WEXITSTATUS(status) == 127)
+	if (info->exit_code == 127)
 		printf("\033[0;32m[PASS]\033[0m: Exit code 127 recebido.\n");
 	else
-		printf("\033[0;31m[FAIL]\033[0m: Exit code incorreto: %d\n", WEXITSTATUS(status));
+		printf("\033[0;31m[FAIL]\033[0m: Exit code incorreto: %d\n", info->exit_code);
 }
 
 void	test_pipeline_mock(t_info *info)
 {
 	char	*ls_args[] = {"ls", NULL};
 	char	*wc_args[] = {"wc", "-l", NULL};
+	char	*redir_wc[] = {">", "pipeline_output.txt", NULL};
 	t_token	*t1;
 	t_token	*t2;
+	int		fd;
+	char	buffer[256];
+	char	expected_output[256];
+	DIR		*d;
+	struct dirent *dir;
+	int		count = 0;
 
 	print_banner("Pipeline Mock: ls | wc -l");
+
+	// Create the output file before counting
+	fd = open("pipeline_output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	close(fd);
+
+	// Get expected output dynamically
+	d = opendir(".");
+	if (d)
+	{
+		while ((dir = readdir(d)) != NULL)
+		{
+			if (dir->d_name[0] != '.')
+				count++;
+		}
+		closedir(d);
+	}
+	sprintf(expected_output, "%d\n", count);
 	
 	t1 = creat_mock_token(ls_args, NULL);
-	t2 = creat_mock_token(wc_args, NULL);
+	t2 = creat_mock_token(wc_args, redir_wc); // Redirect wc -l output
 
 	// Linkar os tokens manualmente
 	t1->next = t2;
 	t2->prev = t1;
 
-	printf("Executando pipeline... (Verifique a saida visual)\n");
+	printf("Executando pipeline...\n");
 	exec_pipeline(t1, info);
 	
+	fd = open("pipeline_output.txt", O_RDONLY);
+	if (fd == -1)
+	{
+		printf("\033[0;31m[FAIL]\033[0m: Arquivo de saida do pipeline nao criado.\n");
+		// Limpeza manual dos tokens mockados
+		free(t1);
+		free(t2);
+		return ;
+	}
+	ft_bzero(buffer, 256);
+	read(fd, buffer, 255);
+	close(fd);
+
+	if (strcmp(buffer, expected_output) == 0)
+		printf("\033[0;32m[PASS]\033[0m: Saida do pipeline correta.\n");
+	else
+		printf("\033[0;31m[FAIL]\033[0m: Saida do pipeline incorreta. Esperado: '%s', Obtido: '%s'\n", expected_output, buffer);
+	
+	unlink("pipeline_output.txt");
+
 	// Limpeza manual dos tokens mockados
 	free(t1);
 	free(t2);

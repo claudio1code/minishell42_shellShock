@@ -20,7 +20,7 @@ static void	parent_process(int fd[2], int *prev_fd)
 	close(fd[1]);
 	if (*prev_fd != -1)
 		close(*prev_fd);
-	prev_fd = &fd[0];
+	*prev_fd = fd[0];
 }
 
 /*função auxiliar e espera todos os filhos*/

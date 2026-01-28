@@ -6,13 +6,14 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 13:05:29 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/27 18:20:34 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/28 15:45:55 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/*Busca o*/
+/*Busca o valor relacionado a uma chave no ambiente,
+percorro a hashtable até encontrar a chave*/
 char	*get_env_val(t_hashtable *env, char *key)
 {
 	unsigned long	idx;

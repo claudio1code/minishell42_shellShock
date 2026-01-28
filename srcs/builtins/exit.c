@@ -6,12 +6,13 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:41:33 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/27 11:44:14 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/28 15:50:39 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/* Retorna o código de saída depois de verificar se o argumento é numérico */
 static int	get_exit_code(char *arg)
 {
 	unsigned long	res;
@@ -25,7 +26,10 @@ static int	get_exit_code(char *arg)
 	return (res % 256);
 }
 
-void	mini_exit(t_token *token, t_info *info)
+/* Aqui só verifico se há argumento, se tiver vejo se é numérico
+ se for eu retorno o número modulo de 256 ou na saída 2 caso não seja numérico,
+ se for sem argumento só limpa tudo e retorna o status */
+int	mini_exit(t_token *token, t_info *info)
 {
 	int	status;
 
@@ -43,11 +47,11 @@ void	mini_exit(t_token *token, t_info *info)
 		{
 			ft_putendl_fd("minishell: exit: too many arguments", 2);
 			info->exit_code = 1;
-			return ;
+			return (1);
 		}
 		else
 			status = ft_atol(token->param[1]) % 256;
 	}
 	clean_shell(info);
-	exit(status);
+	return (status);
 }

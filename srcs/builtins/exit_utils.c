@@ -6,12 +6,14 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:16:06 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/27 15:19:54 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/28 15:47:35 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/* Libera a memória ocupada pela hashtable, que 
+são os nós e os valores das variaveis*/
 void	free_hashtable(t_hashtable *table)
 {
 	int			i;
@@ -58,8 +60,6 @@ void	clean_shell(t_info *info)
 {
 	if (info->env)
 		free_hashtable(info->env);
-	// if (info->l);
-	// 	free(info->l);
 	if (info->str)
 		free(info->str);
 	rl_clear_history();
