@@ -6,12 +6,13 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 10:26:36 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/27 18:20:30 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/28 13:16:55 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/* essa função formata a variável de ambiente no formato KEY="VALUE" */
 static char	*format_var(char *key, char *value)
 {
 	char	*tmp;
@@ -24,7 +25,7 @@ static char	*format_var(char *key, char *value)
 	tmp = ft_strjoin(res, "\"", 1, 0);
 	return (tmp);
 }
-
+/* essa função converte a hashtable em um array de strings formatadas */
 static char **hash_to_array(t_hashtable *env)
 {
 	char		**array;
@@ -51,7 +52,7 @@ static char **hash_to_array(t_hashtable *env)
 	array[j] = NULL;
 	return (array);
 }
-
+/* essa função ordena o array de variáveis de ambiente */
 static void	bublle_sort_array(char **array)
 {
 	int		i;
@@ -76,6 +77,7 @@ static void	bublle_sort_array(char **array)
 	}
 }
 
+/* essa função atualiza ou adiciona uma variável de ambiente */
 static void	export_var(char *arg, t_hashtable *env)
 {
 	char	*equal_sign;
@@ -104,7 +106,7 @@ int	mini_export(t_token *token, t_info *info)
 	int		i;
 
 	i = 0;
-	if (!token->param[i])
+	if (!token->param[i++])
 	{
 		sorted_env = hash_to_array(info->env);
 		bublle_sort_array(sorted_env);
@@ -112,10 +114,17 @@ int	mini_export(t_token *token, t_info *info)
 		{
 			printf("declare -x %s\n", sorted_env[i]);
 			free(sorted_env[i]);
+		}
+		free_split(sorted_env);
+		return (0);
+	}
+	else
+	{
+		while (token->param[i])
+		{
+			export_var(token->param[i], info->env);
 			i++;
 		}
-		free(sorted_env);
-		return (0);
 	}
 	return (0);
 }

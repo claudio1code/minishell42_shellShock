@@ -53,7 +53,8 @@ STDLIB_FILES = 	ft_atoi.c \
 				ft_itoa.c \
 				ft_atof.c \
 				ft_atold.c \
-				ft_atol.c
+				ft_atol.c \
+				ft_atoul.c
 
 STRING_FILES = 	ft_split.c \
 				ft_strchr.c \
@@ -74,7 +75,8 @@ STRING_FILES = 	ft_split.c \
 
 MATH_FILES = 	ft_signal.c \
 				ft_is_double.c \
-				ft_isint.c
+				ft_isint.c \
+				ft_is_long.c
 
 SRCS = 	$(addprefix $(SRC_DIR)/ctypes/, $(CTYPES_FILES)) \
 		$(addprefix $(SRC_DIR)/gnl/, $(GNL_FILES)) \
@@ -86,7 +88,7 @@ SRCS = 	$(addprefix $(SRC_DIR)/ctypes/, $(CTYPES_FILES)) \
 		$(addprefix $(SRC_DIR)/string/, $(STRING_FILES)) \
 		$(addprefix $(SRC_DIR)/math/, $(MATH_FILES))
 
-OBJS = $(SRCS:.c=.o)
+OBJS = $(patsubst $(SRC_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
 
 GREEN = \033[0;92m
 YELLOW = \033[0;93m
@@ -107,11 +109,12 @@ $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS); \
 	echo "\b\b$(GREEN)OK!$(DEF_COLOR)"'
 
-%.o: %.c
+$(OBJS_DIR)%.o: $(SRC_DIR)%.c
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
 
 clean:
-	@rm -f $(OBJS)
+	@rm -rf $(OBJS_DIR)
 
 fclean: clean
 	@rm -f $(NAME)
