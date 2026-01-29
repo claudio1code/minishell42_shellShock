@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 10:09:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/27 16:39:53 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/29 11:27:58 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	update_hash(t_hashtable *table, char *key, char *value)
 	table->count++;
 }
 
+/* inicializa a tabela de ambiente com os valores do envp */
 void	init_env_table(t_info *info, char **envp)
 {
 	int		i;
