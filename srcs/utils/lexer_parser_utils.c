@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:22:01 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/29 14:39:57 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/01/29 14:50:52 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ int	main(int argc, char**argv, char**envp)
 	data = malloc(sizeof(t_info));
 	init_env_table(data, envp);
 	signaler(-42);
-	c = -1;
 	while (argv && envp && argc)
 	{
+		c = -1;
 		if (data->exit_code != g_sig)
 			g_sig = 0;
 		data->l = readline("Shellshock: ");
