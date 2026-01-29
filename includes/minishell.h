@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/27 14:29:36 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/01/29 11:46:33 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_hashtable
 
 typedef struct s_info
 {
-	char			**env;
+	t_hashtable		*env;
 	char			*l;
 	char			*str;
 	int				error;
@@ -91,6 +91,7 @@ char			*var_maker(t_info*i, unsigned int *c, unsigned int *b);
 void			signaler(int t);
 void			historic(char	*l);
 void			env_maker(t_info*i, char**envp);
+void			init_env_table(t_info *info, char **envp);
 void			cmd_fill(t_list*t, t_token*r, char*str);
 void			add_to_env(t_info *info, char *new_entry);
 void			lexer(t_info*i, unsigned int *c, unsigned int *b);

@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:06 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/27 14:32:00 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/01/29 12:09:39 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@
 void	expansion(t_info*i, unsigned int *c, unsigned int *b, t_list*p)
 {
 	char	*var;
-	int		c1;
-	int		c2;
 
 	if (*c - *b >= 1)
 		p->content = ft_strjoin(p->content,
@@ -33,20 +31,8 @@ void	expansion(t_info*i, unsigned int *c, unsigned int *b, t_list*p)
 	var = var_maker(i, c, b);
 	if (!ft_strncmp("?", var, 2))
 			p->content = ft_strjoin(p->content, ft_itoa(i->exit_code), 1, 1);
-	c1 = -1;
-	while (i->env[++c1] && !ft_strncmp("?", var, 2))
-	{
-		c2 = -1;
-		while (i->env[c1][++c2] != '=')
-			if (i->env[c1][c2] != var[c2])
-				break ;
-		if (i->env[c1][c2] != '=' || var[c2++])
-			continue ;
-		p->content = ft_strjoin(p->content, ft_substr(i->env[c1], c2,
-					ft_strlen(i->env[c1] + c2)), 1, 1);
-		free (var);
-		break ;
-	}
+	p->content = ft_strjoin(p->content, get_env_val(i->env, var), 1, 0);
+	free (var);
 	*b = ++(*c);
 }
 //A função quotes cuida qualquer caractere q mude a leitura dos parametros,

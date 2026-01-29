@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_is_long.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 16:06:44 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/22 14:02:30 by clados-s         ###   ########.fr       */
+/*   Created: 2026/01/22 15:50:16 by clados-s          #+#    #+#             */
+/*   Updated: 2026/01/22 16:11:06 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *nptr)
+int	ft_is_long(char *nptr)
 {
-	long	number;
+	unsigned long	nbr;
 
-	number = ft_atol((char *)nptr);
-	if (number >= INT_MAX)
-		return (INT_MAX);
-	else if (number <= INT_MIN)
-		return (INT_MIN);
-	return (number);
+	nbr = ft_atoul(nptr);
+	if (nbr <= LONG_MAX)
+		return (1);
+	return (0);
 }

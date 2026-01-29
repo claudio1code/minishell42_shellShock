@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:22:01 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/27 14:31:37 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/01/29 11:40:53 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,28 +65,6 @@ char	*var_maker(t_info*i, unsigned int *c, unsigned int *b)
 	return (var);
 }
 
-//A função env_maker cria um cópia do environment do shell
-//para utilização do minishell
-//*i = struct data;
-//**envp = parametro envp recebido da main;
-
-void	env_maker(t_info*i, char**envp)
-{
-	int	c1;
-
-	c1 = -1;
-	i->count = 0;
-	while (envp[++c1])
-		;
-	i->env = ft_calloc(c1 + 1, 8);
-	c1 = -1;
-	while (envp[++c1])
-		i->env[c1] = ft_strdup(envp[c1]);
-	i->env[c1] = 0;
-	i->exit_code = 0;
-	i->error = 0;
-}
-
 int	main(int argc, char**argv, char**envp)
 {
 	t_info				*data;
@@ -95,7 +73,7 @@ int	main(int argc, char**argv, char**envp)
 	int					c2;
 
 	data = malloc(sizeof(t_info));
-	env_maker(data, envp);
+	init_env_table(data, envp);
 	signaler(-42);
 	while (argv && envp && argc)
 	{

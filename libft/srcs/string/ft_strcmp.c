@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 16:06:44 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/22 14:02:30 by clados-s         ###   ########.fr       */
+/*   Created: 2026/01/15 10:50:59 by clados-s          #+#    #+#             */
+/*   Updated: 2026/01/15 10:51:23 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *nptr)
+int	ft_strcmp(char *s1, char *s2)
 {
-	long	number;
+	int	i;
 
-	number = ft_atol((char *)nptr);
-	if (number >= INT_MAX)
-		return (INT_MAX);
-	else if (number <= INT_MIN)
-		return (INT_MIN);
-	return (number);
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
