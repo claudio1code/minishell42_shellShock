@@ -1,42 +1,80 @@
-NAME= P_P.out
+GREEN = \033[0;92m
+YELLOW = \033[0;93m
+BLUE = \033[0;96m
+DEF_COLOR = \033[0;39m
 
-cc= cc -g3
+NAME = minishell
 
-lib_path= libft
+CC = cc
+CFLAGS = -Wall -Werror -Wextra -g3
 
-lib = $(lib_path)/libft.a
+SRCS_DIR = srcs/
+OBJS_DIR = objs/
+LIBFT_DIR = libft/
+LIBFT = $(LIBFT_DIR)/libft.a
 
-flags=  -Wall\
-		-Werror\
-		-Wextra
 
-header= parse.h
+SRCS_LIST = builtins/builtins.c \
+			builtins/env_utils.c \
+			builtins/echo.c \
+			builtins/cd.c \
+			builtins/pwd.c \
+			builtins/export.c \
+			builtins/unset.c \
+			builtins/exit.c \
+			builtins/exit_utils.c \
+			builtins/env.c \
+			builtins/hashtable.c \
+			builtins/error_print.c\
+			exec/path_utils.c \
+			exec/redirect.c \
+			exec/exec.c \
+			exec/exec_pipeline.c \
+			exec/tester.c \
+			lexer/lexer_init.c\
+			parser/parser.c\
+			utils/lexer_parser_utils.c
 
-c_files=	srcs/lexer/lexer_init.c\
-			srcs/parser/parser.c\
-			srcs/utils/lexer_parser_utils.c\
-			srcs/builtins/env.c\
-			srcs/builtins/env_utils.c\
-			srcs/builtins/hashtable.c
+SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
+OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LIST:.c=.o))
 
-o_files= $(c_files:.c=.o)
+INCLUDES = -I includes -I $(LIBFT_DIR)/includes
+LDFLAGS = -L$(LIBFT_DIR) -lft -lreadline
 
 all: $(NAME)
 
-$(NAME):$(o_files) $(header) $(lib)
-	$(cc) $(o_files) $(flags) -L$(lib_path) -lft -o $@ -lreadline
+$(NAME):$(OBJS) $(LIBFT)
+	@printf "$(YELLOW)Linking $(NAME)... $(DEF_COLOR)"
+	@sh -c '(while kill -0 $$PPID 2>/dev/null; do \
+		echo -n "\b|"; sleep 0.05; \
+		echo -n "\b/"; sleep 0.05; \
+		echo -n "\b-"; sleep 0.05; \
+		echo -n "\b\\"; sleep 0.05; \
+	done) & trap "kill $$!" EXIT; \
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME) '
+	@printf "\b$(GREEN)OK!$(DEF_COLOR)\n"
 
-$(lib):
-	@$(MAKE) -sC $(lib_path)
+$(OBJS_DIR)%.o:$(SRCS_DIR)%.c
+	@mkdir -p $(dir $@)
+	@printf "$(BLUE)Compiling $<... $(DEF_COLOR)"
+	@sh -c '(while kill -0 $$PPID 2>/dev/null; do \
+		echo -n "\b|"; sleep 0.05; \
+		echo -n "\b/"; sleep 0.05; \
+		echo -n "\b-"; sleep 0.05; \
+		echo -n "\b\\"; sleep 0.05; \
+	done) & trap "kill $$!" EXIT; \
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@'
+	@printf "\b$(GREEN)OK!$(DEF_COLOR)\n"
 
-%.o:%.c
-	$(cc) $(flags) -I -I$(lib_path) -c $< -o $@
+$(LIBFT):
+	@make -sC $(LIBFT_DIR)
 
-clean:
-	rm -f $(o_files)
+clean: 
+	@rm -rf $(OBJS_DIR)
 
 fclean: clean
-	rm -f $(NAME)
-	@$(MAKE) -sC $(lib_path) fclean
-
+	@rm -rf $(NAME)
+	@make -sC $(LIBFT_DIR) fclean
 re: fclean all
+
+.PHONY: all fclean clean re
