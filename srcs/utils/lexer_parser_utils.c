@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:22:01 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/29 14:50:52 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:37:17 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	signaler(int t)
 	}
 	g_sig = 130;
 	write(1, "\n", 1);
+	rl_replace_line("", 1);
 	rl_on_new_line();
 	rl_redisplay();
 }
