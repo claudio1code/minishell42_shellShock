@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:22:01 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/29 13:27:29 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/01/29 14:39:57 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,13 @@ char	*var_maker(t_info*i, unsigned int *c, unsigned int *b)
 
 int	main(int argc, char**argv, char**envp)
 {
-	t_info				*data;
+	t_info	*data;
+	int		c;
 
 	data = malloc(sizeof(t_info));
 	init_env_table(data, envp);
 	signaler(-42);
+	c = -1;
 	while (argv && envp && argc)
 	{
 		if (data->exit_code != g_sig)
@@ -82,7 +84,10 @@ int	main(int argc, char**argv, char**envp)
 		if (!data->l)
 			break ;
 		lexer(data, &data->count, &data->begin);
+		while (data->exec[++c])
+			exec_pipeline(data->exec[c], data);
 	}
 	ft_putendl_fd("exit", 1);
+	clean_shell(data);
 	return (0);
 }
