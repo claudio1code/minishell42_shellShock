@@ -18,7 +18,6 @@ SRCS_LIST = exec/path_utils.c \
 			exec/redirect.c \
 			exec/exec.c \
 			exec/exec_pipeline.c \
-			exec/tester.c \
 			builtins/builtins.c \
 			builtins/env_utils.c \
 			builtins/echo.c \

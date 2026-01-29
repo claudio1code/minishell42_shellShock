@@ -4,6 +4,8 @@ TEMP
 *.json
 *.log
 *.tmp
+testes/
+
 # Object files
 *.o
 *.ko
@@ -59,6 +61,7 @@ dkms.conf
 executor_tester
 minishelltemp
 temp
-
+tester.c
 minishell
+*.sh
 
