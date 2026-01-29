@@ -6,11 +6,11 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:14:00 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/27 09:37:57 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/01/27 14:31:55 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../parse.h"
+#include "../../includes/minishell.h"
 
 //A funcção historic adiciona as saidas do readline ao historico
 //*l = retorno da readline;

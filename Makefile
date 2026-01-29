@@ -14,10 +14,12 @@ header= parse.h
 
 c_files=	srcs/lexer/lexer_init.c\
 			srcs/parser/parser.c\
-			srcs/utils/lexer_parser_utils.c
+			srcs/utils/lexer_parser_utils.c\
+			srcs/builtins/env.c\
+			srcs/builtins/env_utils.c\
+			srcs/builtins/hashtable.c
 
 o_files= $(c_files:.c=.o)
-
 
 all: $(NAME)
 

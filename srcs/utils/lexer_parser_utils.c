@@ -6,12 +6,13 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:22:01 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/27 09:37:46 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/01/27 14:31:37 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../parse.h"
+#include "../../includes/minishell.h"
 
+volatile sig_atomic_t	g_sig = 0;
 //A função ft_chr_num checa quantos lista linkadas
 //para execução serão necessarias;
 //*str = retorno da readline
@@ -39,6 +40,7 @@ void	signaler(int t)
 		signal(SIGQUIT, SIG_IGN);
 		signal(EOF, SIG_IGN);
 	}
+	g_sig = 130;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_redisplay();
@@ -97,9 +99,13 @@ int	main(int argc, char**argv, char**envp)
 	signaler(-42);
 	while (argv && envp && argc)
 	{
+		if (data->exit_code != g_sig)
+			g_sig = 0;
 		data->l = readline("Shellshock: ");
+		if (g_sig)
+			data->exit_code = g_sig;
 		if (!data->l)
-			continue ;
+			break ;
 		lexer(data, &data->count, &data->begin);
 		//teste
 		//VVVVV
@@ -171,5 +177,6 @@ int	main(int argc, char**argv, char**envp)
 		//^^^^^^^
 		//teste
 	}
+	ft_putendl_fd("exit", 1);
 	return (0);
 }
