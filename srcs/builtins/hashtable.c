@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashtable.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 10:09:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/29 11:27:58 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/29 18:09:16 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,9 @@ void	init_env_table(t_info *info, char **envp)
 	char	*val;
 	char	*eq;
 
+	info->exit_code = 0;
+	info->error = 0;
+	info->bonus = 0;
 	info->env = ft_calloc(1, sizeof(t_hashtable));
 	if (!info->env)
 		return ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:16:06 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/29 14:57:38 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/29 18:43:09 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* Libera a memória ocupada pela hashtable, que 
 são os nós e os valores das variaveis*/
-void	free_hashtable(t_hashtable *table)
+int	free_hashtable(t_hashtable *table)
 {
 	int			i;
 	t_env_node	*tmp;
@@ -36,6 +36,7 @@ void	free_hashtable(t_hashtable *table)
 		i++;
 	}
 	free(table);
+	return (0);
 }
 
 int	is_numeric_str(char *str)
@@ -58,9 +59,32 @@ int	is_numeric_str(char *str)
 
 void	clean_shell(t_info *info)
 {
-	if (info->env)
-		free_hashtable(info->env);
-	if (info->str)
-		free(info->str);
+	info->env = free_hashtable(info->env);
+	info->exec = clean_token(info->exec);
+	free(info);
 	rl_clear_history();
+}
+
+int	clean_token(t_token**r)
+{
+	t_token	**r2;
+	int		c1;
+
+	c1 = -1;
+	r2 = r;
+	while (r2[++c1])
+	{
+		while (r2[c1])
+		{
+			if (r2[c1]->cmd)
+				free(cmd);
+			if (r2[c1]->rdc)
+				ft_del_del(r2[c1]->rdc);
+			if (r2[c1]->param)
+				ft_del_del(r2[c1]->param);
+			r2[c1] = r2[c1]->next;
+		}
+	}
+	ft_del_del(r2);
+	return (0);
 }
