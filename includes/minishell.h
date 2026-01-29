@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:38:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/28 18:07:37 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/29 12:01:43 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void			free_hashtable(t_hashtable *table);
 int				is_numeric_str(char *str);
 void			clean_shell(t_info *info);
 void			err_numeric(char *arg);
-int			mini_exit(t_token *token, t_info *info);
+int				mini_exit(t_token *token, t_info *info);
 char			**ht_to_matrix(t_hashtable *env);
 char			*get_env_val(t_hashtable *env, char *key);
 char			**ht_to_matrix(t_hashtable *env);
