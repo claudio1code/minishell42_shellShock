@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:41:33 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/28 18:24:43 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/29 16:27:10 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ int	mini_exit(t_token *token, t_info *info)
 			status = ft_atol(token->param[1]) % 256;
 	}
 	clean_shell(info);
+	exit(status);
 	return (status);
 }

@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 16:55:08 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/22 15:54:47 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:11:31 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ long	ft_atol(char *str)
 	if (str[i] == '-' || str[i] == '+')
 		if (str[i++] == '-')
 			sign = -1;
-	while (str[i] >= '0' && str[i] <= '9')
+	while (ft_isdigit(str[i]))
 	{
 		if (res > LONG_MAX / 10 || (res == LONG_MAX / 10
 				&& (str[i] - '0') > LONG_MAX % 10))

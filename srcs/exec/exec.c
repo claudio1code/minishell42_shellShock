@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:36:47 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/29 14:51:58 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/01/29 16:25:20 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,7 @@ void	child_cleanup(char *path)
 		free(path);
 }
 
-static void	print_erro(t_token *token)
-{
-	ft_putstr_fd(token->param[0], 2);
-	ft_putendl_fd(": command not found", 2);
-	exit(127);
-}
+
 
 /*Função auxiliar da execução, ele verifica se os fd do 
 redirects falharam, se é bultin ou comando binário, se for builtin 
@@ -57,6 +52,41 @@ static void	child_process(t_token *token, t_info *info)
 	exit(1);
 }
 
+static int	is_parent_builtin(t_token *token)
+{
+	if (!token->param || !token->param[0])
+		return (0);
+	if (!ft_strncmp(token->param[0], "cd", 3)
+		|| !ft_strncmp(token->param[0], "export", 7)
+		|| !ft_strncmp(token->param[0], "unset", 6)
+		|| !ft_strncmp(token->param[0], "exit", 5))
+		return (1);
+	return (0);
+}
+
+static void	exec_parent_builtin(t_token *token, t_info *info)
+{
+	int	original_stdin;
+	int	original_stdout;
+
+	original_stdin = dup(STDIN_FILENO);
+	original_stdout = dup(STDOUT_FILENO);
+	if (handle_redirections(token) == -1)
+	{
+		info->exit_code = 1;
+		dup2(original_stdin, STDIN_FILENO);
+		dup2(original_stdout, STDOUT_FILENO);
+		close(original_stdin);
+		close(original_stdout);
+		return ;
+	}
+	info->exit_code = exec_bultin(token, info);
+	dup2(original_stdin, STDIN_FILENO);
+	dup2(original_stdout, STDOUT_FILENO);
+	close(original_stdin);
+	close(original_stdout);
+}
+
 /*Executa os comandos, faz um fork no processo pai
 e se for bem sucessedido ele chama o child_process e 
 guarda o status de saída, guandando na variavel exit_code*/
@@ -67,6 +97,11 @@ void	exec_cmd(t_token *token, t_info *info)
 
 	/*tenho que fazer uma verificação aqui pra nao dar bosta
 	tipo se for só cd ou export, etc*/
+	if (is_parent_builtin(token))
+	{
+		exec_parent_builtin(token, info);
+		return ;
+	}
 	pid = fork();
 	if (pid == -1)
 	{
