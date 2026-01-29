@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:49:12 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/29 11:50:45 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/01/29 16:39:25 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ char	*ft_strjoin(char *s1, char *s2, int f1, int f2)
 	j = -1;
 	while (s1 && s1[++i])
 		new_str[i] = s1[i];
+	i *= i > 0;
 	while (s2 && s2[++j])
 		new_str[i + j] = s2[j];
+	j *= j > 0;
 	new_str[i + j] = '\0';
 	if (f1)
 		free (s1);
