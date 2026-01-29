@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:22:01 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/29 11:40:53 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/01/29 13:27:29 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,6 @@ char	*var_maker(t_info*i, unsigned int *c, unsigned int *b)
 int	main(int argc, char**argv, char**envp)
 {
 	t_info				*data;
-	t_token				**teste;
-	int					c1;
-	int					c2;
 
 	data = malloc(sizeof(t_info));
 	init_env_table(data, envp);
@@ -85,75 +82,6 @@ int	main(int argc, char**argv, char**envp)
 		if (!data->l)
 			break ;
 		lexer(data, &data->count, &data->begin);
-		//teste
-		//VVVVV
-		c1 = 0;
-		teste = data->exec;
-		ft_putendl_fd("", 1);
-		ft_putendl_fd("LISTA LINKADA PARA EXECUTAR", 1);
-		ft_putendl_fd("|||||||||||||||||||||||||||", 1);
-		ft_putendl_fd("VVVVVVVVVVVVVVVVVVVVVVVVVVV", 1);
-		ft_putendl_fd("", 1);
-		while (teste[c1])
-		{
-			if (error(teste[c1]))
-			{
-				ft_putendl_fd("", 1);
-				ft_putendl_fd("=================", 1);
-				ft_putendl_fd("", 1);
-				c1++;
-				continue ;
-			}
-			c2 = 0;
-			if (teste[c1]->rdc && teste[c1]->rdc[0])
-			{	
-				ft_putendl_fd("---rdc---", 1);
-				while (teste[c1]->rdc[c2])
-				{
-					ft_putstr_fd("    ", 1);
-					ft_putendl_fd(teste[c1]->rdc[c2++], 1);
-				}
-				ft_putendl_fd("---rdc---", 1);
-			}
-			c2 = 0;
-			ft_putendl_fd("", 1);
-			ft_putendl_fd("", 1);
-			if (teste[c1]->cmd && teste[c1]->cmd[0])
-			{
-				ft_putendl_fd("----cmd----", 1);
-				ft_putstr_fd("    ", 1);
-				ft_putendl_fd(teste[c1]->cmd, 1);
-				ft_putendl_fd("----cmd----", 1);
-			}
-			ft_putendl_fd("", 1);
-			ft_putendl_fd("", 1);
-			if (teste[c1]->param && teste[c1]->param[0])
-			{
-				ft_putendl_fd("----param----", 1);
-				while (teste[c1]->param[c2])
-				{
-					ft_putstr_fd("    ", 1);
-					ft_putendl_fd(teste[c1]->param[c2++], 1);
-				}
-				ft_putendl_fd("----param----", 1);
-			}
-			ft_putendl_fd("", 1);
-			ft_putendl_fd("", 1);
-			if (teste[c1]->next)
-			{
-				ft_putendl_fd("        ||    ||", 1);
-				ft_putendl_fd("        ||PIPE||", 1);
-				ft_putendl_fd("        ||    ||", 1);
-				teste[c1] = teste[c1]->next;
-				continue ;
-			}
-			c1++;
-			ft_putendl_fd("", 1);
-			ft_putendl_fd("=================", 1);
-			ft_putendl_fd("", 1);
-		}
-		//^^^^^^^
-		//teste
 	}
 	ft_putendl_fd("exit", 1);
 	return (0);

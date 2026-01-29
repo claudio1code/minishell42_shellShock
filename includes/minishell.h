@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/29 11:46:33 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/01/29 13:32:53 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ typedef struct s_info
 	int				c3;
 	int				exit_code;
 	t_list			*list;
-
 	t_token			**exec;
 }	t_info;
 
