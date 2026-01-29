@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/29 13:32:53 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/01/29 14:03:53 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,20 +80,41 @@ typedef struct s_info
 /*----------------------------------------------*/
 
 int				error(t_token*r);
+int				pwd(t_token *token);
 int				mini_env(t_info *info);
+int				is_builtins(char *cmd);
+int				is_numeric_str(char *str);
+int				mini_echo(t_token *token);
+int				count_vars(t_hashtable *env);
 int				ft_chr_num(char*str, t_info*i);
+int				handle_redirections(t_token *token);
+int				mini_cd(t_info *info, t_token *token);
+int				mini_exit(t_token *token, t_info *info);
+int				mini_unset(t_token *token, t_info *info);
+int				mini_export(t_token *token, t_info *info);
+int				exec_bultin(t_token *token, t_info *info);
 int				cmd_prep(t_list *t, int *param, int *rdc, t_info*i);
 int				edcase(t_info*i, unsigned int *c, t_list*p, unsigned int *b);
 char			**ht_to_matrix(t_hashtable *env);
+char			*get_env_val(t_hashtable *env, char *key);
+char			*get_cmd_path(char *cmd, t_hashtable *env);
 char			*get_env_val(t_hashtable *table, char *key);
 char			*var_maker(t_info*i, unsigned int *c, unsigned int *b);
 void			signaler(int t);
 void			historic(char	*l);
+void			err_numeric(char *arg);
+void			clean_shell(t_info *info);
+void			child_cleanup(char *path);
 void			env_maker(t_info*i, char**envp);
-void			init_env_table(t_info *info, char **envp);
+void			free_hashtable(t_hashtable *table);
+void			print_error_cd(char *arg, char *msg);
+void			exec_cmd(t_token *token, t_info *info);
 void			cmd_fill(t_list*t, t_token*r, char*str);
 void			add_to_env(t_info *info, char *new_entry);
+void			init_env_table(t_info *info, char **envp);
+void			exec_pipeline(t_token *token, t_info *info);
 void			lexer(t_info*i, unsigned int *c, unsigned int *b);
+void			err_invalid_export(char *arg, char *key, char *value);
 void			update_hash(t_hashtable *table, char *key, char *value);
 void			update_env(t_info *info, char *key, char *value, int flag);
 void			quotes(t_info*i, unsigned int *c, t_list*p, unsigned int *b);

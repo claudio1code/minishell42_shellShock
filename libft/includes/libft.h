@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 14:24:09 by clados-s          #+#    #+#             */
 /*   Updated: 2026/01/29 11:48:06 by cacesar-         ###   ########.fr       */
+=======
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/21 14:24:09 by clados-s          #+#    #+#             */
+/*   Updated: 2026/01/26 15:45:37 by clados-s         ###   ########.fr       */
+>>>>>>> execução_inicio
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +80,10 @@ char			*ft_triple_strjoin(char *s1, char *s2, char *s3);
 
 typedef struct s_list
 {
+<<<<<<< HEAD
 	int				type;
+=======
+>>>>>>> execução_inicio
 	void			*content;
 	struct s_list	*next;
 }	t_list;
@@ -86,8 +96,12 @@ void			ft_lstadd_back(t_list **lst, t_list *new);
 void			ft_lstdelone(t_list *lst, void (*del)(void*));
 void			ft_lstclear(t_list **lst, void (*del)(void*));
 void			ft_lstiter(t_list *lst, void (*f)(void *));
+<<<<<<< HEAD
 t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 					void (*del)(void *));
+=======
+t_list			*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+>>>>>>> execução_inicio
 
 /* ************************************************************************** */
 /* PRINTF                                    */
