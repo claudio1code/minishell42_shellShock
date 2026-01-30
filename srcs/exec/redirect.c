@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 16:40:45 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/28 15:42:38 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/30 16:43:25 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,3 +58,4 @@ int	handle_redirections(t_token *token)
 	}
 	return (0);
 }
+

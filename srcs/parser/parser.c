@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:14:00 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/30 15:02:46 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/30 16:48:35 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,8 @@ t_token	*cmd(t_list	*t, t_info*i, int param, int rdc)
 	i->error = 0;
 	i->bonus = 0;
 	r->cmd = 0;
-	r->param = calloc(param + 1, 8);
-	r->rdc = calloc(rdc + rdc + 1, 8);
+	r->param = ft_calloc(param + 1, 8);
+	r->rdc = ft_calloc(rdc + rdc + 1, 8);
 	cmd_fill(t, r, 0);
 	while (t && ((char *)t->content)[0] != '|' &&
 		((char *)t->content)[0] != '&')
