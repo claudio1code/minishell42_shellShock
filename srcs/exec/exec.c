@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:36:47 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/29 16:25:20 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/29 17:26:22 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ void	exec_cmd(t_token *token, t_info *info)
 
 	/*tenho que fazer uma verificação aqui pra nao dar bosta
 	tipo se for só cd ou export, etc*/
-	if (is_parent_builtin(token))
+	if (is_parent_builtin(token) & !token->next
+		&& !token->prev && is_parent_builtin(token))
 	{
 		exec_parent_builtin(token, info);
 		return ;
