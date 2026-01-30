@@ -14,7 +14,7 @@ TEMP
 *.ilk
 *.map
 *.exp
-
+*.supp
 # Precompiled Headers
 *.gch
 *.pch

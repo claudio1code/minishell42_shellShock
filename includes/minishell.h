@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/29 16:18:57 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:46:06 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int				mini_exit(t_token *token, t_info *info);
 int				mini_unset(t_token *token, t_info *info);
 int				mini_export(t_token *token, t_info *info);
 int				exec_bultin(t_token *token, t_info *info);
+int				is_parent_builtin(t_token *token);
 int				cmd_prep(t_list *t, int *param, int *rdc, t_info*i);
 int				edcase(t_info*i, unsigned int *c, t_list*p, unsigned int *b);
 char			**ht_to_matrix(t_hashtable *env);

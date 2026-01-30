@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 19:04:49 by claudio           #+#    #+#             */
-/*   Updated: 2026/01/29 14:38:05 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:50:49 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,11 @@ void	exec_pipeline(t_token *token, t_info *info)
 	prev_fd = -1;
 	if (error(token))
 		return ;
+	if (token && !token->next && !token->prev && is_parent_builtin(token))
+	{
+		exec_cmd(token, info);
+		return ;
+	}
 	while (token)
 	{
 		if (token->next && pipe(fd) == -1)

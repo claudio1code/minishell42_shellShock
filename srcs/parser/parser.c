@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:14:00 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/27 14:31:55 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/01/30 15:02:46 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	cmd_prep(t_list *t, int *param, int *rdc, t_info*i)
 			len = -42;
 		t = t->next;
 	}
-	return (i->error || i->bonus);
+	return (i->error || i->bonus); /*leak*/
 }
 
 //A função cmd cria o array de listas linkadas t_token para a execução;

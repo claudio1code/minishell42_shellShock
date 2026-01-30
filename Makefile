@@ -4,6 +4,11 @@ BLUE = \033[0;96m
 DEF_COLOR = \033[0;39m
 
 NAME = minishell
+VALGRIND = 	valgrind \
+			--leak-check=full \
+			--show-leak-kinds=all \
+			--track-origins=yes \
+			--suppressions=readline.supp
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -g3
@@ -67,6 +72,29 @@ $(OBJS_DIR)%.o:$(SRCS_DIR)%.c
 
 $(LIBFT):
 	@make -sC $(LIBFT_DIR)
+
+readline.supp:
+	@echo "{" > readline.supp
+	@echo "   leak_readline" >> readline.supp
+	@echo "   Memcheck:Leak" >> readline.supp
+	@echo "   match-leak-kinds: reachable" >> readline.supp
+	@echo "   fun:readline" >> readline.supp
+	@echo "}" >> readline.supp
+	@echo "{" >> readline.supp
+	@echo "   leak_add_history" >> readline.supp
+	@echo "   Memcheck:Leak" >> readline.supp
+	@echo "   match-leak-kinds: reachable" >> readline.supp
+	@echo "   fun:add_history" >> readline.supp
+	@echo "}" >> readline.supp
+	@echo "{" >> readline.supp
+	@echo "   leak_rl_history" >> readline.supp
+	@echo "   Memcheck:Leak" >> readline.supp
+	@echo "   match-leak-kinds: reachable" >> readline.supp
+	@echo "   fun:history_list" >> readline.supp
+	@echo "}" >> readline.supp
+
+leaks: readline.supp $(NAME)
+	@$(VALGRIND) ./$(NAME)
 
 clean: 
 	@rm -rf $(OBJS_DIR)
