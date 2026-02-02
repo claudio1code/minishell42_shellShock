@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/30 14:46:06 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/02 11:46:02 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int				is_numeric_str(char *str);
 int				mini_echo(t_token *token);
 int				count_vars(t_hashtable *env);
 int				ft_chr_num(char*str, t_info*i);
+int				process_heredoc(char *delimiter);
 int				handle_redirections(t_token *token);
 int				mini_cd(t_info *info, t_token *token);
 int				mini_exit(t_token *token, t_info *info);

@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 16:40:45 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/30 16:43:25 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/02 11:49:06 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ static int	open_file(char *file, char *mode)
 	int	fd;
 
 	fd = -1;
-	if (!ft_strncmp(mode, "<", 2))
+	if (!strncmp(mode, "<<", 3))
+		return (process_heredoc(file));
+	else if (!ft_strncmp(mode, "<", 2))
 		fd = open(file, O_RDONLY);
 	else if (!ft_strncmp(mode, ">", 2))
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -50,7 +52,11 @@ int	handle_redirections(t_token *token)
 		if (fd == -1)
 			return (-1);
 		if (!ft_strncmp(token->rdc[i], "<", 2))
+		{
 			dup2(fd, STDIN_FILENO);
+			if (!ft_strncmp(token->rdc[i], "<<", 3))
+				unlink(".heredoc_tmp");
+		}
 		else
 			dup2(fd, STDOUT_FILENO);
 		close(fd);
