@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:15:46 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/02 14:29:34 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/02 14:47:15 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 extern volatile sig_atomic_t	g_sig;
 
-/*crio um arquivo temporario onde vai ser escrito o heredoc, inicia a linha com
-"> ", caso dê uma ctrl +d ele printa  um warning e sai, dps d tudo garanto que
-od fd seja fechado e retorne o fd do arquivo temporario*/
+/*loop de here só pra refatorar*/
 static void	loop_heredoc(int fd, char *delimiter)
 {
 	char	*line;
@@ -42,6 +40,9 @@ static void	loop_heredoc(int fd, char *delimiter)
 	}
 }
 
+/*crio um arquivo temporario onde vai ser escrito o heredoc, inicia a linha com
+"> ", caso dê uma ctrl +d ele printa  um warning e sai, dps d tudo garanto que
+od fd seja fechado e retorne o fd do arquivo temporario*/
 int	process_heredoc(char *delimiter)
 {
 	int		fd;
