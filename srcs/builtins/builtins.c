@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 15:08:37 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/28 14:07:10 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/02 13:53:37 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,3 @@ int	exec_bultin(t_token *token, t_info *info)
 		return (mini_env(info));
 	return (0);
 }
-

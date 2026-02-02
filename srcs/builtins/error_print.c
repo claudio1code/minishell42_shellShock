@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 18:01:08 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/29 16:16:57 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/02 13:56:00 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	err_numeric(char *arg)
 	ft_putendl_fd(": numeric argument required", 2);
 }
 
-void err_invalid_export(char *arg, char *key, char *value)
+void	err_invalid_export(char *arg, char *key, char *value)
 {
 	ft_putstr_fd("minishell: export: `", 2);
 	ft_putstr_fd(arg, 2);

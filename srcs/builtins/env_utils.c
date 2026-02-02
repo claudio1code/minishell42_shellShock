@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 13:05:29 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/29 11:48:48 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/02 13:54:42 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	**ht_to_matrix(t_hashtable *env)
 	int			i;
 	int			j;
 
-	matrix = ft_calloc(sizeof(char *) , (env->count + 1));
+	matrix = ft_calloc(sizeof(char *), (env->count + 1));
 	if (!matrix)
 		return (NULL);
 	i = 0;
@@ -50,7 +50,7 @@ char	**ht_to_matrix(t_hashtable *env)
 		while (tmp)
 		{
 			if (tmp->value)
-				matrix[j] = ft_triple_strjoin(tmp->key, "=", tmp->value); 
+				matrix[j] = ft_triple_strjoin(tmp->key, "=", tmp->value);
 			else
 				matrix[j] = ft_strjoin(tmp->key, "=", 0, 0);
 			j++;

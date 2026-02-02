@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:36:47 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/30 14:45:24 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/02 13:52:57 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	child_cleanup(char *path)
 	if (path)
 		free(path);
 }
-
-
 
 /*Função auxiliar da execução, ele verifica se os fd do 
 redirects falharam, se é bultin ou comando binário, se for builtin 
@@ -52,7 +50,7 @@ static void	child_process(t_token *token, t_info *info)
 	exit(1);
 }
 
- int	is_parent_builtin(t_token *token)
+int	is_parent_builtin(t_token *token)
 {
 	if (!token->param || !token->param[0])
 		return (0);

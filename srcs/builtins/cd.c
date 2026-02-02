@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 13:23:31 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/30 16:30:18 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/02 13:53:46 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static void	update_pwd(t_info *info)
 		free(new_pwd);
 	}
 }
-
 
 /*função auxiliar do cd que retorna o path da home ou do oldpwd,
 tbm já cuido caso o path n exita, por exemplo no caso de usarem 
@@ -55,7 +54,6 @@ static char	*aux_cd(t_info *info, t_token *token)
 	}
 	return (token->param[1]);
 }
-
 
 int	mini_cd(t_info *info, t_token *token)
 {

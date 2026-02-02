@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 10:04:58 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/22 12:14:20 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/02 13:55:47 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	del_node(t_hashtable *table, char *key)
 				free(current->value);
 			free(current);
 			table->count--;
-			return;
+			return ;
 		}
 		prev = current;
 		current = current->next;

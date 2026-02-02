@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:44:05 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/28 17:19:09 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/02 13:51:55 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,3 @@ char	*get_cmd_path(char *cmd, t_hashtable *env)
 	}
 	return (free_split_null(paths));
 }
-

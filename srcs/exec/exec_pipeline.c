@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 19:04:49 by claudio           #+#    #+#             */
-/*   Updated: 2026/01/30 14:50:49 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/02 13:52:26 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	parent_process(int fd[2], int *prev_fd)
 static void	wait_children(t_info *info)
 {
 	while (waitpid(-1, &info->exit_code, 0) > 0)
-		continue;
+		continue ;
 	if (WIFEXITED(info->exit_code))
 		info->exit_code = WEXITSTATUS(info->exit_code);
 }

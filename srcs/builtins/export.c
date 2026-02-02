@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 10:26:36 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/28 18:08:09 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/02 13:55:05 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ static char	*format_var(char *key, char *value)
 	tmp = ft_strjoin(res, "\"", 1, 0);
 	return (tmp);
 }
+
 /* essa função converte a hashtable em um array de strings formatadas */
-static char **hash_to_array(t_hashtable *env)
+static char	**hash_to_array(t_hashtable *env)
 {
 	char		**array;
 	t_env_node	*node;
@@ -52,6 +53,7 @@ static char **hash_to_array(t_hashtable *env)
 	array[j] = NULL;
 	return (array);
 }
+
 /* essa função ordena o array de variáveis de ambiente */
 static void	bublle_sort_array(char **array)
 {

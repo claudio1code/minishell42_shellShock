@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 10:09:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/29 11:27:58 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/02 13:55:21 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,10 @@ void	update_hash(t_hashtable *table, char *key, char *value)
 	unsigned long	idx;
 	t_env_node		*tmp;
 	t_env_node		*prev;
-	
+
 	idx = ft_hashtable(key);
 	tmp = table->buckets[idx];
 	prev = NULL;
-
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->key, key))
