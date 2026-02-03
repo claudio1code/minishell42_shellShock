@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_parser_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:22:01 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/03 15:18:22 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/02/03 16:03:31 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ t_info	*data_init(void)
 	closedir(dtmp);
 	return (data);
 }
+
 int	main(int argc, char**argv, char**envp)
 {
 	t_info	*data;
@@ -95,7 +96,7 @@ int	main(int argc, char**argv, char**envp)
 		c = -1;
 		if (data->exit_code != g_sig)
 			g_sig = 0;
-		data->l = readline("Shellshock: ");
+		data->l = readline(GREEN "[SHELLSHOCK]: " RESET);
 		if (g_sig)
 			data->exit_code = g_sig;
 		if (!data->l)

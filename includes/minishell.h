@@ -6,12 +6,15 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/03 15:39:38 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/03 16:05:00 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# define GREEN   "\033[1;32m"
+# define RESET   "\033[0m"
 
 # include "../libft/includes/libft.h"
 # include <readline/readline.h>
