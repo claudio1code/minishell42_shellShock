@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:06 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/03 11:42:54 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/02/03 15:11:13 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	expansion(t_info*i, unsigned int *c, unsigned int *b, t_list*p)
 	var = var_maker(i, c, b);
 	if (!ft_strncmp("?", var, 2))
 			p->content = ft_strjoin(p->content, ft_itoa(i->exit_code), 1, 1);
+	else if (!ft_strncmp("$", var, 2))
+		p->content = ft_strjoin(p->content, ft_strdup(i->pid), 1, 1);
 	else
 		p->content = ft_strjoin(p->content, get_env_val(i->env, var), 1, 0);
 	free (var);

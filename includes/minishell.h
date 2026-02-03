@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/03 11:43:11 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/02/03 15:18:07 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <sys/types.h>
+# include <dirent.h>
 # include <signal.h>
 
 # define TABLE_SIZE 100
@@ -62,6 +64,7 @@ typedef struct s_info
 	t_hashtable		*env;
 	char			*l;
 	char			*str;
+	char			*pid;
 	int				error;
 	int				bonus;
 	unsigned int	count;
@@ -102,11 +105,11 @@ char			*get_env_val(t_hashtable *table, char *key);
 char			*var_maker(t_info*i, unsigned int *c, unsigned int *b);
 void			print_erro(t_token *token);
 void			signaler(int t);
-void			historic(char	*l, int c1);
 void			err_numeric(char *arg);
 void			*clean_token(t_token**r);
 void			clean_shell(t_info *info);
 void			child_cleanup(char *path);
+void			historic(char	*l, int c1);
 void			env_maker(t_info*i, char**envp);
 void			*free_hashtable(t_hashtable *table);
 void			print_error_cd(char *arg, char *msg);
@@ -121,6 +124,7 @@ void			update_hash(t_hashtable *table, char *key, char *value);
 void			update_env(t_info *info, char *key, char *value, int flag);
 void			quotes(t_info*i, unsigned int *c, t_list*p, unsigned int *b);
 void			expansion(t_info*i, unsigned int *c, unsigned int *b, t_list*p);
+t_info			*data_init(void);
 t_list			*s_split(t_info*i, unsigned int *c, unsigned int *b, t_list *p);
 t_token			*cmd(t_list	*t, t_info*i, int param, int rdc);
 t_env_node		*new_env_node(char *key, char *value);
