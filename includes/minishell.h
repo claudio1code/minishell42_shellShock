@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/29 16:18:57 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/03 11:43:11 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,13 @@ char			*get_env_val(t_hashtable *table, char *key);
 char			*var_maker(t_info*i, unsigned int *c, unsigned int *b);
 void			print_erro(t_token *token);
 void			signaler(int t);
-void			historic(char	*l);
+void			historic(char	*l, int c1);
 void			err_numeric(char *arg);
+void			*clean_token(t_token**r);
 void			clean_shell(t_info *info);
 void			child_cleanup(char *path);
 void			env_maker(t_info*i, char**envp);
-void			free_hashtable(t_hashtable *table);
+void			*free_hashtable(t_hashtable *table);
 void			print_error_cd(char *arg, char *msg);
 void			exec_cmd(t_token *token, t_info *info);
 void			cmd_fill(t_list*t, t_token*r, char*str);

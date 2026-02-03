@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_parser_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:22:01 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/29 17:14:33 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/03 10:38:58 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int	main(int argc, char**argv, char**envp)
 		lexer(data, &data->count, &data->begin);
 		while (data->exec[++c])
 			exec_pipeline(data->exec[c], data);
+		if (data->exec)
+			data->exec = clean_token(data->exec);
 	}
 	ft_putendl_fd("exit", 1);
 	clean_shell(data);

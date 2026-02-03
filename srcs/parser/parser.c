@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:14:00 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/27 14:31:55 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/02/03 11:52:32 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,22 @@
 //A funcção historic adiciona as saidas do readline ao historico
 //*l = retorno da readline;
 
-void	historic(char	*l)
+void	historic(char	*l, int c1)
 {
-	int	c1;
-	int	b;
+	char	*str;
+	int		b;
 
-	c1 = 0;
 	b = 0;
 	while (l[c1])
 	{
 		if (l[c1] == '\n')
 		{
 			if (c1 - b >= 2)
-				add_history(ft_substr(l, b, c1 - b));
+			{
+				str = ft_substr(l, b, c1 - b);
+				add_history(str);
+				free(str);
+			}
 			while (l[c1] == '\n' || l[c1] == ' ')
 				c1++;
 			b = c1;
@@ -35,7 +38,9 @@ void	historic(char	*l)
 		}
 		c1++;
 	}
-	add_history(ft_substr(l, b, c1 - b));
+	str = ft_substr(l, b, c1 - b);
+	add_history(str);
+	free(str);
 }
 
 //A função cmd_fill passa o conteudo da lista linkada
@@ -131,8 +136,8 @@ t_token	*cmd(t_list	*t, t_info*i, int param, int rdc)
 	i->error = 0;
 	i->bonus = 0;
 	r->cmd = 0;
-	r->param = calloc(param + 1, 8);
-	r->rdc = calloc(rdc + rdc + 1, 8);
+	r->param = ft_calloc(param + 2, 8);
+	r->rdc = ft_calloc(rdc + rdc + 1, 8);
 	cmd_fill(t, r, 0);
 	while (t && ((char *)t->content)[0] != '|' &&
 		((char *)t->content)[0] != '&')

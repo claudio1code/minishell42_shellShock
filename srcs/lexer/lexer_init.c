@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:06 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/29 15:18:36 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/02/03 11:42:54 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void	lexer(t_info*i, unsigned int *c, unsigned int *b)
 	t_token	*tmp;
 
 	c1 = ft_chr_num(i->l, i);
-	historic(i->l);
+	historic(i->l, 0);
 	i->exec = ft_calloc(i->c3 + 1, 8);
 	*c = 0;
 	*b = 0;
