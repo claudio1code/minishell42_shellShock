@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/02 11:46:02 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/03 11:33:50 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,14 @@ int				is_numeric_str(char *str);
 int				mini_echo(t_token *token);
 int				count_vars(t_hashtable *env);
 int				ft_chr_num(char*str, t_info*i);
-int				process_heredoc(char *delimiter);
+// int				process_heredoc(char *delimiter);
 int				handle_redirections(t_token *token);
 int				mini_cd(t_info *info, t_token *token);
 int				mini_exit(t_token *token, t_info *info);
 int				mini_unset(t_token *token, t_info *info);
 int				mini_export(t_token *token, t_info *info);
 int				exec_bultin(t_token *token, t_info *info);
+int				prepare_heredocs(t_token *token);
 int				is_parent_builtin(t_token *token);
 int				cmd_prep(t_list *t, int *param, int *rdc, t_info*i);
 int				edcase(t_info*i, unsigned int *c, t_list*p, unsigned int *b);
@@ -108,7 +109,9 @@ void			historic(char	*l);
 void			err_numeric(char *arg);
 void			clean_shell(t_info *info);
 void			child_cleanup(char *path);
+void			error_heredoc(char *delimiter);
 void			env_maker(t_info*i, char**envp);
+void			cleanup_heredocs(t_token *token);
 void			free_hashtable(t_hashtable *table);
 void			print_error_cd(char *arg, char *msg);
 void			exec_cmd(t_token *token, t_info *info);

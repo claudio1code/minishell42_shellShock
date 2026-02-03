@@ -36,6 +36,7 @@ SRCS_LIST = builtins/builtins.c \
 			exec/exec.c \
 			exec/exec_pipeline.c \
 			exec/heredoc.c \
+			exec/error_exec.c \
 			lexer/lexer_init.c\
 			parser/parser.c\
 			utils/lexer_parser_utils.c

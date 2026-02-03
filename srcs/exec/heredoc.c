@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:15:46 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/02 14:29:34 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/03 11:17:21 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,17 @@ static void	loop_heredoc(int fd, char *delimiter)
 
 	while (1)
 	{
+		g_sig = 0;
 		line = readline("> ");
+		if (g_sig == SIGINT)
+		{
+			if (line)
+				free(line);
+			break ;
+		}
 		if (!line)
 		{
-			ft_putstr_fd("warning: here-document at line 1 delimited by", 2);
-			ft_putstr_fd("end-of-file (wanted `", 2);
-			ft_putstr_fd(delimiter, 2);
-			ft_putstr_fd("')\n", 2);
+			error_heredoc(delimiter);
 			break ;
 		}
 		if (!ft_strcmp(line, delimiter))
@@ -42,16 +46,71 @@ static void	loop_heredoc(int fd, char *delimiter)
 	}
 }
 
-int	process_heredoc(char *delimiter)
+/*só pra criar arquivos temporarios unico tipo temp_0, temp_1
+pq antes se eu desse << here << here o segundo heredoc apagava
+o primeiro temp */
+static char	*get_hd_name(void)
 {
-	int		fd;
+	static int	i;
+	char		*num;
+	char		*name;
 
-	fd = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	num = ft_itoa(i++);
+	name = ft_strjoin(".heredoc_", num, 0, 1);
+	return (name);
+}
+
+/*a função vai abrir o arquivo temporario e executar o heredoc 
+se tiver um ctrl C ele remove o arquivo temporario e retorna -1*/
+static int	exec_one_heredoc(char *delimiter, char *filename)
+{
+	int	fd;
+
+	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 		return (-1);
 	loop_heredoc(fd, delimiter);
-	close (fd);
+	close(fd);
 	if (g_sig == SIGINT)
+	{
+		unlink(filename);
 		return (-1);
-	return (open(".heredoc_tmp", O_RDONLY));
+	}
+	return (0);
+}
+
+static int	free_negative(char *name)
+{
+	free(name);
+	return (-1);
+}
+
+/*a função vai percorrer os tokens e preparar os heredocs.
+para cada heredoc, cria um arquivo temporário e executa o heredoc
+e transforma o << em < */
+int	prepare_heredocs(t_token *token)
+{
+	int		i;
+	char	*name;
+
+	while (token)
+	{
+		i = 0;
+		while (token->rdc && token->rdc[i])
+		{
+			if (!ft_strncmp(token->rdc[i], "<<", 3))
+			{
+				name = get_hd_name();
+				if (exec_one_heredoc(token->rdc[i + 1], name) == -1)
+					return (free_negative(name));
+				free(token->rdc[i]);
+				token->rdc[i] = ft_strdup("<");
+				free(token->rdc[i + 1]);
+				token->rdc[i + 1] = name;
+			}
+			i += 2;
+		}
+		token = token->next;
+	}
+	return (0);
 }

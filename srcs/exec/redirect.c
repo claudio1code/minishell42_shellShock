@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 16:40:45 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/02 13:52:06 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/03 11:24:30 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 /*Aqui eu cuido da abertura dos fd dos redirects e 
 as permissões que cada um precisa*/
-static int	open_file(char *file, char *mode)
+static int	open_file(char *file, char *mode, t_token *token)
 {
 	int	fd;
 
 	fd = -1;
 	if (!strncmp(mode, "<<", 3))
-		return (process_heredoc(file));
+		return (prepare_heredocs(token));
 	else if (!ft_strncmp(mode, "<", 2))
 		fd = open(file, O_RDONLY);
 	else if (!ft_strncmp(mode, ">", 2))
@@ -48,7 +48,7 @@ int	handle_redirections(t_token *token)
 	{
 		if (!token->rdc[i + 1])
 			break ;
-		fd = open_file(token->rdc[i + 1], token->rdc[i]);
+		fd = open_file(token->rdc[i + 1], token->rdc[i], token);
 		if (fd == -1)
 			return (-1);
 		if (!ft_strncmp(token->rdc[i], "<", 2))

@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 19:04:49 by claudio           #+#    #+#             */
-/*   Updated: 2026/02/02 13:52:26 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/03 11:55:42 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,29 +56,20 @@ static void	child_process(t_token *token, t_info *info, int fd[2], int prev_fd)
 	exit(info->exit_code);
 }
 
-/*executa o pipeline de comandos, verifica se há um próximo
-token e cria um pipe se necessário*/
-void	exec_pipeline(t_token *token, t_info *info)
+static void	loop_pipeline(t_token *token, t_info *info)
 {
 	int		fd[2];
 	int		prev_fd;
 	pid_t	pid;
 
 	prev_fd = -1;
-	if (error(token))
-		return ;
-	if (token && !token->next && !token->prev && is_parent_builtin(token))
-	{
-		exec_cmd(token, info);
-		return ;
-	}
 	while (token)
 	{
 		if (token->next && pipe(fd) == -1)
 			return (perror("pipe"));
 		pid = fork();
 		if (pid == -1)
-			return (perror ("fork"));
+			return (perror("fork"));
 		if (pid == 0)
 			child_process(token, info, fd, prev_fd);
 		if (token->next)
@@ -89,3 +80,25 @@ void	exec_pipeline(t_token *token, t_info *info)
 	}
 	wait_children(info);
 }
+
+/**/
+void	exec_pipeline(t_token *token, t_info *info)
+{
+	if (prepare_heredocs(token) == -1)
+	{
+		info->exit_code = 130;
+		cleanup_heredocs(token);
+		return ;
+	}
+	if (error(token))
+	{
+		cleanup_heredocs(token);
+		return ;
+	}
+	if (token && !token->next && !token->prev && is_parent_builtin(token))
+		exec_cmd(token, info);
+	else
+		loop_pipeline(token, info);
+	cleanup_heredocs(token);
+}
+
