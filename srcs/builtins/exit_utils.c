@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:16:06 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/29 14:57:38 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/03 14:57:48 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* Libera a memória ocupada pela hashtable, que 
 são os nós e os valores das variaveis*/
-void	free_hashtable(t_hashtable *table)
+void	*free_hashtable(t_hashtable *table)
 {
 	int			i;
 	t_env_node	*tmp;
@@ -36,6 +36,7 @@ void	free_hashtable(t_hashtable *table)
 		i++;
 	}
 	free(table);
+	return (0);
 }
 
 int	is_numeric_str(char *str)
@@ -59,8 +60,38 @@ int	is_numeric_str(char *str)
 void	clean_shell(t_info *info)
 {
 	if (info->env)
-		free_hashtable(info->env);
-	if (info->str)
-		free(info->str);
+		info->env = (t_hashtable *)free_hashtable(info->env);
+	if (info->env)
+		info->exec = clean_token(info->exec);
+	free(info);
 	rl_clear_history();
+}
+
+void	*clean_token(t_token**r)
+{
+	t_token	**r2;
+	t_token	*tmp;
+	int		c1;
+
+	c1 = -1;
+	r2 = r;
+	while (r2[++c1])
+	{
+		tmp = r2[c1]->next;
+		while (r2[c1])
+		{
+			if (r2[c1]->cmd)
+				free(r2[c1]->cmd);
+			if (r2[c1]->rdc)
+				ft_del_del((void **)r2[c1]->rdc);
+			if (r2[c1]->param)
+				ft_del_del((void **)r2[c1]->param);
+			free(r2[c1]);
+			r2[c1] = tmp;
+			if (r2[c1])
+				tmp = r2[c1]->next;
+		}
+	}
+	ft_del_del((void **)r);
+	return (0);
 }

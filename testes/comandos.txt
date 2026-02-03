@@ -1,5 +1,12 @@
 exit << EOF
+
 echo oi>test1>test2
+
 << here | << here
+
 <ctrl C> && << EOF | echo $?
 ls >"./outfiles/outfile01" >./test_files/invalid_permission >"./outfiles/outfile02"
+
+^C
+ls | echo $?
+

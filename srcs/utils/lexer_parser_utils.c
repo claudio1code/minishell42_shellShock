@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_parser_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:22:01 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/01/29 17:14:33 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/03 15:18:22 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,28 @@ char	*var_maker(t_info*i, unsigned int *c, unsigned int *b)
 	return (var);
 }
 
+t_info	*data_init(void)
+{
+	t_info			*data;
+	struct dirent	*tmp;
+	DIR				*dtmp;
+
+	dtmp = opendir("/proc/self/task");
+	tmp = readdir(dtmp);
+	data = malloc(sizeof(t_info));
+	data->exit_code = 0;
+	data->error = 0;
+	data->bonus = 0;
+	data->pid = ft_strdup(tmp->d_name);
+	closedir(dtmp);
+	return (data);
+}
 int	main(int argc, char**argv, char**envp)
 {
 	t_info	*data;
 	int		c;
 
-	data = malloc(sizeof(t_info));
+	data = data_init();
 	init_env_table(data, envp);
 	signaler(-42);
 	while (argv && envp && argc)
@@ -87,6 +103,7 @@ int	main(int argc, char**argv, char**envp)
 		lexer(data, &data->count, &data->begin);
 		while (data->exec[++c])
 			exec_pipeline(data->exec[c], data);
+		data->exec = clean_token(data->exec);
 	}
 	ft_putendl_fd("exit", 1);
 	clean_shell(data);
