@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:06 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/03 15:11:13 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/02/03 17:41:44 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ t_list	*s_split(t_info*i, unsigned int *c, unsigned int *b, t_list *p)
 	*b = *c;
 	if (!i->l[*c] || i->l[*c] == '\n')
 		return (p);
-	p = malloc(sizeof(t_list));
+	p = ft_calloc(sizeof(t_list), 1);
 	p->type = 0;
 	p->content = 0;
 	while (i->l[*c] && i->l[*c] != ' ' && !ft_strchr("&|<>\n", i->l[*c]))

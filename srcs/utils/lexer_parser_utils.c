@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_parser_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:22:01 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/03 16:25:21 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/02/03 17:42:00 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_info	*data_init(void)
 	tmp = readdir(dtmp);
 	while (tmp->d_name[0] == '.')
 		tmp = readdir(dtmp);
-	data = malloc(sizeof(t_info));
+	data = ft_calloc(sizeof(t_info), 1);
 	data->exit_code = 0;
 	data->error = 0;
 	data->bonus = 0;

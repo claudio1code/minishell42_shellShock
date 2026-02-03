@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:16:06 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/03 14:57:48 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/02/03 17:40:27 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,10 @@ void	clean_shell(t_info *info)
 {
 	if (info->env)
 		info->env = (t_hashtable *)free_hashtable(info->env);
-	if (info->env)
+	if (info->exec)
 		info->exec = clean_token(info->exec);
+	if (info->pid)
+		free(info->pid);
 	free(info);
 	rl_clear_history();
 }
