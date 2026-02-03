@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 19:04:49 by claudio           #+#    #+#             */
-/*   Updated: 2026/02/02 18:22:45 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/03 10:10:57 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,5 @@ void	exec_pipeline(t_token *token, t_info *info)
 	if (token && !token->next && !token->prev && is_parent_builtin(token))
 		exec_cmd(token, info);
 	else
-		run_pipeline_loop(token, info);
+		pipeline_loop(token, info);
 }
