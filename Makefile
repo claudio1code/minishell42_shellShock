@@ -5,10 +5,11 @@ DEF_COLOR = \033[0;39m
 
 NAME = minishell
 VALGRIND = 	valgrind \
-			--leak-check=full \
-			--show-leak-kinds=all \
 			--track-origins=yes \
-			--suppressions=readline.supp
+			--show-leak-kinds=all \
+			--track-fds=yes \
+			--suppressions=readline.supp \
+			--leak-check=full
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -g3
@@ -77,23 +78,12 @@ $(LIBFT):
 
 readline.supp:
 	@echo "{" > readline.supp
-	@echo "   leak_readline" >> readline.supp
+	@echo "   ignore_libreadline_memory_errors" >> readline.supp
 	@echo "   Memcheck:Leak" >> readline.supp
-	@echo "   match-leak-kinds: reachable" >> readline.supp
-	@echo "   fun:readline" >> readline.supp
+	@echo "   ...
+	@echo "   obj:*/libreadline.so.*
 	@echo "}" >> readline.supp
-	@echo "{" >> readline.supp
-	@echo "   leak_add_history" >> readline.supp
-	@echo "   Memcheck:Leak" >> readline.supp
-	@echo "   match-leak-kinds: reachable" >> readline.supp
-	@echo "   fun:add_history" >> readline.supp
-	@echo "}" >> readline.supp
-	@echo "{" >> readline.supp
-	@echo "   leak_rl_history" >> readline.supp
-	@echo "   Memcheck:Leak" >> readline.supp
-	@echo "   match-leak-kinds: reachable" >> readline.supp
-	@echo "   fun:history_list" >> readline.supp
-	@echo "}" >> readline.supp
+	
 
 leaks: readline.supp $(NAME)
 	@$(VALGRIND) ./$(NAME)
