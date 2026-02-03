@@ -4,7 +4,7 @@ BLUE = \033[0;96m
 DEF_COLOR = \033[0;39m
 
 NAME = minishell
-VALGRIND = 	valgrind \
+VALGRIND = 	valgrind -s\
 			--track-origins=yes \
 			--show-leak-kinds=all \
 			--track-fds=yes \
@@ -78,12 +78,11 @@ $(LIBFT):
 
 readline.supp:
 	@echo "{" > readline.supp
-	@echo "   ignore_libreadline_memory_errors" >> readline.supp
+	@echo "   ignore_libreadline" >> readline.supp
 	@echo "   Memcheck:Leak" >> readline.supp
-	@echo "   ...
-	@echo "   obj:*/libreadline.so.*
+	@echo "   ..." >> readline.supp
+	@echo "   obj:*/libreadline.so.*" >> readline.supp
 	@echo "}" >> readline.supp
-	
 
 leaks: readline.supp $(NAME)
 	@$(VALGRIND) ./$(NAME)
@@ -93,6 +92,7 @@ clean:
 
 fclean: clean
 	@rm -rf $(NAME)
+	@rm -f readline.supp
 	@make -sC $(LIBFT_DIR) fclean
 re: fclean all
 

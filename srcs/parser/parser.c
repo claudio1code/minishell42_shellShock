@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:14:00 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/03 15:43:33 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/03 17:24:20 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ t_token	*cmd(t_list	*t, t_info*i, int param, int rdc)
 		return (0);
 	cmd_prep(t, &param, &rdc, i);
 	param = (param > rdc) * (param - rdc);
-	r = malloc(sizeof(t_token));
+	r = ft_calloc(sizeof(t_token), 1);
 	r->error = i->error;
 	r->bonus = i->bonus;
 	i->error = 0;
