@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 18:01:08 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/02 13:56:00 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/03 18:04:34 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ void	print_erro(t_token *token)
 {
 	ft_putstr_fd(token->param[0], 2);
 	ft_putendl_fd(": command not found", 2);
-	exit(127);
+	// exit(127);
 }

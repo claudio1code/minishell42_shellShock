@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 19:04:49 by claudio           #+#    #+#             */
-/*   Updated: 2026/02/03 15:20:01 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/03 19:02:11 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ pra leitura e redireciona o fd de escrito para o stdout, chama
 o exec_cmd que vai tratar os redirects e executar o comando, tbm
 guarda o status de saída na variavel exit_code 
 */
-static void	child_process(t_token *token, t_info *info, int fd[2], int prev_fd)
+static void	child_pipe(t_token *token, t_info *info, int fd[2], int prev_fd)
 {
 	if (prev_fd != -1)
 	{
@@ -53,6 +53,7 @@ static void	child_process(t_token *token, t_info *info, int fd[2], int prev_fd)
 		close(fd[1]);
 	}
 	exec_cmd(token, info);
+	clean_shell(info);
 	exit(info->exit_code);
 }
 
@@ -71,7 +72,7 @@ static void	loop_pipeline(t_token *token, t_info *info)
 		if (pid == -1)
 			return (perror("fork"));
 		if (pid == 0)
-			child_process(token, info, fd, prev_fd);
+			child_pipe(token, info, fd, prev_fd);
 		if (token->next)
 			parent_process(fd, &prev_fd);
 		else if (prev_fd != -1)

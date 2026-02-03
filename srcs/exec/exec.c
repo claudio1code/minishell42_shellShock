@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:36:47 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/03 16:43:25 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/02/03 18:58:49 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,34 @@ static void	child_process(t_token *token, t_info *info)
 	char	**env_matrix;
 
 	if (handle_redirections(token) == -1)
+	{
+		clean_shell(info);
 		exit(1);
+	}
 	if (!token->param || !token->param[0])
+	{
+		clean_shell(info);
 		exit(0);
+	}
 	if (is_builtins(token->param[0]))
 	{
 		info->exit_code = exec_bultin(token, info);
+		clean_shell(info);
 		exit(info->exit_code);
 	}
 	path = get_cmd_path(token->param[0], info->env);
 	if (!path)
+	{
 		print_erro(token);
+		clean_shell(info);
+		exit(127);
+	}
 	env_matrix = ht_to_matrix(info->env);
 	execve(path, token->param, env_matrix);
 	perror("execve");
 	child_cleanup(path);
 	free_split(env_matrix);
+	clean_shell(info);
 	exit(1);
 }
 
