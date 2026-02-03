@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_parser_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:22:01 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/03 16:03:31 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/03 16:25:21 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,10 @@ t_info	*data_init(void)
 	struct dirent	*tmp;
 	DIR				*dtmp;
 
-	dtmp = opendir("/proc/self/task");
+	dtmp = opendir("/proc/self/task/");
 	tmp = readdir(dtmp);
+	while (tmp->d_name[0] == '.')
+		tmp = readdir(dtmp);
 	data = malloc(sizeof(t_info));
 	data->exit_code = 0;
 	data->error = 0;
