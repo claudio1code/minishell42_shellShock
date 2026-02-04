@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 19:04:49 by claudio           #+#    #+#             */
-/*   Updated: 2026/02/04 14:26:08 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/04 16:47:27 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ static void	loop_pipeline(t_token *token, t_info *info)
 	wait_children(info);
 }
 
-/**/
 void	exec_pipeline(t_token *token, t_info *info)
 {
 	if (prepare_heredocs(token) == -1)

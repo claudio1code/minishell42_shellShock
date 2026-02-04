@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/04 15:11:20 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/04 15:59:53 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ typedef struct s_token
 {
 	int		error;
 	int		bonus;
-	// int		in;
-	// int		out;
 	char	*cmd;
 	char	**rdc;
 	char	**param;
@@ -81,8 +79,6 @@ typedef struct s_info
 	t_token			**exec;
 }	t_info;
 
-
-
 /*----------------------------------------------*/
 /*------------ E X E C U T I O N ---------------*/
 /*----------------------------------------------*/
@@ -117,7 +113,6 @@ void			signaler2(int t);
 void			err_numeric(char *arg);
 void			*clean_token(t_token**r);
 void			clean_shell(t_info *info);
-void			child_cleanup(char *path);
 void			error_heredoc(char *delimiter);
 void			env_maker(t_info*i, char**envp);
 void			cleanup_heredocs(t_token *token);

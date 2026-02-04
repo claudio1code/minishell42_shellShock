@@ -6,17 +6,31 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:36:47 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/04 15:23:23 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/04 16:47:04 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 /*função auxiliar na limpeza da string dos paths*/
-void	child_cleanup(char *path)
+static void	finish_process(t_token *token, t_info *info)
 {
-	if (path)
-		free(path);
+	if (handle_redirections(token) == -1)
+	{
+		clean_shell(info);
+		exit(1);
+	}
+	if (!token->param || !token->param[0])
+	{
+		clean_shell(info);
+		exit(0);
+	}
+	if (is_builtins(token->param[0]))
+	{
+		info->exit_code = exec_bultin(token, info);
+		clean_shell(info);
+		exit(info->exit_code);
+	}
 }
 
 /*Função auxiliar da execução, ele verifica se os fd do 
@@ -30,22 +44,15 @@ static void	child_process_exec(t_token *token, t_info *info)
 	char	*path;
 	char	**env_matrix;
 
-	if (handle_redirections(token) == -1)
-		exit(1);
-	if (!token->param || !token->param[0])
-		exit(0);
-	if (is_builtins(token->param[0]))
-	{
-		info->exit_code = exec_bultin(token, info);
-		exit(info->exit_code);
-	}
+	finish_process(token, info);
 	path = get_cmd_path(token->param[0], info->env);
 	if (!path)
 		print_erro(token, info);
 	env_matrix = ht_to_matrix(info->env);
 	execve(path, token->param, env_matrix);
 	perror("execve");
-	child_cleanup(path);
+	if (path)
+		free(path);
 	free_split(env_matrix);
 	clean_shell(info);
 	exit(1);
@@ -105,7 +112,9 @@ int	exec_cmd(t_token *token, t_info *info)
 		return (1);
 	}
 	if (pid == 0)
+	{
 		child_process_exec(token, info);
+	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		info->exit_code = WEXITSTATUS(status);
