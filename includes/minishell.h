@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/03 18:11:14 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/02/04 13:23:21 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ char			*get_env_val(t_hashtable *env, char *key);
 char			*get_cmd_path(char *cmd, t_hashtable *env);
 char			*get_env_val(t_hashtable *table, char *key);
 char			*var_maker(t_info*i, unsigned int *c, unsigned int *b);
-void			print_erro(t_token *token);
 void			signaler(int t);
 void			signaler2(int t);
 void			err_numeric(char *arg);
@@ -122,6 +121,7 @@ void			cleanup_heredocs(t_token *token);
 void			historic(char	*l, int c1);
 void			env_maker(t_info*i, char**envp);
 void			*free_hashtable(t_hashtable *table);
+void			print_erro(t_token *token, t_info *info);
 void			print_error_cd(char *arg, char *msg);
 void			exec_cmd(t_token *token, t_info *info);
 void			cmd_fill(t_list*t, t_token*r, char*str);

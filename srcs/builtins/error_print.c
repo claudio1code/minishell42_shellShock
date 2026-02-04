@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 18:01:08 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/02 13:56:00 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/04 13:20:19 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,13 @@ void	err_invalid_export(char *arg, char *key, char *value)
 	free(value);
 }
 
-void	print_erro(t_token *token)
+void	print_erro(t_token *token, t_info *info)
 {
-	ft_putstr_fd(token->param[0], 2);
+	if (!token->param || !token->param[0])
+		ft_putstr_fd("''", 2);
+	else
+		ft_putstr_fd(token->param[0], 2);
 	ft_putendl_fd(": command not found", 2);
+	clean_shell(info);
 	exit(127);
 }

@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:44:05 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/02 13:51:55 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/04 11:56:04 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ char	*get_cmd_path(char *cmd, t_hashtable *env)
 	char	*path_env;
 	int		i;
 
+	if (!cmd || !*cmd)
+		return (NULL);
 	if (ft_strchr(cmd, '/'))
 		return (check_absolut_path(cmd));
 	path_env = get_env_val(env, "PATH");
