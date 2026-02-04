@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:22:01 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/04 11:08:52 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/02/04 17:45:44 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,18 @@ int	ft_chr_num(char*str, t_info*i)
 
 void	signaler(int t)
 {
-	if (t == -42)
+	if (t < 0)
 	{
 		signal(SIGINT, signaler);
 		signal(SIGQUIT, SIG_IGN);
 		signal(EOF, SIG_IGN);
 		return ;
 	}
+	g_sig = 130;
 	write(1, "\n", 1);
 	rl_replace_line("", 1);
-	if (!g_sig || g_sig == 130)
-		rl_on_new_line();
+	rl_on_new_line();
 	rl_redisplay();
-	g_sig = 130;
 }
 
 //A função var_maker cria uma string com a variavel passada para expansão
@@ -60,15 +59,21 @@ char	*var_maker(t_info*i, unsigned int *c, unsigned int *b)
 	char	*var;
 
 	*b = *c;
-	while (!ft_strchr("&|<>\n\'\" ", i->l[*c]))
+	if (ft_strchr("?#$ ", i->l[(*c)]))
 		(*c)++;
-	var = ft_substr(i->l, *b, *c - *b);
+	else
+		while (ft_isalnum(i->l[*c]))
+			(*c)++;
+	if (i->l[*c] == '\"' && i->l[(*c) - 1] == '$')
+		var = ft_strdup("\"");
+	else
+		var = ft_substr(i->l, *b, *c - *b);
 	if (*var)
 		*b = --(*c);
 	return (var);
 }
 
-t_info	*data_init(void)
+t_info	*data_init(int argc)
 {
 	t_info			*data;
 	struct dirent	*tmp;
@@ -80,6 +85,7 @@ t_info	*data_init(void)
 		tmp = readdir(dtmp);
 	data = ft_calloc(sizeof(t_info), 1);
 	data->exit_code = 0;
+	data->argc = argc;
 	data->error = 0;
 	data->bonus = 0;
 	data->pid = ft_strdup(tmp->d_name);
@@ -92,9 +98,9 @@ int	main(int argc, char**argv, char**envp)
 	t_info	*data;
 	int		c;
 
-	data = data_init();
+	data = data_init(argc - 1);
 	init_env_table(data, envp);
-	signaler(-42);
+	signaler(ft_atoi(data->pid) * -1);
 	while (argv && envp && argc)
 	{
 		c = -1;

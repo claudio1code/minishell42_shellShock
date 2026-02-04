@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/03 18:11:14 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/02/04 12:17:18 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_info
 	int				c2;
 	int				c3;
 	int				exit_code;
+	int				argc;
 	t_list			*list;
 	t_token			**exec;
 }	t_info;
@@ -134,7 +135,7 @@ void			update_hash(t_hashtable *table, char *key, char *value);
 void			update_env(t_info *info, char *key, char *value, int flag);
 void			quotes(t_info*i, unsigned int *c, t_list*p, unsigned int *b);
 void			expansion(t_info*i, unsigned int *c, unsigned int *b, t_list*p);
-t_info			*data_init(void);
+t_info			*data_init(int argc);
 t_list			*s_split(t_info*i, unsigned int *c, unsigned int *b, t_list *p);
 t_token			*cmd(t_list	*t, t_info*i, int param, int rdc);
 t_env_node		*new_env_node(char *key, char *value);
