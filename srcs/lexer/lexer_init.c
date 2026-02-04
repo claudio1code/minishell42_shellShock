@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:06 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/03 17:41:44 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/04 15:36:00 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,12 @@ void	expansion(t_info*i, unsigned int *c, unsigned int *b, t_list*p)
 	var = var_maker(i, c, b);
 	if (!ft_strncmp("?", var, 2))
 			p->content = ft_strjoin(p->content, ft_itoa(i->exit_code), 1, 1);
+	else if (!ft_strncmp("#", var, 2))
+			p->content = ft_strjoin(p->content, ft_itoa(i->argc), 1, 0);
 	else if (!ft_strncmp("$", var, 2))
 		p->content = ft_strjoin(p->content, ft_strdup(i->pid), 1, 1);
+	else if (ft_strchr(" \"\'", var[0]) || var[0] == 0)
+		p->content = ft_strjoin(p->content, ft_strdup("$"), 1, 1);
 	else
 		p->content = ft_strjoin(p->content, get_env_val(i->env, var), 1, 0);
 	free (var);
