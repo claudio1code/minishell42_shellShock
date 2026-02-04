@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:22:01 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/04 15:11:55 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/04 17:42:59 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ void	signaler(int t)
 		signal(EOF, SIG_IGN);
 		return ;
 	}
+	printf("pid: %d\n", getpid());
 	write(1, "\n", 1);
 	rl_replace_line("", 1);
-	if (!g_sig || g_sig == 130)
-		rl_on_new_line();
+	rl_on_new_line();
 	rl_redisplay();
 	g_sig = 130;
 }

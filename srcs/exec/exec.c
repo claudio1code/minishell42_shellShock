@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:36:47 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/04 16:47:04 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/04 17:41:14 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,17 @@ int	exec_cmd(t_token *token, t_info *info)
 	}
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
 		child_process_exec(token, info);
 	}
+	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
+	signaler(-42);
 	if (WIFEXITED(status))
 		info->exit_code = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		info->exit_code = 128 + WTERMSIG(status);
 	clean_shell(info);
 	return (status);
 }
