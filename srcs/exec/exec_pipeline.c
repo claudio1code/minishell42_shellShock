@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 19:04:49 by claudio           #+#    #+#             */
-/*   Updated: 2026/02/03 15:20:01 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/04 14:26:08 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ static void	child_process(t_token *token, t_info *info, int fd[2], int prev_fd)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
-	exec_cmd(token, info);
-	exit(info->exit_code);
+	exit(exec_cmd(token, info));
 }
 
 static void	loop_pipeline(t_token *token, t_info *info)

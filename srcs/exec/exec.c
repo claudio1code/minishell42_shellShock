@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:36:47 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/04 13:20:38 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/04 14:32:57 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,12 @@ static void	child_process_exec(t_token *token, t_info *info)
 	char	**env_matrix;
 
 	if (handle_redirections(token) == -1)
-	{
-		clean_shell(info);
 		exit(1);
-	}
 	if (!token->param || !token->param[0])
-	{
-		clean_shell(info);
 		exit(0);
-	}
 	if (is_builtins(token->param[0]))
 	{
 		info->exit_code = exec_bultin(token, info);
-		clean_shell(info);
 		exit(info->exit_code);
 	}
 	path = get_cmd_path(token->param[0], info->env);
@@ -96,29 +89,29 @@ static void	exec_parent_builtin(t_token *token, t_info *info)
 /*Executa os comandos, faz um fork no processo pai
 e se for bem sucessedido ele chama o child_process_exec e 
 guarda o status de saída, guandando na variavel exit_code*/
-void	exec_cmd(t_token *token, t_info *info)
+int	exec_cmd(t_token *token, t_info *info)
 {
 	pid_t	pid;
 	int		status;
 
-	/*tenho que fazer uma verificação aqui pra nao dar bosta
-	tipo se for só cd ou export, etc*/
-	if (is_parent_builtin(token) & !token->next
+	if (is_parent_builtin(token) && !token->next
 		&& !token->prev && is_parent_builtin(token))
 	{
 		exec_parent_builtin(token, info);
-		return ;
+		return (0);
 	}
 	pid = fork();
 	g_sig = (int)pid;
 	if (pid == -1)
 	{
 		perror("fork");
-		return ;
+		return (1);
 	}
 	if (pid == 0)
 		child_process_exec(token, info);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		info->exit_code = WEXITSTATUS(status);
+	clean_shell(info);
+	return (status);
 }

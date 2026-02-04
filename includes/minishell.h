@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/04 13:23:21 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/04 14:26:59 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int				mini_unset(t_token *token, t_info *info);
 int				mini_export(t_token *token, t_info *info);
 int				exec_bultin(t_token *token, t_info *info);
 int				prepare_heredocs(t_token *token);
+int				exec_cmd(t_token *token, t_info *info);
 int				is_parent_builtin(t_token *token);
 int				cmd_prep(t_list *t, int *param, int *rdc, t_info*i);
 int				edcase(t_info*i, unsigned int *c, t_list*p, unsigned int *b);
@@ -123,7 +124,6 @@ void			env_maker(t_info*i, char**envp);
 void			*free_hashtable(t_hashtable *table);
 void			print_erro(t_token *token, t_info *info);
 void			print_error_cd(char *arg, char *msg);
-void			exec_cmd(t_token *token, t_info *info);
 void			cmd_fill(t_list*t, t_token*r, char*str);
 void			add_to_env(t_info *info, char *new_entry);
 void			init_env_table(t_info *info, char **envp);
