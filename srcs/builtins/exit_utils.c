@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:16:06 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/03 17:40:27 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/04 11:08:40 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 /* Libera a memória ocupada pela hashtable, que 
 são os nós e os valores das variaveis*/
+
 void	*free_hashtable(t_hashtable *table)
 {
 	int			i;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_parser_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:22:01 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/03 17:42:00 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/04 11:08:52 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,14 @@ void	signaler(int t)
 		signal(SIGINT, signaler);
 		signal(SIGQUIT, SIG_IGN);
 		signal(EOF, SIG_IGN);
+		return ;
 	}
-	g_sig = 130;
 	write(1, "\n", 1);
 	rl_replace_line("", 1);
-	rl_on_new_line();
+	if (!g_sig || g_sig == 130)
+		rl_on_new_line();
 	rl_redisplay();
+	g_sig = 130;
 }
 
 //A função var_maker cria uma string com a variavel passada para expansão

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:15:46 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/03 11:17:21 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/03 16:53:09 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	loop_heredoc(int fd, char *delimiter)
 	{
 		g_sig = 0;
 		line = readline("> ");
-		if (g_sig == SIGINT)
+		if (g_sig == 130)
 		{
 			if (line)
 				free(line);
@@ -71,11 +71,6 @@ static int	exec_one_heredoc(char *delimiter, char *filename)
 		return (-1);
 	loop_heredoc(fd, delimiter);
 	close(fd);
-	if (g_sig == SIGINT)
-	{
-		unlink(filename);
-		return (-1);
-	}
 	return (0);
 }
 

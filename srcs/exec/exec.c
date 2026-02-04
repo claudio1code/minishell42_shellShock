@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:36:47 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/03 16:43:25 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/02/03 19:00:50 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	exec_cmd(t_token *token, t_info *info)
 		return ;
 	}
 	pid = fork();
+	g_sig = (int)pid;
 	if (pid == -1)
 	{
 		perror("fork");
