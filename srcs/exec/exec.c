@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:36:47 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/04 14:32:57 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/04 15:23:23 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,25 +65,22 @@ int	is_parent_builtin(t_token *token)
 
 static void	exec_parent_builtin(t_token *token, t_info *info)
 {
-	int	original_stdin;
-	int	original_stdout;
-
-	original_stdin = dup(STDIN_FILENO);
-	original_stdout = dup(STDOUT_FILENO);
+	info->in_backup = dup(STDIN_FILENO);
+	info->out_backup = dup(STDOUT_FILENO);
 	if (handle_redirections(token) == -1)
 	{
 		info->exit_code = 1;
-		dup2(original_stdin, STDIN_FILENO);
-		dup2(original_stdout, STDOUT_FILENO);
-		close(original_stdin);
-		close(original_stdout);
+		dup2(info->in_backup, STDIN_FILENO);
+		dup2(info->out_backup, STDOUT_FILENO);
+		close(info->in_backup);
+		close(info->out_backup);
 		return ;
 	}
 	info->exit_code = exec_bultin(token, info);
-	dup2(original_stdin, STDIN_FILENO);
-	dup2(original_stdout, STDOUT_FILENO);
-	close(original_stdin);
-	close(original_stdout);
+	dup2(info->in_backup, STDIN_FILENO);
+	dup2(info->out_backup, STDOUT_FILENO);
+	close(info->in_backup);
+	close(info->out_backup);
 }
 
 /*Executa os comandos, faz um fork no processo pai

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_parser_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:22:01 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/04 11:08:52 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/02/04 15:11:55 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ t_info	*data_init(void)
 	data->exit_code = 0;
 	data->error = 0;
 	data->bonus = 0;
+	data->in_backup = -1;
+	data->out_backup = -1;
 	data->pid = ft_strdup(tmp->d_name);
 	closedir(dtmp);
 	return (data);

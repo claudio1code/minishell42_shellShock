@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/04 14:26:59 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/04 15:11:20 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ typedef struct s_token
 {
 	int		error;
 	int		bonus;
-	int		in;
-	int		out;
+	// int		in;
+	// int		out;
 	char	*cmd;
 	char	**rdc;
 	char	**param;
@@ -70,6 +70,8 @@ typedef struct s_info
 	char			*pid;
 	int				error;
 	int				bonus;
+	int				in_backup;
+	int				out_backup;
 	unsigned int	count;
 	unsigned int	begin;
 	int				c2;
