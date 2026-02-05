@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 12:45:12 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/02 13:55:39 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/05 15:13:03 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,9 @@ de 1 parâmetro, imprimo mensagem de erro, dps guardo
 o diretório atual com o getcwd() e printo*/
 int	pwd(t_token *token)
 {
-	int		i;
 	char	*cwd;
 
-	i = 0;
-	while (token->param[i])
-		i++;
-	if (i > 1)
-	{
-		ft_putstr_fd("pwd: too many arguments", 1);
-		return (1);
-	}
+	(void)token;
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{

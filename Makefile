@@ -4,7 +4,7 @@ BLUE = \033[0;96m
 DEF_COLOR = \033[0;39m
 
 NAME = minishell
-VALGRIND = 	valgrind -s -q\
+VALGRIND = 	valgrind -s \
 			--track-origins=yes \
 			--show-leak-kinds=all \
 			--track-fds=yes \
