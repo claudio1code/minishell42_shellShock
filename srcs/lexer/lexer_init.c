@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:06 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/04 15:36:00 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/02/05 11:02:41 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	expansion(t_info*i, unsigned int *c, unsigned int *b, t_list*p)
 	if (!ft_strncmp("?", var, 2))
 			p->content = ft_strjoin(p->content, ft_itoa(i->exit_code), 1, 1);
 	else if (!ft_strncmp("#", var, 2))
-			p->content = ft_strjoin(p->content, ft_itoa(i->argc), 1, 0);
+			p->content = ft_strjoin(p->content, ft_itoa(i->argc), 1, 1);
 	else if (!ft_strncmp("$", var, 2))
 		p->content = ft_strjoin(p->content, ft_strdup(i->pid), 1, 1);
 	else if (ft_strchr(" \"\'", var[0]) || var[0] == 0)
