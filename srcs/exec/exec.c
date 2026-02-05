@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:36:47 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/04 17:54:23 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/05 10:51:44 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 /*função auxiliar na limpeza da string dos paths*/
 static void	finish_process(t_token *token, t_info *info)
 {
+	int	exit_code;
+
+	exit_code = 0;
 	if (handle_redirections(token) == -1)
 	{
 		clean_shell(info);
@@ -28,8 +31,9 @@ static void	finish_process(t_token *token, t_info *info)
 	if (is_builtins(token->param[0]))
 	{
 		info->exit_code = exec_bultin(token, info);
+		exit_code = info->exit_code;
 		clean_shell(info);
-		exit(info->exit_code);
+		exit(exit_code);
 	}
 }
 
