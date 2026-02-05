@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:14:00 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/03 17:24:20 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/05 15:11:56 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	cmd_prep(t_list *t, int *param, int *rdc, t_info*i)
 			i->error = 1;
 		if (str[0] == '&' || (str[0] == '|' && len == 2))
 			i->bonus = 1;
-		if (!ft_strchr("&|<>", str[0]) && !t->type)
+		if (!ft_strchr("&|<>", str[0]) || t->type)
 			(*param)++;
 		if (str[0] == '|' || str[0] == '&')
 			len = -42;
