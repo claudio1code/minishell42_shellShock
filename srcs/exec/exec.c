@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:36:47 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/05 10:51:44 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/05 13:54:43 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,6 @@ static void	child_process_exec(t_token *token, t_info *info)
 	exit(1);
 }
 
-int	is_parent_builtin(t_token *token)
-{
-	if (!token->param || !token->param[0])
-		return (0);
-	if (!ft_strncmp(token->param[0], "cd", 3)
-		|| !ft_strncmp(token->param[0], "export", 7)
-		|| !ft_strncmp(token->param[0], "unset", 6)
-		|| !ft_strncmp(token->param[0], "exit", 5))
-		return (1);
-	return (0);
-}
-
 static void	exec_parent_builtin(t_token *token, t_info *info)
 {
 	info->in_backup = dup(STDIN_FILENO);
@@ -92,6 +80,28 @@ static void	exec_parent_builtin(t_token *token, t_info *info)
 	dup2(info->out_backup, STDOUT_FILENO);
 	close(info->in_backup);
 	close(info->out_backup);
+}
+
+static int	exit_code_cmd(t_info *info, int status)
+{
+	if (WIFEXITED(status))
+		info->exit_code = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+		{
+			write(1, "\n", 1);
+			info->exit_code = 130;
+		}
+		else if (WTERMSIG(status) == SIGQUIT)
+		{
+			ft_putendl_fd("Quit (core dumped)", 2);
+			info->exit_code = 131;
+		}
+	}
+	signal(SIGINT, signaler);
+	clean_shell(info);
+	return (status);
 }
 
 /*Executa os comandos, faz um fork no processo pai
@@ -113,21 +123,15 @@ int	exec_cmd(t_token *token, t_info *info)
 	if (pid == -1)
 	{
 		perror("fork");
+		signal(SIGINT, signaler);
 		return (1);
 	}
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		child_process_exec(token, info);
 	}
-	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
-	signaler(-42);
-	if (WIFEXITED(status))
-		info->exit_code = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-		info->exit_code = 128 + WTERMSIG(status);
-	clean_shell(info);
-	return (status);
+	return (exit_code_cmd(info, status));
 }

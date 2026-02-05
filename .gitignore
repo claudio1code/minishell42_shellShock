@@ -4,6 +4,7 @@ TEMP
 *.json
 *.log
 *.tmp
+minishell_tester/
 # Object files
 *.o
 *.ko

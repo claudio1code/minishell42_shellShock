@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/25 19:04:49 by claudio           #+#    #+#             */
-/*   Updated: 2026/02/04 17:54:20 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/05 13:47:50 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,6 @@ static void	parent_process(int fd[2], int *prev_fd)
 	if (*prev_fd != -1)
 		close(*prev_fd);
 	*prev_fd = fd[0];
-}
-
-/*função auxiliar e espera todos os filhos*/
-static void	wait_children(t_info *info)
-{
-	while (waitpid(-1, &info->exit_code, 0) > 0)
-		continue ;
-	if (WIFEXITED(info->exit_code))
-		info->exit_code = WEXITSTATUS(info->exit_code);
 }
 
 /* mudança na lógica para lista linkada
@@ -71,15 +62,28 @@ static void	loop_pipeline(t_token *token, t_info *info)
 			return (perror("fork"));
 		if (pid == 0)
 			child_process(token, info, fd, prev_fd);
-		if (pid == 0)
-			signal(SIGINT, SIG_IGN);
 		if (token->next)
 			parent_process(fd, &prev_fd);
 		else if (prev_fd != -1)
 			close(prev_fd);
 		token = token->next;
 	}
-	wait_children(info);
+	while (waitpid(-1, &info->exit_code, 0) > 0)
+		continue ;
+	if (WIFEXITED(info->exit_code))
+		info->exit_code = WEXITSTATUS(info->exit_code);
+}
+
+int	is_parent_builtin(t_token *token)
+{
+	if (!token->param || !token->param[0])
+		return (0);
+	if (!ft_strncmp(token->param[0], "cd", 3)
+		|| !ft_strncmp(token->param[0], "export", 7)
+		|| !ft_strncmp(token->param[0], "unset", 6)
+		|| !ft_strncmp(token->param[0], "exit", 5))
+		return (1);
+	return (0);
 }
 
 void	exec_pipeline(t_token *token, t_info *info)
@@ -95,9 +99,15 @@ void	exec_pipeline(t_token *token, t_info *info)
 		cleanup_heredocs(token);
 		return ;
 	}
+	/*o PAi (shell) ignora os sinais enquanto o pipeline corre, antes o
+	signaler estava duplicando o prompt por estar correndo no pai*/
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	if (token && !token->next && !token->prev && is_parent_builtin(token))
 		exec_cmd(token, info);
 	else
 		loop_pipeline(token, info);
+	/*restaura o sinal e o pai volta ouvir sinais da readline*/
+	signal(SIGINT, signaler);
 	cleanup_heredocs(token);
 }
