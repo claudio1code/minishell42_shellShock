@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_parser_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:22:01 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/05 11:42:33 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/06 13:03:55 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ char	*var_maker(t_info*i, unsigned int *c, unsigned int *b)
 	char	*var;
 
 	*b = *c;
-	if (ft_strchr("?#$ ", i->l[(*c)]))
+	if (ft_strchr("?#$ ", i->l[(*c)]) && i->l[*c])
 		(*c)++;
 	else
 		while (ft_isalnum(i->l[*c]))
 			(*c)++;
-	if (i->l[*c] == '\"' && i->l[(*c) - 1] == '$')
+	if (*c > 0 && i->l[*c] == '\"' && i->l[(*c) - 1] == '$')
 		var = ft_strdup("\"");
 	else
 		var = ft_substr(i->l, *b, *c - *b);

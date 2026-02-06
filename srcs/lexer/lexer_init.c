@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:06 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/05 11:02:41 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/06 13:09:53 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ void	expansion(t_info*i, unsigned int *c, unsigned int *b, t_list*p)
 	else
 		p->content = ft_strjoin(p->content, get_env_val(i->env, var), 1, 0);
 	free (var);
-	*b = ++(*c);
+	if (i->l[*c])
+		(*c)++;
+	*b = *c;
 }
 //A função quotes cuida qualquer caractere q mude a leitura dos parametros,
 //como '',  "" e $;
