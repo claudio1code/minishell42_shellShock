@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: claudio <claudio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:36:47 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/05 13:54:43 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/06 11:32:46 by claudio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,18 @@ static void	exec_parent_builtin(t_token *token, t_info *info)
 static int	exit_code_cmd(t_info *info, int status)
 {
 	if (WIFEXITED(status))
-		info->exit_code = WEXITSTATUS(status);
+		status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 	{
 		if (WTERMSIG(status) == SIGINT)
 		{
 			write(1, "\n", 1);
-			info->exit_code = 130;
+			status = 130;
 		}
 		else if (WTERMSIG(status) == SIGQUIT)
 		{
 			ft_putendl_fd("Quit (core dumped)", 2);
-			info->exit_code = 131;
+			status = 131;
 		}
 	}
 	signal(SIGINT, signaler);
