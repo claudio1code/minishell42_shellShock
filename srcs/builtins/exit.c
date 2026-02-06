@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:41:33 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/29 16:27:10 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/06 17:51:34 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	mini_exit(t_token *token, t_info *info)
 		else if (token->param[2])
 		{
 			ft_putendl_fd("minishell: exit: too many arguments", 2);
-			info->exit_code = 1;
+			status = 1;
 			return (1);
 		}
 		else

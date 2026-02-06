@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:44:05 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/04 16:30:54 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/06 17:45:11 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 static char	*check_absolut_path(char *cmd)
 {
 	if (access(cmd, X_OK) == 0)
+		return (ft_strdup(cmd));
+	else if (access(cmd, F_OK) == 0)
 		return (ft_strdup(cmd));
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 13:23:31 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/02 13:53:46 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/06 18:08:10 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,11 @@ int	mini_cd(t_info *info, t_token *token)
 	path = aux_cd(info, token);
 	if (!path)
 		return (1);
+	if (token->param[2])
+	{
+		print_error_cd(token->param[1], "too many arguments");
+		return (1);
+	}
 	if (chdir(path))
 	{
 		print_error_cd(token->param[1], "No such file or directory");

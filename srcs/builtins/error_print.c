@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_print.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 18:01:08 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/06 15:51:46 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/02/06 17:49:08 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	err_invalid_export(char *arg, char *key, char *value)
 		free(key);
 	if (value)
 		free(value);
+	exit(1);
 }
 
 void	print_erro(t_token *token, t_info *info)

@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:01:03 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/04 17:54:12 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/06 16:59:06 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <sys/types.h>
+# include <sys/stat.h>
 # include <dirent.h>
 # include <signal.h>
 
@@ -120,6 +121,8 @@ void			cleanup_heredocs(t_token *token);
 void			historic(char	*l, int c1);
 void			env_maker(t_info*i, char**envp);
 void			*free_hashtable(t_hashtable *table);
+void			error_dir(t_token *token, t_info *info);
+void			error_no_such(t_token *token, t_info *info);
 void			print_erro(t_token *token, t_info *info);
 void			print_error_cd(char *arg, char *msg);
 void			cmd_fill(t_list*t, t_token*r, char*str);

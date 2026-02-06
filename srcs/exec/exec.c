@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: claudio <claudio@student.42.fr>            +#+  +:+       +#+        */
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:36:47 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/06 11:32:46 by claudio          ###   ########.fr       */
+/*   Updated: 2026/02/06 17:47:08 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,24 @@ encontrar, chama o execve que que executa um novo programa a partir
 de um processo já existente.*/
 static void	child_process_exec(t_token *token, t_info *info)
 {
-	char	*path;
-	char	**env_matrix;
+	char		*path;
+	char		**env_matrix;
+	struct stat	buf;
 
 	finish_process(token, info);
 	path = get_cmd_path(token->param[0], info->env);
-	if (!path)
+	stat(path, &buf);
+	if (!path && ft_strchr(token->param[0], '/'))
+		error_no_such(token, info);
+	else if (!path)
 		print_erro(token, info);
+	if (S_ISDIR(buf.st_mode))
+		error_dir(token, info);
 	env_matrix = ht_to_matrix(info->env);
 	execve(path, token->param, env_matrix);
 	perror("execve");
+	if (access(path, X_OK))
+		exit(126);
 	if (path)
 		free(path);
 	free_split(env_matrix);
