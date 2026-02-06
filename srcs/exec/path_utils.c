@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 16:44:05 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/06 17:45:11 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/06 19:32:55 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,16 @@ char	*get_cmd_path(char *cmd, t_hashtable *env)
 	full_path = find_exec_in_paths(paths, cmd);
 	free_split(paths);
 	return (full_path);
+}
+
+int	is_parent_builtin(t_token *token)
+{
+	if (!token->param || !token->param[0])
+		return (0);
+	if (!ft_strncmp(token->param[0], "cd", 3)
+		|| !ft_strncmp(token->param[0], "export", 7)
+		|| !ft_strncmp(token->param[0], "unset", 6)
+		|| !ft_strncmp(token->param[0], "exit", 5))
+		return (1);
+	return (0);
 }

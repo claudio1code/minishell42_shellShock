@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 10:51:03 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/06 17:17:17 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/06 19:33:44 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	error_dir(t_token *token, t_info *info)
 	ft_putstr_fd("\n", 2);
 	clean_shell(info);
 	exit(126);
-
 }
 
 void	error_no_such(t_token *token, t_info *info)
