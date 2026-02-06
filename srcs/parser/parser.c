@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 09:14:00 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/02/05 15:11:56 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/06 14:45:31 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	historic(char	*l, int c1)
 		c1++;
 	}
 	str = ft_substr(l, b, c1 - b);
-	add_history(str);
+	if (*str)
+		add_history(str);
 	free(str);
 }
 

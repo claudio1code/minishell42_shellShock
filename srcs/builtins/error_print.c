@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_print.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 18:01:08 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/04 16:03:04 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/06 15:51:46 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ void	err_invalid_export(char *arg, char *key, char *value)
 	ft_putstr_fd("minishell: export: `", 2);
 	ft_putstr_fd(arg, 2);
 	ft_putendl_fd("': not a valid identifier", 2);
-	free(key);
-	free(value);
+	if (key)
+		free(key);
+	if (value)
+		free(value);
 }
 
 void	print_erro(t_token *token, t_info *info)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 10:26:36 by clados-s          #+#    #+#             */
-/*   Updated: 2026/02/02 13:55:05 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/02/06 16:22:06 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void	bublle_sort_array(char **array)
 }
 
 /* essa função atualiza ou adiciona uma variável de ambiente */
-static void	export_var(char *arg, t_hashtable *env)
+static void	export_var(char *arg, t_hashtable *env, int c)
 {
 	char	*equal_sign;
 	char	*key;
@@ -91,20 +91,21 @@ static void	export_var(char *arg, t_hashtable *env)
 	{
 		key = ft_substr(arg, 0, equal_sign - arg);
 		value = ft_strdup(equal_sign + 1);
-		if (!ft_isalpha(key[0]) && key[0] != '_')
-		{
-			err_invalid_export(arg, key, value);
-			return ;
-		}
+		if (((!ft_isalpha(key[0]) && key[0] != '_'))
+			|| (key[0] == '_' && ft_strchr("+-=", key[1])))
+			return (err_invalid_export(arg, key, value));
+		while (key[++c])
+			if ((key[c] == '+' || key[c] == '-') && key[c + 1] != '=')
+				return (err_invalid_export(arg, key, value));
 		update_hash(env, key, value);
 		free(key);
 		free(value);
+		return ;
 	}
-	else
-	{
-		if (!get_env_val(env, arg))
-			update_hash(env, arg, NULL);
-	}
+	if (!ft_isalnum(arg[ft_strlen(arg) - 1]) || ft_isdigit(arg[0]))
+		err_invalid_export(arg, 0, 0);
+	else if (!get_env_val(env, arg))
+		update_hash(env, arg, NULL);
 }
 
 int	mini_export(t_token *token, t_info *info)
@@ -130,7 +131,7 @@ int	mini_export(t_token *token, t_info *info)
 	{
 		i = 0;
 		while (token->param[++i])
-			export_var(token->param[i], info->env);
+			export_var(token->param[i], info->env, -1);
 	}
 	return (0);
 }
